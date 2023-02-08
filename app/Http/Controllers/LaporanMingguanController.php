@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\DataUmum;
+use App\Models\LaporanMingguan;
+use App\Models\LaporanMingguanDetail;
 use Illuminate\Http\Request;
 
 class LaporanMingguanController extends Controller
@@ -44,9 +46,29 @@ class LaporanMingguanController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
-        //
+        $file = str_replace('/home/www/talikuat/storage/app/', '', $request->file_path);
+        $id = LaporanMingguan::create([
+            'data_umum_id' => $id,
+            'tgl_start' => $request->tgl_start,
+            'tgl_end' => $request->tgl_end,
+            'priode' => $request->priode,
+            'rencana' => $request->rencana,
+            'realisasi' => $request->realisasi,
+            'deviasi' => $request->deviasi,
+            'file_path' => $file,
+        ])->id;
+        for ($i = 0; $i < count($request->nmp); $i++) {
+            LaporanMingguanDetail::create([
+                'laporan_mingguan_id' => $id,
+                'kd_jenis_pekerjaan' => $request->nmp[$i],
+                'nmp' => $request->nmp[$i] . ' - ' . $request->uraian[$i],
+                'volume' => $request->volume[$i],
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Data berhasil disimpan,Laporan Menunggu Persetujuan Kepala UPTD');
     }
 
     /**

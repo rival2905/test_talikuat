@@ -26,9 +26,14 @@ class DataUmumController extends Controller
      */
     public function index()
     {
-
+        $data = '';
+        if (Auth::user()->userDetail->uptd_id == 0) {
+            $data = DataUmum::with('uptd')->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->orderBy('id', 'desc')->get();
+        } else {
+            $data = DataUmum::with('uptd')->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->where('uptd_id', Auth::user()->userDetail->uptd_id)->orderBy('id', 'desc')->get();
+        }
         return view('data-umum.index', [
-            'data_umums' => DataUmum::orderBy('id', 'desc')->get(),
+            'data_umums' => $data,
         ]);
     }
 

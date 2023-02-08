@@ -1,0 +1,48 @@
+.header {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+span {
+    font-weight: bold;
+    font-size: 15px;
+}
+th {
+    background-color: yellow;
+    font-size: 14px;
+    vertical-align: middle !important;
+    text-align: center;
+    -webkit-print-color-adjust: exact !important;
+    border: 1px solid black !important;
+}
+
+td {
+    font-size: 11px;
+    text-align: center;
+    border: 1px solid black !important;
+}
+.d-flex {
+    justify-content: space-between;
+}
+.text {
+    font-size: 11px;
+    font-weight: normal;
+}
+.center {
+    padding-left: 16rem;
+}
+@media print {
+    @page {
+        size: landscape;
+    }
+    .table th {
+        background-color: yellow !important;
+        border: 1px solid black !important;
+    }
+    .table td {
+        border: 1px solid black !important;
+    }
+    .container {
+        display: none;
+    }
+}

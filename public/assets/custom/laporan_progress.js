@@ -41,12 +41,6 @@ async function render() {
         var tenagaAhli = "";
         for (let i = 0; i < data.length; i++) {
             let minggu = diffDate(data[i].tgl_spmk, $("#date").val());
-            data[i].detail.tenaga_ahli.map((item) => {
-                tenagaAhli += `
-                <span style="font-size:12px;">${item.jabatan}</span> <br>
-                <p>${item.nama_tenaga_ahli}</p>
-            `;
-            });
             var keterangan =
                 data[i].laporan_konsultan[minggu - 1] == undefined
                     ? `Laporan Minggu Ke ${minggu} Belum Diupload`
@@ -68,9 +62,6 @@ async function render() {
                     '<td style="text-align:left;">' +
                     data[i].nm_paket +
                     "</td>" +
-                    '<td style="text-align:left;">' +
-                    tenagaAhli +
-                    "</td>" +
                     "<td>" +
                     data[i].detail.panjang_km +
                     "</td>" +
@@ -87,6 +78,7 @@ async function render() {
                     "</td>" +
                     "<td>" +
                     data[i].detail.lama_waktu +
+                    " Hari" +
                     "</td>" +
                     '<td style="text-align:left;">1. ' +
                     data[i].detail.nilai_kontrak +
@@ -94,7 +86,11 @@ async function render() {
                     data[i].tgl_kontrak +
                     "<br/>3.<br/>4. </td>" +
                     '<td style="text-align:left;">' +
-                    data[i].detail.konsultan.nama +
+                    data[i].detail.konsultan.name +
+                    "<br/>" +
+                    "<strong>Site Engineer</strong>" +
+                    "<br/>" +
+                    data[i].detail.konsultan.se +
                     "</td>" +
                     "<td>" +
                     minggu +

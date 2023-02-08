@@ -45,10 +45,12 @@
                         <i class="bx bx-grid-alt nav_icon"></i>
                         <span class="nav_name">Dashboard</span>
                     </a>
+                    @if (Auth::user()->userDetail->role == 2 ||Auth::user()->userDetail->role == 1)
                     <a href="{{ route('user-manajement.index') }}" class="nav_link">
                         <i class="bx bx-user nav_icon"></i>
                         <span class="nav_name">Manajemen User</span>
                     </a>
+                    @endif
                     <a href="{{ route('data-utama.index') }}" class="nav_link">
                         <i class="bx bx-data nav_icon"></i>
 
@@ -62,18 +64,24 @@
                         <i class="bx bxs-spreadsheet nav_icon"></i>
                         <span class="nav_name">Jadual</span>
                     </a>
+                    @if (Auth::user()->userDetail->role == 2 ||Auth::user()->userDetail->role == 1)
                     <a href="{{route('laporan-mingguan-uptd.index')}}" class="nav_link">
                         <i class='bx bxs-report nav_icon'></i>
                         <span class="nav_name">Laporan Mingguan UPTD</span>
                     </a>
+                    @endif
+                    @if (Auth::user()->userDetail->role == 4 ||Auth::user()->userDetail->role == 1)
                     <a href="#" class="nav_link">
                         <i class='bx bxs-report nav_icon'></i>
                         <span class="nav_name">Laporan Mingguan Konsultan</span>
                     </a>
-                    <a href="#" class="nav_link">
+                    @endif
+                    @if (Auth::user()->userDetail->role == 1)
+                    <a href="{{route('progress-fisik.index')}}" class="nav_link">
                         <i class="bx bx-bar-chart-alt-2 nav_icon"></i>
                         <span class="nav_name">Laporan Progress</span>
                     </a>
+                    @endif
                     <a href="#" class="nav_link">
                         <i class='bx bxs-cloud-download nav_icon'></i>
                         <span class="nav_name">Pusat Unduhan</span>

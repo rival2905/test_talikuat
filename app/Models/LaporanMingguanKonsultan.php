@@ -19,6 +19,6 @@ class LaporanMingguanKonsultan extends Model
 
     public function detail()
     {
-        return $this->hasMany(LaporanMingguanKonsultanDetail::class, 'laporan_mingguan_konsultan_id')->where('is_active', 1)->with('kontraktor', 'konsultan', 'ppk', 'ruas');
+        return $this->hasMany(LaporanMingguanKonsultanDetail::class, 'laporan_mingguan_konsultan_id');
     }
 }

@@ -1,0 +1,90 @@
+.container {
+    margin: auto;
+    width: 50%;
+}
+.kertas {
+    width: 210mm;
+    height: 297mm;
+    padding: 20px;
+    text-align: center;
+}
+.header {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.header > span {
+    font-size: large;
+}
+.sub-header {
+    margin-bottom: 20px;
+}
+.sub-header td {
+    text-align: start;
+    border: none;
+}
+
+.jenis-pekerjaan,
+th,
+td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+.data-pendukung {
+    margin-top: 20px;
+    width: 100%;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+.data-pendukung th {
+    text-align: center;
+}
+.flex-container {
+    margin-top: 20px;
+    display: flex;
+}
+.flex-container > div {
+    margin: 2px;
+}
+.diajukan {
+    border: 1px solid black;
+    text-align: center;
+    padding: 20px;
+    width: 20rem;
+    font-weight: bolder;
+}
+.text {
+    text-align: justify;
+    margin-top: 5px;
+}
+.disetujui {
+    border: 1px solid black;
+    text-align: center;
+    padding: 20px;
+    width: 20rem;
+    font-weight: bolder;
+}
+.catatan {
+    border: 1px solid black;
+    width: 100%;
+    font-weight: bolder;
+    text-align: center;
+    padding: 20px;
+}
+body {
+    font-size: 12px;
+}
+.tgl-pengajuan {
+    width: 100%;
+    text-align: end;
+}
+#ttd {
+    font-size: 9px;
+}
+@media print {
+    .container {
+        width: 100%;
+    }
+}
+.kosong {
+    padding: 30%;
+}

@@ -23,12 +23,22 @@ class UserManajemen extends Controller
      */
     public function index()
     {
-        $adminUPTD = UserDetail::where('role', 2)->with('user')->get();
-        $ppk = UserDetail::where('role', 5)->with('user')->get();
-        $kontraktor = UserExternal::where('role', 3)->get();
-        $konsultan = UserExternal::where('role', 4)->get();
-        $dataKontraktor = Kontraktor::all();
-        $dataKonsultan = Konsultan::all();
+        if (Auth::user()->userDetail->role == 1) {
+            $adminUPTD = UserDetail::where('role', 2)->with('user')->get();
+            $ppk = UserDetail::where('role', 5)->with('user')->get();
+            $kontraktor = UserExternal::where('role', 3)->get();
+            $konsultan = UserExternal::where('role', 4)->get();
+            $dataKontraktor = Kontraktor::all();
+            $dataKonsultan = Konsultan::all();
+        } else {
+            $adminUPTD = UserDetail::where([['role', 2], ['uptd_id', Auth::user()->userDetail->uptd_id]])->with('user')->get();
+            $ppk = UserDetail::where([['role', 5], ['uptd_id', Auth::user()->userDetail->uptd_id]])->with('user')->get();
+            $kontraktor = UserExternal::where([['role', 3], ['uptd_id', Auth::user()->userDetail->uptd_id]])->get();
+            $konsultan = UserExternal::where([['role', 4], ['uptd_id', Auth::user()->userDetail->uptd_id]])->get();
+            $dataKontraktor = Kontraktor::all();
+            $dataKonsultan = Konsultan::all();
+        }
+
         return view('user.index', compact('adminUPTD', 'ppk', 'kontraktor', 'konsultan', 'dataKontraktor', 'dataKonsultan'));
     }
 

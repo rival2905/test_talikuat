@@ -16,7 +16,6 @@
             <form action="{{ route('laporan-mingguan-uptd.store',$dataUmum->id) }}" method="POST" id="form-laporan-mingguan-uptd">
                 @csrf
                 <input type="hidden" name="file_path" id="file_path" />
-                <input type="hidden" name="data_umum_id" id="data_umum_id" value="{{Request::segment(4)}}" />
                 <input type="hidden" name="tgl_start" value="{{ $getTgl[0] }}" />
                 <input type="hidden" name="tgl_end" value="{{ $getTgl[1] }}" />
                 <div class="card-body">
@@ -84,7 +83,9 @@
                     <div class="form-group row mb-3">
                         <label class="text-wrap">{{$item->nmp}} - {{$item->uraian}}</label>
                         <div class="input-group">
-                            <input type="text" name="nmp[]" id="nmp" value="" class="form-control" utocomplete="off" />
+                            <input type="hidden" name="nmp[]" value="{{$item->nmp}}" />
+                            <input type="hidden" name="uraian[]" value="{{$item->uraian}}" />
+                            <input type="text" name="volume[]" id="nmp" class="form-control" required autocomplete="off" />
                         </div>
                     </div>
                     @endforeach
