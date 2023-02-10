@@ -36,7 +36,7 @@ class ProgressController extends Controller
         $data =   DB::connection('talikuat22')->table('data_umum')->get();
 
         foreach ($data as $key => $value) {
-            $data[$key]->laporan_konsultan =  DB::connection('talikuat22')->table('laporan_konsultan')->where('data_umum_id', $value->id)->get();
+            $data[$key]->laporan_konsultan =  DB::connection('talikuat22')->table('laporan_konsultan')->where('data_umum_id', $value->id)->orderBy('id', 'asc')->get();
         }
 
 
