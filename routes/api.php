@@ -16,3 +16,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('get-data-pembangunan-by-uptd', [ProgressController::class, 'getDataPembangunanByUPTD'])->name('get-data-pembangunan-by-uptd');
+Route::get('get-data-pembangunan22', [ProgressController::class, 'getDataPembangunan2022'])->name('get-data-pembangunan22');

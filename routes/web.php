@@ -7,6 +7,7 @@ use App\Http\Controllers\DataUtamaController;
 use App\Http\Controllers\JadualController;
 use App\Http\Controllers\LaporanKeuangan;
 use App\Http\Controllers\LaporanMingguanController;
+use App\Http\Controllers\LaporanMingguanKonsultanController;
 use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\UserManajemen;
 use Illuminate\Support\Facades\Auth;
@@ -68,6 +69,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/laporan-mingguan-uptd', [LaporanMingguanController::class, 'index'])->name('laporan-mingguan-uptd.index');
     Route::get('/laporan-mingguan-uptd/create/{id}', [LaporanMingguanController::class, 'create'])->name('laporan-mingguan-uptd.create');
     Route::post('/laporan-mingguan-uptd/store/{id}', [LaporanMingguanController::class, 'store'])->name('laporan-mingguan-uptd.store');
+
+
+    Route::get('/laporan-mingguan-konsultan', [LaporanMingguanKonsultanController::class, 'index'])->name('laporan-mingguan-konsultan.index');
+    Route::get('/laporan-mingguan-konsultan/create/{id}', [LaporanMingguanKonsultanController::class, 'create'])->name('laporan-mingguan-konsultan.create');
+    Route::post('/laporan-mingguan-konsultan/store/{id}', [LaporanMingguanKonsultanController::class, 'store'])->name('laporan-mingguan-konsultan.store');
 
     Route::get('laporan-keuangan-create/{id}', [LaporanKeuangan::class, 'create'])->name('laporan-keuangan.create');
 
