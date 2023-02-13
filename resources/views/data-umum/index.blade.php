@@ -17,8 +17,6 @@
                         <tr>
                             <th>ID</th>
                             <th>Nama Kegiatan</th>
-
-                            <th>UPTD</th>
                             <th>kontraktor</th>
                             <th>Konsultan</th>
                             <th>PPK</th>
@@ -30,15 +28,12 @@
                         <tr>
                             <td>{{$data->id}}</td>
                             <td>{{$data->nm_paket}}</td>
-
-                            <td>{{$data->uptd->nama_uptd}}</td>
                             <td>{{$data->detail->kontraktor->nama}}</td>
                             <td>{{$data->detail->konsultan->name}}</td>
                             <td>{{$data->detail->ppk->nama}}</td>
                             <td>
                                 <a class="btn btn-mat btn-success waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Detail"><i class="bx bx-search-alt-2"></i></a>
                                 <a href="{{ route('data-umum.edit', $data->id) }}" class="btn btn-mat btn-warning waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Edit"><i class="bx bx-edit-alt"></i></a>
-                                <a href="{{route('laporan-mingguan-uptd.create',$data->id)}}" class="btn btn-mat btn-dark waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Laporan Mingguan"><i class="bx bxs-file-doc"></i></a>
 
                             </td>
                         </tr>

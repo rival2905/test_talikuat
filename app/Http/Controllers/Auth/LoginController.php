@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\UserDetail;
+use App\Models\UserExternal;
 use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,6 +27,13 @@ class LoginController extends Controller
                 if (Auth::attempt(['email' => $user->email, 'password' => $request->password])) {
                     return redirect()->route('dashboard');
                 }
+            } else {
+                $user = UserExternal::where('email', $request->email)->first();
+                if ($user) {
+                    if (Auth::guard('user_externals')->attempt(['email' => $user->email, 'password' => $request->password])) {
+                        return redirect()->route('dashboard');
+                    }
+                }
             }
         } else {
             $profile = UserProfile::where('no_pegawai', $request->email)->with('user')->first();
@@ -33,6 +41,13 @@ class LoginController extends Controller
                 $this->mappingUser($profile->user);
                 if (Auth::attempt(['email' => $profile->user->email, 'password' => $request->password])) {
                     return redirect()->route('dashboard');
+                }
+            } else {
+                $user = UserExternal::where('nik', $request->email)->first();
+                if ($user) {
+                    if (Auth::guard('user_externals')->attempt(['email' => $user->email, 'password' => $request->password])) {
+                        return redirect()->route('dashboard');
+                    }
                 }
             }
         }

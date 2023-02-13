@@ -40,7 +40,7 @@
         UPTD I S/D VI DINAS BINA MARGA DAN PENATAAN RUANG PROVINSI JAWA
         BARAT
         <br />
-        TAHUN ANGGARAN
+        TAHUN ANGGARAN {{date('Y')}}
     </div>
     <div class="d-flex">
         <span id="unor"></span>
@@ -48,21 +48,21 @@
     </div>
     <table class="table table-bordered">
         <thead>
-            <th rowspan="4">NO</th>
+            <th rowspan="4" style="width:25px;">NO</th>
             <th rowspan="4">NAMA KEGIATAN</th>
-            <th rowspan="4">PANJANG PENANGANAN ( KM )</th>
+            <th rowspan="4" style="width:20px;">PANJANG PENANGANAN ( KM )</th>
             <th colspan="2">DATA KONTRAK</th>
-            <th rowspan="2">WAKTU PELAKSANAAN</th>
+            <th rowspan="2" style="width:15px;">WAKTU PELAKSANAAN</th>
             <th rowspan="4" style="font-size: 9px; width: 10rem; text-align: left">
                 1. Nilai Kontrak <br />2. Tanggal Kontrak <br />3. Nilai
                 Kontrak ADD. <br />4. Tanggal Kontrak ADD.
             </th>
             <th rowspan="4">KONSULTAN PENGAWASAN</th>
             <th colspan="4">PROGRES TERHADAP KONTRAK <br />FISIK</th>
-            <th rowspan="4">Keterangan</th>
+            <th rowspan="4" style="width:40px;">Keterangan</th>
             <tr>
                 <th>PENYEDIA JASA</th>
-                <th style="width: 10rem">SPMK & PHO</th>
+                <th style="width: 8rem">SPMK & PHO</th>
                 <th>Minggu Ke</th>
                 <th>Rencana %</th>
                 <th>Realisasi %</th>

@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserExternal extends Model
+class UserExternal extends User
 {
-    use HasFactory;
     protected $guarded = [];
+    protected $connection = 'mysql';
+    protected $table = 'user_externals';
 
     public function kontraktor()
     {
@@ -20,12 +21,7 @@ class UserExternal extends Model
         return $this->belongsTo(Konsultan::class);
     }
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function Uptd()
+    public function uptd()
     {
         return $this->belongsTo(Uptd::class);
     }

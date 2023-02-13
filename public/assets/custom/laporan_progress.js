@@ -38,7 +38,6 @@ async function render() {
         const data = res.data;
         console.log(data);
         let no = 1;
-        var tenagaAhli = "";
         for (let i = 0; i < data.length; i++) {
             let minggu = diffDate(data[i].tgl_spmk, $("#date").val());
             var keterangan =
@@ -52,7 +51,7 @@ async function render() {
             var deviasiText = getDeviasi(rencana, realisasi);
             var paketIsDone = checkTglSpmk(
                 data[i].tgl_spmk,
-                data[i].detail.lama_waktu - 1
+                data[i].detail_with_jadual.lama_waktu - 1
             );
             $("tbody").append(
                 "<tr>" +
@@ -63,40 +62,40 @@ async function render() {
                     data[i].nm_paket +
                     "</td>" +
                     "<td>" +
-                    data[i].detail.panjang_km +
+                    data[i].detail_with_jadual.panjang_km +
                     "</td>" +
                     '<td style="text-align:left;">' +
-                    data[i].detail.kontraktor.nama +
+                    data[i].detail_with_jadual.kontraktor.nama +
                     "</td>" +
                     "<td>" +
                     data[i].tgl_spmk +
                     "<br/>" +
                     new Date(data[i].tgl_spmk)
-                        .addDays(data[i].detail.lama_waktu - 1)
+                        .addDays(data[i].detail_with_jadual.lama_waktu - 1)
                         .toISOString()
                         .substring(0, 10) +
                     "</td>" +
                     "<td>" +
-                    data[i].detail.lama_waktu +
+                    data[i].detail_with_jadual.lama_waktu +
                     " Hari" +
                     "</td>" +
                     '<td style="text-align:left;">1. ' +
-                    data[i].detail.nilai_kontrak +
+                    data[i].detail_with_jadual.nilai_kontrak +
                     "<br/>2. " +
                     data[i].tgl_kontrak +
                     "<br/>3.<br/>4. </td>" +
                     '<td style="text-align:left;">' +
-                    data[i].detail.konsultan.name +
+                    data[i].detail_with_jadual.konsultan.name +
                     "<br/>" +
                     "<strong>Site Engineer</strong>" +
                     "<br/>" +
-                    data[i].detail.konsultan.se +
+                    data[i].detail_with_jadual.konsultan.se +
                     "</td>" +
                     "<td>" +
                     minggu +
                     "</td>" +
                     "<td>" +
-                    rencana +
+                    data[i].detail_with_jadual.jadualDetail.toFixed(2) +
                     "</td>" +
                     "<td>" +
                     realisasi +
@@ -105,7 +104,9 @@ async function render() {
                     deviasiText +
                     "</td>" +
                     `<td>${
-                        realisasi == 100 ? "Paket Pekerjaan Sudah Selesai" : ""
+                        paketIsDone == 100
+                            ? "Paket Pekerjaan Sudah Selesai"
+                            : ""
                     }</td></tr>`
             );
 
@@ -154,21 +155,21 @@ function checkTglSpmk(spmk, jmlHari) {
 }
 
 function getRencana(data, minggu) {
-    if (data.laporan_konsultan.length == 0) {
+    if (data.laporan_uptd_aproved.length == 0) {
         return 0;
     } else {
-        return data.laporan_konsultan[minggu - 1] == undefined
-            ? data.laporan_konsultan.at(-1).rencana
-            : data.laporan_konsultan[minggu - 1].rencana;
+        return data.laporan_uptd_aproved[minggu - 1] == undefined
+            ? data.laporan_uptd_aproved.at(-1).rencana
+            : data.laporan_uptd_aproved[minggu - 1].rencana;
     }
 }
 
 function getRealisasi(data, minggu) {
-    if (data.laporan_konsultan.length == 0) {
+    if (data.laporan_uptd_aproved.length == 0) {
         return 0;
     } else {
-        return data.laporan_konsultan[minggu - 1] == undefined
-            ? data.laporan_konsultan.at(-1).realisasi
-            : data.laporan_konsultan[minggu - 1].realisasi;
+        return data.laporan_uptd_aproved[minggu - 1] == undefined
+            ? data.laporan_uptd_aproved.at(-1).realisasi
+            : data.laporan_uptd_aproved[minggu - 1].realisasi;
     }
 }

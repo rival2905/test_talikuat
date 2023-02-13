@@ -94,7 +94,7 @@
 @if($data->count() > 0)
 <div class="container mt-5">
     <div class="card">
-        <div class="card-body">
+        <div class="card-body p-5">
             <div class="row mb-3 justify-content-center">
                 <div class="col">
                     <i class="fa-solid fa-circle" style="color: blue"></i>
@@ -113,92 +113,46 @@
                     <strong>Waktu</strong>
                 </div>
             </div>
-            @foreach ($data as $item)
-            <div class="row">
-                <div class="col-sm-2 align-self-center">
-                    <h4>{{$item->id}}</h4>
+            <hr>
+            <div class="mt-3" style="max-height: 60vh; overflow-y: auto;padding:0px;overflow-x: hidden;">
+                @foreach ($data as $item)
+                <div class="row mt-2">
+                    <div class="col-sm-2 align-self-center">
+                        <h4>{{$item->id}}</h4>
+                    </div>
+                    <div class="col-sm-9">
+                        <div class="progress progress-bar-striped" style="height: 25px" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar" style="width: {{$item->laporanUptdAproved->rencana}}%">
+                                {{$item->laporanUptdAproved->rencana}} %
+                            </div>
+                        </div>
+                        <div class="progress progress-bar-striped mt-2" style="height: 25px" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar bg-success" style="width: {{$item->laporanUptdAproved->realisasi}}%">
+                                {{$item->laporanUptdAproved->realisasi}}%
+                            </div>
+                        </div>
+                        <div class="progress progress-bar-striped mt-2" style="height: 25px" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar bg-danger" style="width: {{$item->laporanUptdAproved->deviasi < 0  ? 5 : $item->laporanUptdAproved->deviasi }}%">
+                                {{ $item->laporanUptdAproved->deviasi < 0 ?str_replace("-","+",$item->laporanUptdAproved->deviasi): "-".$item->laporanUptdAproved->deviasi   }}%
+                            </div>
+                        </div>
+                        <div class="progress mt-2 progress-bar-striped" style="height: 25px" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar bg-warning" style="width: 100%">
+                                {{ $item->laporanUptdAproved->days == 0 ? "Paket Sudah Selesai" :"Tersisa ".$item->laporanUptdAproved->days." Hari Lagi"  }}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col">
-                    <div class="progress progress-bar-striped" style="height: 25px" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                        <div class="progress-bar" style="width: {{$item->detailWithJadual->jadualDetail}}%">
-                            Rencana Jadual {{$item->detailWithJadual->jadualDetail}} %
 
-                        </div>
-                    </div>
-                    <div class="progress progress-bar-striped mt-2" style="height: 25px" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                        <div class="progress-bar bg-success" style="width: {{$item->laporanUptd[0]->realisasi}}%">
-                            Realisasi Sesuai Laporan UPTD {{$item->laporanUptd[0]->realisasi}} %
-                        </div>
-                    </div>
-                    <div class="progress progress-bar-striped mt-2" style="height: 25px" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                        <div class="progress-bar bg-danger" style="width: {{$item->detailWithJadual->jadualDetail - $item->laporanUptd[0]->realisasi}}%">
-                            Deviasi {{$item->laporanUptd[0]->realisasi - $item->detailWithJadual->jadualDetail}} %
-                        </div>
-                    </div>
-                    <div class="progress mt-2 progress-bar-striped" style="height: 25px" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                        <div class="progress-bar bg-warning" style="width: 0%">
-
-
-                        </div>
-                    </div>
-                </div>
+                @if($item->laporanUptd->where('status','!=',1)->count() > 0)
+                <p class="text-danger">Laporan Belum Disetujui Oleh Kepalata UPTD</p>
+                @endif
+                @if( $item->laporanUptd->count() == 0)
+                <p class="text-danger">Belum Ada laporan</p>
+                @endif
+                <hr>
+                @endforeach
             </div>
-            @endforeach
-        </div>
-    </div>
-</div>
-<div class="container mt-5">
-    <div class="card">
-        <div class="card-body">
-            <div class="row mb-3 justify-content-center">
-                <div class="col">
-                    <i class="fa-solid fa-circle" style="color: blue"></i>
-                    <strong>Rencana</strong>
-                </div>
-                <div class="col">
-                    <i class="fa-solid fa-circle" style="color: green"></i>
-                    <strong>Realisasi</strong>
-                </div>
-                <div class="col">
-                    <i class="fa-solid fa-circle" style="color: red"></i>
-                    <strong>Deviasi</strong>
-                </div>
-                <div class="col">
-                    <i class="fa-solid fa-circle" style="color: yellow"></i>
-                    <strong>Waktu</strong>
-                </div>
-            </div>
-            @foreach ($data as $item)
-            <div class="row">
-                <div class="col-sm-2 align-self-center">
-                    <h4>{{$item->id}}</h4>
-                </div>
-                <div class="col">
-                    <div class="progress progress-bar-striped" style="height: 25px" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                        <div class="progress-bar" style="width: {{$item->detailWithJadual->jadualDetail}}%">
-                            Rencana Jadual {{$item->detailWithJadual->jadualDetail}} %
-
-                        </div>
-                    </div>
-                    <div class="progress progress-bar-striped mt-2" style="height: 25px" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                        <div class="progress-bar bg-success" style="width: {{$item->laporanUptd[0]->realisasi}}%">
-                            Realisasi Sesuai Laporan UPTD {{$item->laporanUptd[0]->realisasi}} %
-                        </div>
-                    </div>
-                    <div class="progress progress-bar-striped mt-2" style="height: 25px" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                        <div class="progress-bar bg-danger" style="width: {{$item->detailWithJadual->jadualDetail - $item->laporanUptd[0]->realisasi}}%">
-                            Deviasi {{$item->laporanUptd[0]->realisasi - $item->detailWithJadual->jadualDetail}} %
-                        </div>
-                    </div>
-                    <div class="progress mt-2 progress-bar-striped" style="height: 25px" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                        <div class="progress-bar bg-warning" style="width: 0%">
-
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @endforeach
         </div>
     </div>
 </div>

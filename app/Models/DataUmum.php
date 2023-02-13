@@ -35,7 +35,7 @@ class DataUmum extends Model
 
     public function laporanUptd()
     {
-        return $this->hasMany(LaporanMingguan::class, 'data_umum_id')->where('status', 0)->orderBy('created_at', 'DESC')->with('detail');
+        return $this->hasMany(LaporanMingguan::class, 'data_umum_id')->orderBy('created_at', 'DESC')->with('detail');
     }
 
     public function laporanKonsultan()

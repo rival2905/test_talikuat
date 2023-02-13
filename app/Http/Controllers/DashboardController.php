@@ -20,14 +20,18 @@ class DashboardController extends Controller
 
         foreach ($data as $d) {
             $rencana = 0;
+            $realisasi = 0;
+            $deviasi = 0;
             $days = 0;
             $now = date('Y-m-d');
             $end_date = date('Y-m-d', strtotime($d->tgl_spmk . "+" . $d->detailWithJadual->lama_waktu . " days"));
             $now = new DateTime($now);
             $end = new DateTime($end_date);
             $interval = $end->diff($now);
-            $days = $interval->days;
-
+            $days = $d->detailWithJadual->lama_waktu - $interval->days;
+            if ($days < 0) {
+                $days = 0;
+            }
             foreach ($d->detailWithJadual->jadualDetail as $jadual) {
                 foreach ($jadual->detail as $detail) {
                     if (strtotime($detail->tanggal) <= strtotime(date('Y-m-d'))) {
@@ -35,8 +39,15 @@ class DashboardController extends Controller
                     }
                 }
             }
-            $d->detailWithJadual->jadualDetail = $rencana;
+            foreach ($d->laporanUptdAproved as $laporan) {
+                $realisasi += floatval($laporan->realisasi);
+            }
+            $d->laporanUptdAproved->days = $days;
+            $d->laporanUptdAproved->realisasi =  number_format($realisasi, 2, '.', '.');
+            $d->laporanUptdAproved->rencana = number_format($rencana, 2, '.', '.');
+            $d->laporanUptdAproved->deviasi = number_format($rencana - $realisasi, 2, '.', '.');
         }
+
         return view('home', [
             'data' => $data
         ]);

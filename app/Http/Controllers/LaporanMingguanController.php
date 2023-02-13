@@ -6,6 +6,8 @@ use App\Models\DataUmum;
 use App\Models\LaporanMingguan;
 use App\Models\LaporanMingguanDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use DateTime;
 
 class LaporanMingguanController extends Controller
 {
@@ -16,7 +18,15 @@ class LaporanMingguanController extends Controller
      */
     public function index()
     {
-        return view('laporan-mingguan-uptd.index');
+        $dataUmum = '';
+        if (Auth::user()->userDetail->uptd_id == 0) {
+            $dataUmum = DataUmum::with('uptd')->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->orderBy('id', 'desc')->get();
+        } else {
+            $dataUmum = DataUmum::with('uptd')->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->where('uptd_id', Auth::user()->userDetail->uptd_id)->orderBy('id', 'desc')->get();
+        }
+        return view('laporan-mingguan-uptd.index', [
+            'dataUmum' => $dataUmum
+        ]);
     }
 
     /**
@@ -26,13 +36,30 @@ class LaporanMingguanController extends Controller
      */
     public function create($id)
     {
-        $dataUmum = DataUmum::where('id', $id)->with('detail')->with('laporanKonsultan')->first();
-        $count = $dataUmum->laporanKonsultan->count() + 1;
+        $dataUmum = DataUmum::where('id', $id)->with('detail', 'laporanUptd', 'detailWithJadual')->first();
+        $count = $dataUmum->laporanUptd->count() + 1;
         $totalMinggu = $dataUmum->detail->lama_waktu / 7;
         $totalMinggu = (int)ceil($totalMinggu);
-        $tgl = $count == 1 ? $dataUmum->tgl_spmk : $dataUmum->laporanKonsultan->last()->tgl_end;
+        $tgl = $count == 1 ? $dataUmum->tgl_spmk : $dataUmum->laporanUptd->last()->tgl_end;
         $getTgl = $this->getTgl($tgl, $count);
         $count = $count . " / " . $totalMinggu . ' Tanggal ' . $getTgl[0] . ' s/d ' . $getTgl[1];
+        $rencana = 0;
+        $days = 0;
+        $now = date('Y-m-d');
+        $end_date = date('Y-m-d', strtotime($dataUmum->tgl_spmk . "+" . $dataUmum->detailWithJadual->lama_waktu . " days"));
+        $now = new DateTime($now);
+        $end = new DateTime($end_date);
+        $interval = $end->diff($now);
+        $days = $interval->days;
+
+        foreach ($dataUmum->detailWithJadual->jadualDetail as $jadual) {
+            foreach ($jadual->detail as $detail) {
+                if (strtotime($detail->tanggal) <= strtotime(date('Y-m-d'))) {
+                    $rencana += floatval($detail->nilai);
+                }
+            }
+        }
+        $dataUmum->detailWithJadual->jadualDetail = number_format($rencana, 2, '.', '.');
         return view('laporan-mingguan-uptd.create', [
             'dataUmum' => $dataUmum,
             'count' => $count,
@@ -48,6 +75,7 @@ class LaporanMingguanController extends Controller
      */
     public function store(Request $request, $id)
     {
+
         $file = str_replace('/home/www/talikuat/storage/app/', '', $request->file_path);
         $id = LaporanMingguan::create([
             'data_umum_id' => $id,
@@ -68,7 +96,7 @@ class LaporanMingguanController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('success', 'Data berhasil disimpan,Laporan Menunggu Persetujuan Kepala UPTD');
+        return redirect()->route('laporan-mingguan-uptd.index')->with('success', 'Data berhasil disimpan,Laporan Menunggu Persetujuan Kepala UPTD');
     }
 
     /**
@@ -90,7 +118,10 @@ class LaporanMingguanController extends Controller
      */
     public function edit($id)
     {
-        //
+
+        return view('laporan-mingguan-uptd.edit', [
+            'data' => LaporanMingguan::where('id', $id)->with('detail')->first()
+        ]);
     }
 
     /**
@@ -102,7 +133,22 @@ class LaporanMingguanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $file = str_replace('/home/www/talikuat/storage/app/', '', $request->file_path);
+        $data = LaporanMingguan::where('id', $id)->first();
+        $data->rencana = $request->rencana;
+        $data->realisasi = $request->realisasi;
+        $data->deviasi = $request->deviasi;
+        $data->file_path = $file;
+        $data->status = 0;
+        foreach ($request->nmp as $key => $value) {
+            $dataDetail = LaporanMingguanDetail::where([['laporan_mingguan_id', $id], ['nmp', $value]])->first();
+            $dataDetail->volume = $request->volume[$key];
+            $dataDetail->save();
+        }
+
+        $data->save();
+
+        return redirect()->route('laporan-mingguan-uptd.index')->with('success', 'Data berhasil disimpan');
     }
 
     /**
@@ -122,6 +168,21 @@ class LaporanMingguanController extends Controller
         $file = storage_path('app/public/lampiran/laporan_konsultan/' . $path);
 
         return response()->file($file);
+    }
+
+    public function approval(Request $request)
+    {
+        $data = LaporanMingguan::where('id', $request->id)->first();
+        if ($request->status == 2) {
+            $data->status = $request->status;
+            $data->keterangan = $request->keterangan;
+            $data->save();
+            return redirect()->back()->with('success', 'Data berhasil disimpan');
+        } else {
+            $data->status = $request->status;
+            $data->save();
+            return redirect()->back()->with('success', 'Data berhasil disimpan');
+        }
     }
 
     private  function getTgl($tgl, $minggu)

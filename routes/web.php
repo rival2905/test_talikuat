@@ -69,7 +69,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/laporan-mingguan-uptd', [LaporanMingguanController::class, 'index'])->name('laporan-mingguan-uptd.index');
     Route::get('/laporan-mingguan-uptd/create/{id}', [LaporanMingguanController::class, 'create'])->name('laporan-mingguan-uptd.create');
     Route::post('/laporan-mingguan-uptd/store/{id}', [LaporanMingguanController::class, 'store'])->name('laporan-mingguan-uptd.store');
-
+    Route::post('/laporan-mingguan-uptd/approval/{id}', [LaporanMingguanController::class, 'approval'])->name('laporan-mingguan-uptd.approval');
+    Route::get('/laporan-mingguan-uptd/edit/{id}', [LaporanMingguanController::class, 'edit'])->name('laporan-mingguan-uptd.edit');
+    Route::put('/laporan-mingguan-uptd/update/{id}', [LaporanMingguanController::class, 'update'])->name('laporan-mingguan-uptd.update');
 
     Route::get('/laporan-mingguan-konsultan', [LaporanMingguanKonsultanController::class, 'index'])->name('laporan-mingguan-konsultan.index');
     Route::get('/laporan-mingguan-konsultan/create/{id}', [LaporanMingguanKonsultanController::class, 'create'])->name('laporan-mingguan-konsultan.create');
