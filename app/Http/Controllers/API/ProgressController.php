@@ -26,6 +26,7 @@ class ProgressController extends Controller
         } else {
             $data = DataUmum::with('uptd')->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->where('uptd_id', $request->uptd)->get();
         }
+
         foreach ($data as $d) {
             $rencana = 0;
             $realisasi = 0;
@@ -54,9 +55,10 @@ class ProgressController extends Controller
             $d['rencana'] = number_format($rencana, 2, '.', '.');
             $d['deviasi'] = number_format($rencana - $realisasi, 2, '.', '.');
         }
+
         return response()->json([
             'status' => 'success',
-            'data' => $data[1]
+            'data' => $data
         ]);
     }
 
