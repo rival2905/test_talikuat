@@ -13,7 +13,7 @@
                             <th>kontraktor</th>
                             <th>Konsultan</th>
                             <th>PPK</th>
-                            <th style="width: 13%">Aksi</th>
+                            <th style="width: 15%">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>

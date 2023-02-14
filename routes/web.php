@@ -1,15 +1,20 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\CurvaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataUmumController;
 use App\Http\Controllers\DataUtamaController;
 use App\Http\Controllers\JadualController;
+use App\Http\Controllers\LaporanBulananKonsultanController;
+use App\Http\Controllers\LaporanBulananUptd;
+use App\Http\Controllers\LaporanBulananUptdController;
 use App\Http\Controllers\LaporanKeuangan;
 use App\Http\Controllers\LaporanMingguanController;
-use App\Http\Controllers\LaporanMingguanKonsultanController;
+use App\Http\Controllers\LaporanKonsultan;
 use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\UserManajemen;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +34,11 @@ Route::get('/', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.post');
 
 Route::middleware(['auth'])->group(function () {
+    Route::post('/user-manajement/set-role', [UserManajemen::class, 'setRole'])->name('user-manajement.set-role');
+    Route::get('/user-manajement/set-role', [UserManajemen::class, 'pageSetRole'])->name('user-manajement.set-role-page');
+});
+
+Route::middleware(['auth', 'userVerified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
@@ -40,6 +50,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/user-manajement/delete-admin-konsultan/{id}', [UserManajemen::class, 'deleteUserKonsultan'])->name('user-manajement.delete-admin-konsultan');
     Route::post('/user-manajement/create-admin-ppk', [UserManajemen::class, 'createUserPpk'])->name('user-manajement.create-admin-ppk');
     Route::post('/user-manajement/update-admin-ppk/{id}', [UserManajemen::class, 'updateUserPpk'])->name('user-manajement.update-admin-ppk');
+
+
 
     Route::resource('data-utama', DataUtamaController::class);
     Route::post('/data-utama/edit-nmp/{id}', [DataUtamaController::class, 'editNmp'])->name('data-utama.edit-nmp');
@@ -73,11 +85,25 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/laporan-mingguan-uptd/edit/{id}', [LaporanMingguanController::class, 'edit'])->name('laporan-mingguan-uptd.edit');
     Route::put('/laporan-mingguan-uptd/update/{id}', [LaporanMingguanController::class, 'update'])->name('laporan-mingguan-uptd.update');
 
-    Route::get('/laporan-mingguan-konsultan', [LaporanMingguanKonsultanController::class, 'index'])->name('laporan-mingguan-konsultan.index');
-    Route::get('/laporan-mingguan-konsultan/create/{id}', [LaporanMingguanKonsultanController::class, 'create'])->name('laporan-mingguan-konsultan.create');
-    Route::post('/laporan-mingguan-konsultan/store/{id}', [LaporanMingguanKonsultanController::class, 'store'])->name('laporan-mingguan-konsultan.store');
+    Route::get('/laporan-bulanan-uptd', [LaporanBulananUptdController::class, 'index'])->name('laporan-bulanan-uptd.index');
+    Route::get('/laporan-bulanan-uptd/create/{id}', [LaporanBulananUptdController::class, 'create'])->name('laporan-bulanan-uptd.create');
+    Route::post('/laporan-bulanan-uptd/store/{id}', [LaporanBulananUptdController::class, 'store'])->name('laporan-bulanan-uptd.store');
+    Route::post('/laporan-bulanan-uptd/approval/{id}', [LaporanBulananUptdController::class, 'approval'])->name('laporan-bulanan-uptd.approval');
+    Route::get('/laporan-bulanan-uptd/edit/{id}', [LaporanBulananUptdController::class, 'edit'])->name('laporan-bulanan-uptd.edit');
+    Route::put('/laporan-bulanan-uptd/update/{id}', [LaporanBulananUptdController::class, 'update'])->name('laporan-bulanan-uptd.update');
 
+    Route::get('/laporan-mingguan-konsultan', [LaporanKonsultan::class, 'index'])->name('laporan-mingguan-konsultan.index');
+    Route::get('/laporan-mingguan-konsultan/create/{id}', [LaporanKonsultan::class, 'create'])->name('laporan-mingguan-konsultan.create');
+    Route::post('/laporan-mingguan-konsultan/store/{id}', [LaporanKonsultan::class, 'store'])->name('laporan-mingguan-konsultan.store');
+
+    Route::get('/laporan-bulanan-konsultan', [LaporanBulananKonsultanController::class, 'index'])->name('laporan-bulanan-konsultan.index');
+    Route::get('/laporan-bulanan-konsultan/create/{id}', [LaporanBulananKonsultanController::class, 'create'])->name('laporan-bulanan-konsultan.create');
+    Route::post('/laporan-bulanan-konsultan/store/{id}', [LaporanBulananKonsultanController::class, 'store'])->name('laporan-bulanan-konsultan.store');
+
+    Route::get('laporan-keuangan}', [LaporanKeuangan::class, 'index'])->name('laporan-keuangan.index');
     Route::get('laporan-keuangan-create/{id}', [LaporanKeuangan::class, 'create'])->name('laporan-keuangan.create');
 
     Route::get('/progress-fisik', [ProgressController::class, 'index'])->name('progress-fisik.index');
+
+    Route::get('/curva-s/{id}', [CurvaController::class, 'index'])->name('curva-s.index');
 });

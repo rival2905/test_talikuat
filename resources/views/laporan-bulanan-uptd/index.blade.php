@@ -6,14 +6,14 @@
             <h5 class="card-title">{{$data->id}} - {{$data->nm_paket}} </h5>
 
             @if(Auth::user()->userDetail->role != 6 && Auth::user()->userDetail->role != 4)
-            <a href="{{route('laporan-keuangan.create',$data->id)}}" class="btn btn-mat btn-dark waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Buat Laporan Mingguan">Buat Laporan<i class="bx bxs-file-doc"></i></a>
+            <a href="{{route('laporan-bulanan-uptd.create',$data->id)}}" class="btn btn-mat btn-dark waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Buat Laporan Mingguan">Buat Laporan<i class="bx bxs-file-doc"></i></a>
             @endif
             <hr>
             <div class="container mt-2">
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>Periode</th>
+                            <th>Bulan</th>
                             <th>Rencana</th>
                             <th>Realisasi</th>
                             <th>Deviasi</th>
@@ -22,9 +22,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($data->laporanUptd as $laporan)
+                        @foreach($data->laporanBulananUPTD as $laporan)
                         <tr>
-                            <td>{{$laporan->priode}}</td>
+                            <td>{{$laporan->bulan}}</td>
                             <td>{{$laporan->rencana}}</td>
                             <td>{{$laporan->realisasi}}</td>
                             <td>{{$laporan->deviasi}}</td>
@@ -43,7 +43,7 @@
                                 <button class="btn btn-mat btn-warning waves-effect waves-light" data-bs-target="#approvalModal" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Approval Laporan" data-bs-priode="{{$laporan->priode}}" data-bs-id="{{$laporan->id}}" onclick="renderModal(this)"><i class="bx bxs-file-doc"></i></button>
                                 @endif
                                 @if($laporan->status == 2)
-                                <a href="{{route('laporan-mingguan-uptd.edit',$laporan->id)}}" class="btn btn-mat btn-danger waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Edit Laporan"><i class='bx bxs-edit-alt'></i></a>
+                                <a href="{{route('laporan-bulanan-uptd.edit',$laporan->id)}}" class="btn btn-mat btn-danger waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Edit Laporan"><i class='bx bxs-edit-alt'></i></a>
                                 @endif
                             </td>
                         </tr>
@@ -56,9 +56,9 @@
     @endforeach
 </div>
 <div class="modal fade" id="approvalModal" tabindex="-1" aria-labelledby="approvalModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <form action="" method="post">
-            @csrf
+    <form action="" method="post">
+        @csrf
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="approvalModalLabel"></h1>
@@ -82,8 +82,9 @@
                     <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
-        </form>
-    </div>
+
+        </div>
+    </form>
 </div>
 
 <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
@@ -137,7 +138,7 @@
                         </div>
                     </div>
                 </div>
-                <h4 class="text-center fw-bolder fs-3 mt-4 mb-3" id="headerDetailNMP">Detail Nomor Mata Pembayaran</h4>
+
 
             </div>
             <div class="modal-footer">
@@ -168,7 +169,7 @@
         var data = $(el).data('bs-data');
         $('#detailModal').modal('show');
         $('#nmPaket').val(data.data_umum_id);
-        $('#priode').val(data.priode);
+        $('#priode').val(data.periode);
         console.log(data);
         $('#detailModal a').attr('href', data.file_path).html(data.file_path.replace('public/lampiran/laporan_konsultan/', ''));
         $('#rencana').val(data.rencana);
@@ -179,15 +180,10 @@
         } else {
             $('#deviasi').addClass('text-success');
         }
-        var nmp = '';
-        data.detail.forEach(function(item) {
-            nmp += nmpBuilder(item.nmp, item.volume);
-        });
-        $('#headerDetailNMP').after(nmp);
     }
 
     function renderModal(el) {
-        var url = "{{route('laporan-mingguan-uptd.approval',':id')}}";
+        var url = "{{route('laporan-bulanan-uptd.approval',':id')}}";
         var id = $(el).data('bs-id');
         var priode = $(el).data('bs-priode');
         $('#approvalModal').modal('show');

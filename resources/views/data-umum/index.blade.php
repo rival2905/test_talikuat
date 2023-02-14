@@ -32,7 +32,7 @@
                             <td>{{$data->detail->konsultan->name}}</td>
                             <td>{{$data->detail->ppk->nama}}</td>
                             <td>
-                                <a class="btn btn-mat btn-success waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Detail"><i class="bx bx-search-alt-2"></i></a>
+                                <a href="{{route('data-umum.show',$data->id) }}" class="btn btn-mat btn-success waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Detail"><i class="bx bx-search-alt-2"></i></a>
                                 <a href="{{ route('data-umum.edit', $data->id) }}" class="btn btn-mat btn-warning waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Edit"><i class="bx bx-edit-alt"></i></a>
 
                             </td>

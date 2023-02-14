@@ -13,7 +13,7 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>Priode</th>
+                            <th>Periode</th>
                             <th>Rencana</th>
                             <th>Realisasi</th>
                             <th>Deviasi</th>
@@ -56,9 +56,10 @@
     @endforeach
 </div>
 <div class="modal fade" id="approvalModal" tabindex="-1" aria-labelledby="approvalModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <form action="" method="post">
-            @csrf
+    <form action="" method="post">
+        @csrf
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="approvalModalLabel"></h1>
@@ -82,8 +83,9 @@
                     <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
-        </form>
-    </div>
+
+        </div>
+    </form>
 </div>
 
 <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
@@ -104,7 +106,7 @@
                     </div>
                 </div>
                 <div class="form-group row mb-3">
-                    <label class="col-sm-2 col-form-label">Priode</label>
+                    <label class="col-sm-2 col-form-label">Periode</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" value="" id="priode" readonly />
                     </div>
@@ -112,7 +114,7 @@
                 <div class="form-group row mb-3">
                     <label class="col-sm-2 col-form-label">File</label>
                     <div class="col-sm-10">
-                        <a href="">asdgesfeawfew</a>
+                        <a href=""></a>
                     </div>
                 </div>
                 <div class="row align-items-start">

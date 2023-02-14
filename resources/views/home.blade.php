@@ -118,7 +118,9 @@
                 @foreach ($data as $item)
                 <div class="row mt-2">
                     <div class="col-sm-2 align-self-center">
-                        <h4>{{$item->id}}</h4>
+                        <a href="{{route('curva-s.index',$item->id)}}" target="_blank" rel="noopener noreferrer">
+                            <h4 data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{{$item->nm_paket}}">{{$item->id}}</h4>
+                        </a>
                     </div>
                     <div class="col-sm-9">
                         <div class="progress progress-bar-striped" style="height: 25px" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">

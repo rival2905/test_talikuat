@@ -43,6 +43,21 @@ class DataUmum extends Model
         return $this->hasMany(LaporanMingguanKonsultan::class, 'data_umum_id')->orderBy('created_at', 'DESC')->with('detail');
     }
 
+    public function laporanBulananUPTDAproved()
+    {
+        return $this->hasMany(LaporanBulananUptd::class, 'data_umum_id')->where('status', 1)->orderBy('created_at', 'DESC')->with('detail');
+    }
+
+    public function laporanBulananUPTD()
+    {
+        return $this->hasMany(LaporanBulananUptd::class, 'data_umum_id')->orderBy('created_at', 'DESC')->with('detail');
+    }
+
+    public function laporanBulananKonsultan()
+    {
+        return $this->hasMany(LaporanBulananKonsultan::class, 'data_umum_id')->orderBy('created_at', 'DESC')->with('detail');
+    }
+
     public function fileDataUmum()
     {
         return $this->hasMany(FileDataUmum::class, 'data_umum_id')->orderBy('created_at', 'DESC');

@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
 :root {
     --header-height: 3rem;
-    --nav-width: 68px;
+    --nav-width: 100px;
     --first-color: #ffd026;
     --first-color-light: #000000;
     --white-color: #16a75c;
@@ -106,6 +106,10 @@ a {
 }
 .nav_icon {
     font-size: 1.25rem;
+}
+.nav_list {
+    overflow-y: auto;
+    max-height: calc(80vh - 6rem);
 }
 .show {
     left: 0;

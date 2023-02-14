@@ -1,36 +1,50 @@
 @extends('layouts.app') @section('header')
-<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css" />
-<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css" />
-<link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css" />
-<link rel="stylesheet" href="{{ asset('assets/css/loading.css') }}" />
-<style>
-    th {
-        width: fit-content !important;
-    }
-</style>
+
 @endsection
 @section('content')
 <div class="row">
     <div class="col-lg-12 grid-margin stretch-card">
-        <form action="{{ route('laporan-mingguan-konsultan.store',$dataUmum->id) }}" method="POST" id="form-laporan-mingguan-uptd">
+        <form action="{{ route('laporan-bulanan-uptd.update',$data->id) }}" method="POST" id="form-laporan-mingguan-uptd">
             <div class="card">
                 @csrf
+                @method('PUT')
                 <input type="hidden" name="file_path" id="file_path" />
-                <input type="hidden" name="tgl_start" value="{{ $getTgl[0] }}" />
-                <input type="hidden" name="tgl_end" value="{{ $getTgl[1] }}" />
                 <div class="card-body">
                     <div class="form-group row mb-3">
-                        <label class="col-sm-2 col-form-label">Nama Paket</label>
+                        <label class="col-sm-2 col-form-label">Note Kepala UPTD : </label>
                         <div class="col-sm-10">
                             <div class="input-group">
-                                <input type="text" class="form-control" value="{{$dataUmum->nm_paket}}" required readonly />
+                                <p class="text-danger col-form-label">{{$data->keterangan}}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-3">
+                        <label class="col-sm-2 col-form-label">ID Paket</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <input type="text" class="form-control" value="{{$data->data_umum_id}}" required readonly />
                             </div>
                         </div>
                     </div>
                     <div class="form-group row mb-3">
-                        <label class="col-sm-2 col-form-label">Minggu Ke</label>
+                        <label class="col-sm-2 col-form-label">Bulan</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" value="{{ $count }}" name="priode" readonly />
+                            <select name="bulan" class="form-select" id="bulan">
+
+                                <option value="Januari">Januari</option>
+                                <option value="Februari">Februari</option>
+                                <option value="Maret">Maret</option>
+                                <option value="April">April</option>
+                                <option value="Mei">Mei</option>
+                                <option value="Juni">Juni</option>
+                                <option value="Juli">Juli</option>
+                                <option value="Agustus">Agustus</option>
+                                <option value="September">September</option>
+                                <option value="Oktober">Oktober</option>
+                                <option value="November">November</option>
+                                <option value="Desember">Desember</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group row mb-3">
@@ -47,7 +61,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Rencana</label>
-                                <input type="text" name="rencana" value="{{$dataUmum->detailWithJadual->jadualDetail}}" id="rencana" class="form-control" required readonly />
+                                <input type="text" name="rencana" value="{{$data->rencana}}" id="rencana" class="form-control" required readonly />
                                 @error('rencana')
                                 <div class="invalid-feedback" style="display: block; color: red">
                                     {{ $message }}
@@ -58,7 +72,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Realisasi</label>
-                                <input type="text" name="realisasi" id="realisasi" class="form-control" required />
+                                <input type="text" name="realisasi" id="realisasi" value="{{$data->realisasi}}" class="form-control" required />
                                 @error('realisasi')
                                 <div class="invalid-feedback" style="display: block; color: red">
                                     {{ $message }}
@@ -69,7 +83,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Deviasi</label>
-                                <input type="text" name="deviasi" id="deviasi" class="form-control" required readonly />
+                                <input type="text" name="deviasi" id="deviasi" value="{{$data->deviasi}}" class="form-control" required readonly />
                                 @error('deviasi')
                                 <div class="invalid-feedback" style="display: block; color: red">
                                     {{ $message }}
@@ -78,14 +92,15 @@
                             </div>
                         </div>
                     </div>
+
                     <h4 class="text-center fw-bolder fs-3 mt-4 mb-4">Detail Nomor Mata Pembayaran</h4>
-                    @foreach($dataUmum->detail->jadual as $item)
+                    @foreach($data->detail as $item)
+
                     <div class="form-group row mb-3">
-                        <label class="text-wrap">{{$item->nmp}} - {{$item->uraian}}</label>
+                        <label class="text-wrap">{{$item->nmp}}</label>
                         <div class="input-group">
                             <input type="hidden" name="nmp[]" value="{{$item->nmp}}" />
-                            <input type="hidden" name="uraian[]" value="{{$item->uraian}}" />
-                            <input type="text" name="volume[]" id="nmp" class="form-control" required autocomplete="off" />
+                            <input type="text" name="volume[]" id="nmp" value="{{$item->volume}}" class="form-control" required autocomplete="off" />
                         </div>
                     </div>
                     @endforeach
@@ -107,6 +122,7 @@
 </div>
 <script>
     $(document).ready(function() {
+        $('#bulan option[value=" {{$data->bulan}}"]').attr('selected', 'selected');
         $('#totalParent').hide();
         $("input[name='volume[]']").mask("00.00", {
             reverse: false
@@ -129,6 +145,7 @@
                 .done(function(res) {
                     $("body").removeClass("loading");
                     var deviasi = res.data.realisasi - $('#rencana').val().replace(/,/g, '.');
+                    console.log(res.data);
                     if (deviasi < 0) {
                         $('#deviasi').val(deviasi.toFixed(2));
                         $('#deviasi').css('color', 'red');

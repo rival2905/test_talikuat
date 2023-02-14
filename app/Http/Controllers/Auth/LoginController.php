@@ -23,7 +23,6 @@ class LoginController extends Controller
         if ($isEmail) {
             $user = User::where('email', $request->email)->first();
             if ($user) {
-                $this->mappingUser($user);
                 if (Auth::attempt(['email' => $user->email, 'password' => $request->password])) {
                     return redirect()->route('dashboard');
                 }
@@ -38,7 +37,6 @@ class LoginController extends Controller
         } else {
             $profile = UserProfile::where('no_pegawai', $request->email)->with('user')->first();
             if ($profile) {
-                $this->mappingUser($profile->user);
                 if (Auth::attempt(['email' => $profile->user->email, 'password' => $request->password])) {
                     return redirect()->route('dashboard');
                 }

@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\DataUmum;
+use App\Models\LaporanBulananKonsultan;
+use App\Models\LaporanBulananKonsultanDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class LaporanKeuangan extends Controller
+class LaporanBulananKonsultanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,11 +19,11 @@ class LaporanKeuangan extends Controller
     {
         $dataUmum = '';
         if (Auth::user()->userDetail->uptd_id == 0) {
-            $dataUmum = DataUmum::with('uptd')->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->orderBy('id', 'desc')->get();
+            $dataUmum = DataUmum::with('laporanBulananKonsultan')->orderBy('id', 'desc')->get();
         } else {
-            $dataUmum = DataUmum::with('uptd')->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->where('uptd_id', Auth::user()->userDetail->uptd_id)->orderBy('id', 'desc')->get();
+            $dataUmum = DataUmum::with('laporanBulananKonsultan')->where('uptd_id', Auth::user()->userDetail->uptd_id)->orderBy('id', 'desc')->get();
         }
-        return view('laporan-keuangan.index', [
+        return view('laporan-bulanan-konsultan.index', [
             'dataUmum' => $dataUmum
         ]);
     }
@@ -33,9 +35,10 @@ class LaporanKeuangan extends Controller
      */
     public function create($id)
     {
+        $dataUmum = DataUmum::where('id', $id)->with('laporanBulananKonsultan')->first();
 
-        return view('laporan-keuangan.create', [
-            'dataUmum' => DataUmum::find($id)
+        return view('laporan-bulanan-konsultan.create', [
+            'dataUmum' => $dataUmum,
         ]);
     }
 
@@ -45,9 +48,26 @@ class LaporanKeuangan extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
-        //
+        $file = str_replace('/home/www/talikuat/storage/app/', '', $request->file_path);
+        $id = LaporanBulananKonsultan::create([
+            'data_umum_id' => $id,
+            'bulan' => $request->bulan,
+            'rencana' => $request->rencana,
+            'realisasi' => $request->realisasi,
+            'deviasi' => $request->deviasi,
+            'file_path' => $file,
+        ])->id;
+        for ($i = 0; $i < count($request->nmp); $i++) {
+            LaporanBulananKonsultanDetail::create([
+                'laporan_bulanan_id' => $id,
+                'kd_jenis_pekerjaan' => $request->nmp[$i],
+                'nmp' => $request->nmp[$i] . ' - ' . $request->uraian[$i],
+                'volume' => $request->volume[$i],
+            ]);
+        }
+        return redirect()->route('laporan-bulanan-konsultan.index')->with('success', 'Data berhasil disimpan');
     }
 
     /**

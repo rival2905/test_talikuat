@@ -45,16 +45,19 @@ class DataUmumController extends Controller
     public function create()
     {
         $ruas = '';
+        $ppk = '';
         if (Auth::user()->userDetail->uptd_id == 0) {
             $ruas = RuasJalan::all();
+            $ppk = UserDetail::where('role', 5)->get();
         } else {
             $ruas = RuasJalan::where('uptd_id', Auth::user()->userDetail->uptd_id)->get();
+            $ppk = UserDetail::where([['role', 5], ['uptd_id', Auth::user()->userDetail->uptd_id]])->get();
         }
         return view('data-umum.create', [
             'ruas' => $ruas,
             'kontraktors' => Kontraktor::all(),
             'konsultans' => Konsultan::all(),
-            'ppks' => UserDetail::where([['role', 5], ['uptd_id', Auth::user()->userDetail->uptd_id]])->get(),
+            'ppks' => $ppk,
             'uptds' => Uptd::all(),
         ]);
     }
@@ -128,6 +131,23 @@ class DataUmumController extends Controller
      */
     public function show($id)
     {
+        $ruas = '';
+        $ppk = '';
+        if (Auth::user()->userDetail->uptd_id == 0) {
+            $ruas = RuasJalan::all();
+            $ppk = UserDetail::where('role', 5)->get();
+        } else {
+            $ruas = RuasJalan::where('uptd_id', Auth::user()->userDetail->uptd_id)->get();
+            $ppk = UserDetail::where([['role', 5], ['uptd_id', Auth::user()->userDetail->uptd_id]])->get();
+        }
+        return view('data-umum.show', [
+            'data_umum' => DataUmum::find($id),
+            'ruas' => $ruas,
+            'kontraktors' => Kontraktor::all(),
+            'konsultans' => Konsultan::all(),
+            'ppks' => $ppk,
+            'uptds' => Uptd::all(),
+        ]);
     }
 
     /**
@@ -139,17 +159,20 @@ class DataUmumController extends Controller
     public function edit($id)
     {
         $ruas = '';
+        $ppk = '';
         if (Auth::user()->userDetail->uptd_id == 0) {
             $ruas = RuasJalan::all();
+            $ppk = UserDetail::where('role', 5)->get();
         } else {
             $ruas = RuasJalan::where('uptd_id', Auth::user()->userDetail->uptd_id)->get();
+            $ppk = UserDetail::where([['role', 5], ['uptd_id', Auth::user()->userDetail->uptd_id]])->get();
         }
         return view('data-umum.edit', [
             'data_umum' => DataUmum::find($id),
             'ruas' => $ruas,
             'kontraktors' => Kontraktor::all(),
             'konsultans' => Konsultan::all(),
-            'ppks' => UserDetail::where([['role', 5], ['uptd_id', Auth::user()->userDetail->uptd_id]])->get(),
+            'ppks' => $ppk,
             'uptds' => Uptd::all(),
         ]);
     }

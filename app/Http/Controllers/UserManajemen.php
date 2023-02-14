@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Konsultan;
 use App\Models\Kontraktor;
+use App\Models\Uptd;
 use App\Models\User;
 use App\Models\UserDetail;
 use App\Models\UserExternal;
@@ -222,27 +223,63 @@ class UserManajemen extends Controller
             'no_pegawai' => 'unique:temanjabar.user_pegawai',
         ]);
         if ($validator->fails()) {
-            return redirect()->back()->with('error', $validator->errors()->first());
+            return redirect()->back()->with('error', 'Email atau NIP sudah digunakan silahkan login');
         }
         $uptd_id = 0;
-        if ($request->uptd == 55) {
-            $uptd_id = 1;
+        $role = 0;
+        if (Auth::user()->userDetail->role == 1) {
+            if ($request->uptd == 55) {
+                $uptd_id = 1;
+                $role = $request->uptd;
+            }
+            if ($request->uptd == 88) {
+                $uptd_id = 2;
+                $role = $request->uptd;
+            }
+            if ($request->uptd == 64) {
+                $uptd_id = 3;
+                $role = $request->uptd;
+            }
+            if ($request->uptd == 68) {
+                $uptd_id = 4;
+                $role = $request->uptd;
+            }
+            if ($request->uptd == 74) {
+                $uptd_id = 5;
+                $role = $request->uptd;
+            }
+            if ($request->uptd == 81) {
+                $uptd_id = 6;
+                $role = $request->uptd;
+            }
+        } else {
+            $uptd_id = Auth::user()->userDetail->uptd_id;
+            if ($uptd_id == 1) {
+
+                $role = 55;
+            }
+            if ($uptd_id == 2) {
+
+                $role = 88;
+            }
+            if ($uptd_id == 3) {
+
+                $role = 64;
+            }
+            if ($uptd_id == 4) {
+
+                $role = 68;
+            }
+            if ($uptd_id == 5) {
+
+                $role = 74;
+            }
+            if ($uptd_id == 6) {
+
+                $role = 81;
+            }
         }
-        if ($request->uptd == 64) {
-            $uptd_id = 3;
-        }
-        if ($request->uptd == 68) {
-            $uptd_id = 4;
-        }
-        if ($request->uptd == 74) {
-            $uptd_id = 5;
-        }
-        if ($request->uptd == 81) {
-            $uptd_id = 6;
-        }
-        if ($request->uptd == 88) {
-            $uptd_id = 2;
-        }
+
         try {
             DB::beginTransaction();
             $id = User::create([
@@ -251,7 +288,7 @@ class UserManajemen extends Controller
                 'role' => 'internal',
                 'password' => Hash::make($request->password),
                 'email_verified_at' => date('Y-m-d H:i:s'),
-                'internal_role_id' => $request->uptd,
+                'internal_role_id' => $role,
             ])->id;
 
             UserProfile::create([
@@ -266,7 +303,7 @@ class UserManajemen extends Controller
             UserDetail::updateOrCreate(['user_id' => $id], [
                 'role' => 5,
                 'uptd_id' => $uptd_id,
-                'is_active' => 0,
+                'is_active' => 1,
             ]);
             DB::commit();
 
@@ -280,23 +317,58 @@ class UserManajemen extends Controller
     public function updateUserPPK(Request $request, $id)
     {
         $uptd_id = 0;
-        if ($request->uptd == 55) {
-            $uptd_id = 1;
-        }
-        if ($request->uptd == 64) {
-            $uptd_id = 3;
-        }
-        if ($request->uptd == 68) {
-            $uptd_id = 4;
-        }
-        if ($request->uptd == 74) {
-            $uptd_id = 5;
-        }
-        if ($request->uptd == 81) {
-            $uptd_id = 6;
-        }
-        if ($request->uptd == 88) {
-            $uptd_id = 2;
+        $role = 0;
+        if (Auth::user()->userDetail->role == 1) {
+            if ($request->uptd == 55) {
+                $uptd_id = 1;
+                $role = $request->uptd;
+            }
+            if ($request->uptd == 88) {
+                $uptd_id = 2;
+                $role = $request->uptd;
+            }
+            if ($request->uptd == 64) {
+                $uptd_id = 3;
+                $role = $request->uptd;
+            }
+            if ($request->uptd == 68) {
+                $uptd_id = 4;
+                $role = $request->uptd;
+            }
+            if ($request->uptd == 74) {
+                $uptd_id = 5;
+                $role = $request->uptd;
+            }
+            if ($request->uptd == 81) {
+                $uptd_id = 6;
+                $role = $request->uptd;
+            }
+        } else {
+            $uptd_id = Auth::user()->userDetail->uptd_id;
+            if ($uptd_id == 1) {
+
+                $role = 55;
+            }
+            if ($uptd_id == 2) {
+
+                $role = 88;
+            }
+            if ($uptd_id == 3) {
+
+                $role = 64;
+            }
+            if ($uptd_id == 4) {
+
+                $role = 68;
+            }
+            if ($uptd_id == 5) {
+
+                $role = 74;
+            }
+            if ($uptd_id == 6) {
+
+                $role = 81;
+            }
         }
         $user = User::where('email', $request->email)->first();
         if ($user) {
@@ -315,7 +387,7 @@ class UserManajemen extends Controller
             $user = User::find($id);
             $user->name = $request->name;
             $user->email = $request->email;
-            $user->internal_role_id = $request->uptd;
+            $user->internal_role_id = $role;
             if ($request->password != null) {
                 $user->password = Hash::make($request->password);
             }
@@ -336,6 +408,26 @@ class UserManajemen extends Controller
             DB::rollback();
             return redirect()->back()->with('error', 'Gagal mengubah user PPK');
         }
+    }
+
+
+    public function setRole(Request $request)
+    {
+        UserDetail::create([
+            'user_id' => Auth::user()->id,
+            'role' => $request->role,
+            'uptd_id' => $request->uptd_id,
+            'is_active' => 1,
+        ]);
+        return redirect()->route('dashboard')->with('success', 'Berhasil mengubah role');
+    }
+
+    public function pageSetRole()
+    {
+        if (Auth::user()->userDetail != null) {
+            return redirect()->route('dashboard');
+        }
+        return view('user.role', ['uptd' => Uptd::all()]);
     }
 
     /**

@@ -13,16 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('laporan_mingguan_konsultans', function (Blueprint $table) {
+        Schema::create('laporan_bulanan_konsultans', function (Blueprint $table) {
             $table->id();
             $table->string('data_umum_id');
             $table->string('rencana');
             $table->string('realisasi');
             $table->string('deviasi');
-            $table->string('priode');
+            $table->date('periode');
             $table->string('file_path');
-            $table->string('tgl_start');
-            $table->string('tgl_end');
             $table->timestamps();
         });
     }
@@ -34,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('laporan_mingguan_konsultans');
+        Schema::dropIfExists('laporan_bulanan_konsultans');
     }
 };

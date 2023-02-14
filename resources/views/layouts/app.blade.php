@@ -35,59 +35,71 @@
     </header>
     <div class="l-navbar" id="nav-bar">
         <nav class="nav">
-            <div>
-                <a href="" class="nav_logo">
-                    <img src="{{ asset('assets/images/talikuat.png') }}" alt="Tali Kuat Bina Marga" height="80" />
-                    <span class="nav_logo-name">Talikuat</span>
-                </a>
-                <div class="nav_list">
-                    <a href="{{ route('dashboard') }}" class="nav_link">
-                        <i class="bx bx-grid-alt nav_icon"></i>
-                        <span class="nav_name">Dashboard</span>
-                    </a>
-                    @if (Auth::user()->userDetail->role == 2 ||Auth::user()->userDetail->role == 1)
-                    <a href="{{ route('user-manajement.index') }}" class="nav_link">
-                        <i class="bx bx-user nav_icon"></i>
-                        <span class="nav_name">Manajemen User</span>
-                    </a>
-                    @endif
-                    <a href="{{ route('data-utama.index') }}" class="nav_link">
-                        <i class="bx bx-data nav_icon"></i>
 
-                        <span class="nav_name">Data Utama</span>
-                    </a>
-                    <a href="{{ route('data-umum.index') }}" class="nav_link">
-                        <i class='bx bx-file nav_icon'></i>
-                        <span class="nav_name">Data Umum</span>
-                    </a>
-                    <a href="{{route('jadual.index')}}" class="nav_link">
-                        <i class="bx bxs-spreadsheet nav_icon"></i>
-                        <span class="nav_name">Jadual</span>
-                    </a>
-                    @if (Auth::user()->userDetail->role == 2 ||Auth::user()->userDetail->role == 1 ||Auth::user()->userDetail->role == 6)
-                    <a href="{{route('laporan-mingguan-uptd.index')}}" class="nav_link">
-                        <i class='bx bxs-report nav_icon'></i>
-                        <span class="nav_name">Laporan Mingguan UPTD</span>
-                    </a>
-                    @endif
-                    @if (Auth::user()->userDetail->role == 4 ||Auth::user()->userDetail->role == 1)
-                    <a href="#" class="nav_link">
-                        <i class='bx bxs-report nav_icon'></i>
-                        <span class="nav_name">Laporan Mingguan Konsultan</span>
-                    </a>
-                    @endif
-                    @if (Auth::user()->userDetail->role == 1)
-                    <a href="{{route('progress-fisik.index')}}" class="nav_link">
-                        <i class="bx bx-bar-chart-alt-2 nav_icon"></i>
-                        <span class="nav_name">Laporan Progress</span>
-                    </a>
-                    @endif
-                    <a href="#" class="nav_link">
-                        <i class='bx bxs-cloud-download nav_icon'></i>
-                        <span class="nav_name">Pusat Unduhan</span>
-                    </a>
-                </div>
+            <a href="" class="nav_logo">
+                <img src="{{ asset('assets/images/talikuat.png') }}" alt="Tali Kuat Bina Marga" height="80" />
+                <span class="nav_logo-name">Talikuat</span>
+            </a>
+            <div class="nav_list">
+                <a href="{{ route('dashboard') }}" class="nav_link">
+                    <i class="bx bx-grid-alt nav_icon"></i>
+                    <span class="nav_name">Dashboard</span>
+                </a>
+                @if (Auth::user()->userDetail->role == 2 ||Auth::user()->userDetail->role == 1)
+                <a href="{{ route('user-manajement.index') }}" class="nav_link">
+                    <i class="bx bx-user nav_icon"></i>
+                    <span class="nav_name">Manajemen User</span>
+                </a>
+                @endif
+                <a href="{{ route('data-utama.index') }}" class="nav_link">
+                    <i class="bx bx-data nav_icon"></i>
+
+                    <span class="nav_name">Data Utama</span>
+                </a>
+                <a href="{{ route('data-umum.index') }}" class="nav_link">
+                    <i class='bx bx-file nav_icon'></i>
+                    <span class="nav_name">Data Umum</span>
+                </a>
+                <a href="{{route('jadual.index')}}" class="nav_link">
+                    <i class="bx bxs-spreadsheet nav_icon"></i>
+                    <span class="nav_name">Jadual</span>
+                </a>
+                @if (Auth::user()->userDetail->role == 2 ||Auth::user()->userDetail->role == 1 ||Auth::user()->userDetail->role == 6)
+                <a href="{{route('laporan-mingguan-uptd.index')}}" class="nav_link">
+                    <i class='bx bxs-report nav_icon'></i>
+                    <span class="nav_name">Laporan Mingguan UPTD</span>
+                </a>
+                <a href="{{route('laporan-bulanan-uptd.index')}}" class="nav_link">
+                    <i class='bx bxs-report nav_icon'></i>
+                    <span class="nav_name">Laporan Bulanan UPTD</span>
+                </a>
+                <a href="{{route('laporan-keuangan.index')}}" class="nav_link">
+                    <i class='bx bxs-report nav_icon'></i>
+                    <span class="nav_name">Laporan keuangan</span>
+                </a>
+                @endif
+                @if (Auth::user()->userDetail->role == 4 ||Auth::user()->userDetail->role == 1)
+                <a href="{{route('laporan-mingguan-konsultan.index')}}" class="nav_link">
+                    <i class='bx bxs-report nav_icon'></i>
+                    <span class="nav_name">Laporan Mingguan Konsultan</span>
+                </a>
+                <a href="{{route('laporan-bulanan-konsultan.index')}}" class="nav_link">
+                    <i class='bx bxs-report nav_icon'></i>
+                    <span class="nav_name">Laporan Bulanan Konsultan</span>
+                </a>
+                @endif
+                @if (Auth::user()->userDetail->role == 1)
+                <a href="{{route('progress-fisik.index')}}" class="nav_link">
+                    <i class="bx bx-bar-chart-alt-2 nav_icon"></i>
+                    <span class="nav_name">Laporan Progress</span>
+                </a>
+                @endif
+                <a href="#" class="nav_link">
+                    <i class='bx bxs-cloud-download nav_icon'></i>
+                    <span class="nav_name">Pusat Unduhan</span>
+                </a>
             </div>
+
             <a href="{{ route('logout') }}" class="nav_link">
                 <i class="bx bx-log-out nav_icon"></i>
                 <span class="nav_name">SignOut</span>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DataUmum;
+use App\Models\Uptd;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -49,7 +50,8 @@ class DashboardController extends Controller
         }
 
         return view('home', [
-            'data' => $data
+            'data' => $data,
+            'uptd' => Uptd::all()
         ]);
     }
 }
