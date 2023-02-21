@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\DataUmum;
 use App\Models\JadualDetail;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use DateTime;
@@ -20,8 +21,13 @@ class ProgressController extends Controller
             'data' => $data
         ]);
     }
+
     public function getDataPembangunanbyUptd(Request $request)
     {
+        if ($request->year == '2022') {
+            return $this->getOldDataPembangunan($request->uptd);
+        }
+
         if ($request->uptd == 'all') {
             $data = DataUmum::with('uptd')->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->get();
         } else {
@@ -107,11 +113,134 @@ class ProgressController extends Controller
         ]);
     }
 
+    public function getOldDataPembangunan($uptd)
+    {
+        $response = array();
+
+        if ($uptd == 'all') {
+
+            $listPaket = DB::connection('talikuat22')->table('data_umum')->get();
+        } else {
+            $listPaket = DB::connection('talikuat22')->table('data_umum')->where('id_uptd', '=', $uptd)->get();
+        }
+
+        foreach ($listPaket as $paket) {
+            $paket_id = $paket->id;
+
+            // Setup Detail Data Umum
+            $detail = DB::connection('talikuat22')
+                ->table('data_umum_detail')
+                ->where('data_umum_id', '=', $paket_id)
+                ->first();
+
+            $jadual = DB::connection('talikuat22')->table('jadual')->where('data_umum_detail_id', '=', $detail->id)->get();
+
+            if (count($jadual) == 0) {
+                continue;
+            }
+
+            $paket_obj = (object)array();
+
+            $paket->id = "PW-" . $paket->id_uptd . "-" . $paket->id;
+            $paket->uptd = DB::connection('temanjabar')->table('master_uptd_dpa')->where('id', '=', $paket->id_uptd)->first();
+
+            unset($detail->jadual);
+            $detail->data_umum_id = $paket->id;
+            $detail->kontraktor = DB::connection('talikuat22')->table('master_kontraktor')->where('id', '=', $detail->kontraktor_id)->first();
+            $detail->konsultan = DB::connection('talikuat22')->table('master_konsultan')->where('id', '=', $detail->konsultan_id)->first();
+            $detail->ppk = DB::connection('talikuat22')->table('master_ppk')->where('id', '=', $detail->ppk_id)->first();
+            $detail->ruas = DB::connection('talikuat22')->table('data_umum_ruas')->where('data_umum_detail_id', '=', $detail->id)->get();
+
+            $paket->detail = $detail;
+
+            // Setup Rencana
+            $list_rencana = array();
+
+            $jumlah_minggu = ceil($detail->lama_waktu / 7);
+            $cumulative_nilai_rencana = 0;
+            $tanggal = [];
+            $start_time = Carbon::createFromFormat("Y-m-d", $paket->tgl_spmk);
+            for ($i = 0; $i < $jumlah_minggu; $i++) {
+                $end_time = $start_time->copy()->addDays(6);
+
+                $rencana = (object)array();
+                $rencana->minggu = $i + 1;
+                $rencana->tanggal = $start_time->toDateString() . ' - ' . $end_time->toDateString();
+                array_push($tanggal, $start_time->toDateString() . ' - ' . $end_time->toDateString());
+
+                $nilai = DB::connection('talikuat22')->select("SELECT SUM(nilai) AS nilai FROM (SELECT * FROM jadual_detail WHERE jadual_id IN (SELECT id FROM jadual WHERE data_umum_detail_id = " . $detail->id . ")) AS j WHERE tanggal BETWEEN DATE('" . $start_time->toDateString() . "') AND DATE('" . $end_time->toDateString() . "')")[0]->nilai;
+                $cumulative_nilai_rencana += $nilai != null ? $nilai : 0;
+                $rencana->nilai_this_week = $nilai != null ? $nilai : 0;
+                $rencana->nilai = $cumulative_nilai_rencana;
+
+                $detail_rencana = DB::connection('talikuat22')->select("SELECT nmp, uraian, SUM(nilai) AS nilai FROM (SELECT * FROM jadual_detail WHERE jadual_id IN (SELECT id FROM jadual WHERE data_umum_detail_id = " . $detail->id . ")) AS j WHERE tanggal BETWEEN DATE('" . $start_time->toDateString() . "') AND DATE('" . $end_time->toDateString() . "') GROUP BY nmp, uraian");
+                $detail_rencana_object = (object)array();
+                foreach ($detail_rencana as $item) {
+                    $key = $item->nmp . ' - ' . $item->uraian;
+                    $detail_rencana_object->$key = $item->nilai;
+                }
+                $rencana->detail = $detail_rencana_object;
+
+                array_push($list_rencana, $rencana);
+
+                $start_time = $end_time->copy()->addDay();
+            }
+
+            // Setup Realisasi
+            $list_realisasi = DB::connection('talikuat22')->table('laporan_konsultan')->where('data_umum_id', '=', $detail->id)->get();
+            if (count($list_realisasi) >= $jumlah_minggu) {
+                $list_realisasi = $list_realisasi->slice(0, $jumlah_minggu);
+                if ($list_realisasi[$jumlah_minggu - 1]->realisasi < 100) {
+                    $list_realisasi[$jumlah_minggu - 1]->realisasi = 100;
+                }
+            } else {
+                $selisih_minggu = $jumlah_minggu - count($list_realisasi);
+                $selisih_realisasi = 100 - floatval($list_realisasi->last() != null ? $list_realisasi->last()->realisasi : 0);
+                $markup_realisasi_per_minggu = $selisih_realisasi / $selisih_minggu;
+
+                $start_time = Carbon::createFromFormat("Y-m-d", $paket->tgl_spmk)->addDays(7 * count($list_realisasi));
+                for ($i = 0; $i < $selisih_minggu; $i++) {
+                    $end_time = $start_time->copy()->addDays(6);
+
+                    $realisasi_obj = (object)array();
+                    $realisasi_obj->priode = count($list_realisasi) + 1 . ' / ' . $jumlah_minggu . ' Tanggal ' . $start_time->format("d-m-Y") . ' s/d ' . $end_time->format("d-m-Y");
+                    $realisasi_obj->realisasi = floatval($list_realisasi->last() != null ? $list_realisasi->last()->realisasi : 0) + $markup_realisasi_per_minggu;
+
+                    $list_realisasi->push($realisasi_obj);
+
+                    $start_time = $end_time->copy()->addDay();
+                }
+            }
+
+            $final_list_realisasi = [];
+            foreach ($list_realisasi as $key => $realisasi) {
+                $realisasi_obj = (object)array();
+                $realisasi_obj->minggu = $key + 1;
+                $realisasi_obj->tanggal = $realisasi->priode;
+                $realisasi_obj->nilai = $realisasi->realisasi;
+
+                array_push($final_list_realisasi, $realisasi_obj);
+            }
+
+            $paket_obj->data_umum = $paket;
+            $paket_obj->rencana = $list_rencana;
+            $paket_obj->realisasi = $final_list_realisasi;
+            $paket_obj->tanggal = $tanggal;
+
+            array_push($response, $paket_obj);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $response
+        ]);
+    }
+
     public function getDataPembangunan2022()
     {
         $data = DB::connection('talikuat22')->table('data_umum')->get();
         foreach ($data as $key => $value) {
-            $value->laporan_konsultan =  DB::connection('talikuat22')->table('laporan_konsultan')->where('data_umum_id', $value->id)->orderBy('id', 'asc')->get();
+            $value->laporan_konsultan = DB::connection('talikuat22')->table('laporan_konsultan')->where('data_umum_id', $value->id)->orderBy('id', 'asc')->get();
             $value->data_umum_detail = DB::connection('talikuat22')->table('data_umum_detail')->where([['id', $value->id], ['is_active', 1]])->first();
             $value->data_umum_detail->jadual = DB::connection('talikuat22')->table('jadual')->where('data_umum_detail_id', $value->data_umum_detail->id)->get();
             if (count($value->data_umum_detail->jadual) == 0) {
