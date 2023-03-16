@@ -20,7 +20,8 @@
         dataJson = JSON.parse(dataJson);
         console.log(dataJson);
         const rencana = dataJson.rencana.map((item) => item.nilai);
-        console.log(rencana);
+        const realisasi = dataJson.realisasi.map((item) => item.nilai);
+        console.log(realisasi);
         const labels = dataJson.tanggal;
         const data = {
             labels: labels,
@@ -30,6 +31,12 @@
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',
                 tension: 0.1
+            }, {
+                label: 'My First Dataset',
+                data: realisasi.sort(),
+                fill: false,
+                borderColor: 'red',
+                tension: 0.1
             }],
             options: {
                 responsive: true,
@@ -37,15 +44,10 @@
                     mode: 'label'
                 },
                 scales: {
-                    yAxes: [{
-                        display: true,
-                        ticks: {
-                            beginAtZero: true,
-                            steps: 10,
-                            stepValue: 5,
-                            max: 100
-                        }
-                    }]
+                    y: {
+                        max: 100
+                    }
+
                 }
             }
         };

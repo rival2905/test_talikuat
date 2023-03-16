@@ -497,7 +497,7 @@
                         />
                     </div>
                     <div class="mb-3">
-                        <label for="npwp" class="form-label">NPWP</label>
+                        <label for="npwp" class="form-label npwp">NPWP</label>
                         <input
                             type="text"
                             class="form-control"
@@ -639,7 +639,7 @@
                         />
                     </div>
                     <div class="mb-3">
-                        <label for="npwp" class="form-label">NPWP</label>
+                        <label for="npwp" class="form-label npwp">NPWP</label>
                         <input
                             type="text"
                             class="form-control"
@@ -820,7 +820,7 @@
                         />
                     </div>
                     <div class="mb-3">
-                        <label for="npwp" class="form-label">NPWP</label>
+                        <label for="npwp" class="form-label npwp">NPWP</label>
                         <input
                             type="text"
                             class="form-control"
@@ -940,7 +940,7 @@
                         />
                     </div>
                     <div class="mb-3">
-                        <label for="npwp" class="form-label">NPWP</label>
+                        <label for="npwp" class="form-label npwp">NPWP</label>
                         <input
                             type="text"
                             class="form-control"
@@ -1021,7 +1021,7 @@
         $("#nmp").DataTable();
         $("#kontraktor").DataTable();
         $("#konsultan").DataTable();
-        $("#npwp").mask("99.999.999.9-999.999");
+        $(".npwp").mask("99.999.999.9-999.999");
     });
 
     function updateJenisPekerjaan(el) {
