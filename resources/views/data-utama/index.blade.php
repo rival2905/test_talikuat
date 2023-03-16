@@ -497,10 +497,10 @@
                         />
                     </div>
                     <div class="mb-3">
-                        <label for="npwp" class="form-label npwp">NPWP</label>
+                        <label for="npwp" class="form-label">NPWP</label>
                         <input
                             type="text"
-                            class="form-control"
+                            class="form-control npwp"
                             id="npwp"
                             name="npwp"
                             required
@@ -639,10 +639,10 @@
                         />
                     </div>
                     <div class="mb-3">
-                        <label for="npwp" class="form-label npwp">NPWP</label>
+                        <label for="npwp" class="form-label">NPWP</label>
                         <input
                             type="text"
-                            class="form-control"
+                            class="form-control npwp"
                             id="npwp"
                             name="npwp"
                             required
@@ -820,10 +820,10 @@
                         />
                     </div>
                     <div class="mb-3">
-                        <label for="npwp" class="form-label npwp">NPWP</label>
+                        <label for="npwp" class="form-label">NPWP</label>
                         <input
                             type="text"
-                            class="form-control"
+                            class="form-control npwp"
                             id="npwp"
                             name="npwp"
                             required
@@ -940,10 +940,10 @@
                         />
                     </div>
                     <div class="mb-3">
-                        <label for="npwp" class="form-label npwp">NPWP</label>
+                        <label for="npwp" class="form-label">NPWP</label>
                         <input
                             type="text"
-                            class="form-control"
+                            class="form-control npwp"
                             id="npwp"
                             name="npwp"
                             required
