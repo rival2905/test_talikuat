@@ -500,7 +500,7 @@
                         <label for="npwp" class="form-label">NPWP</label>
                         <input
                             type="text"
-                            class="form-control"
+                            class="form-control npwp"
                             id="npwp"
                             name="npwp"
                             required
@@ -642,7 +642,7 @@
                         <label for="npwp" class="form-label">NPWP</label>
                         <input
                             type="text"
-                            class="form-control"
+                            class="form-control npwp"
                             id="npwp"
                             name="npwp"
                             required
@@ -823,7 +823,7 @@
                         <label for="npwp" class="form-label">NPWP</label>
                         <input
                             type="text"
-                            class="form-control"
+                            class="form-control npwp"
                             id="npwp"
                             name="npwp"
                             required
@@ -943,7 +943,7 @@
                         <label for="npwp" class="form-label">NPWP</label>
                         <input
                             type="text"
-                            class="form-control"
+                            class="form-control npwp"
                             id="npwp"
                             name="npwp"
                             required
@@ -1021,7 +1021,7 @@
         $("#nmp").DataTable();
         $("#kontraktor").DataTable();
         $("#konsultan").DataTable();
-        $("#npwp").mask("99.999.999.9-999.999");
+        $(".npwp").mask("99.999.999.9-999.999");
     });
 
     function updateJenisPekerjaan(el) {
