@@ -32,7 +32,7 @@
                                 @else
                                 <a href="{{route('jadual.show',$data->detail->id)}}" class="btn btn-mat btn-success waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Detail"><i class="bx bx-search-alt-2"></i></a>
                                 <a href="{{route('jadual.edit',$data->detail->id)}}" class="btn btn-mat btn-warning waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Edit"><i class="bx bx-edit-alt"></i></a>
-                                <a class="btn btn-mat btn-dark waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Laporan Mingguan"><i class="bx bxs-file-doc"></i></a>
+
                                 @endif
 
 

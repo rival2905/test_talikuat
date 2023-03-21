@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\DataUmum;
+use App\Models\Konsultan;
+use App\Models\Kontraktor;
 use App\Models\Uptd;
+use App\Models\UserDetail;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,8 +18,10 @@ class DashboardController extends Controller
         $data = '';
         if (Auth::user()->userDetail->uptd_id == 0) {
             $data = DataUmum::with('uptd')->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->get();
+            $ppk = UserDetail::count();
         } else {
             $data = DataUmum::with('uptd')->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->where('uptd_id', Auth::user()->userDetail->uptd_id)->get();
+            $ppk = UserDetail::where('uptd_id', Auth::user()->userDetail->uptd_id)->count();
         }
 
         foreach ($data as $d) {
@@ -56,7 +61,11 @@ class DashboardController extends Controller
 
         return view('home', [
             'data' => $data,
-            'uptd' => Uptd::all()
+            'uptd' => Uptd::all(),
+            'paket' => count($data),
+            'ppk' => $ppk,
+            'konsultan' => Konsultan::count(),
+            'kontraktor' => Kontraktor::count()
         ]);
     }
 }

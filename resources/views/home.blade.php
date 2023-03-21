@@ -8,7 +8,7 @@
                         <div class="d-flex justify-content-between align-items-start">
                             <div class="color-card">
                                 <p class="mb-0 text-white">Penyedia Jasa</p>
-                                <h2 class="text-white">35</h2>
+                                <h2 class="text-white">{{$kontraktor}}</h2>
                             </div>
                             <i class="fa-solid fa-person-digging" style="
                                     font-size: 48px;
@@ -31,7 +31,7 @@
                                 <p class="mb-0 text-white">
                                     Konsultan Surpervisi
                                 </p>
-                                <h2 class="text-white">35</h2>
+                                <h2 class="text-white">{{$konsultan}}</h2>
                             </div>
 
                             <i class="fa-solid fa-person-shelter" style="
@@ -53,7 +53,7 @@
                         <div class="d-flex justify-content-between align-items-start">
                             <div class="color-card">
                                 <p class="mb-0 text-white">PPK</p>
-                                <h2 class="text-white">35</h2>
+                                <h2 class="text-white">{{$ppk}}</h2>
                             </div>
 
                             <i class="fa-solid fa-user-secret" style="
@@ -75,7 +75,7 @@
                         <div class="d-flex justify-content-between align-items-start">
                             <div class="color-card">
                                 <p class="mb-0 text-white">Paket Pekerjaan</p>
-                                <h2 class="text-white">35</h2>
+                                <h2 class="text-white">{{$paket}}</h2>
                             </div>
                             <i class="fa-solid fa-signs-post" style="
                                     font-size: 48px;
