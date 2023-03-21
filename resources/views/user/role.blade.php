@@ -21,7 +21,8 @@
                         <div class="form-group">
                             <label>Role Akses</label>
                             <select name="role" id="role" class="form-control" required>
-                                <option value="2">Admin-UPTD</option>
+                                <option value="">Pilih Role</option>
+                                <option value="2">Admin-PPK</option>
                                 <option value="5">PPK</option>
                                 <option value="6">Kepala-UPTD</option>
                             </select>
@@ -29,6 +30,7 @@
                         <div class="form-group">
                             <label>UPTD</label>
                             <select name="uptd_id" id="uptd_id" class="form-control" required>
+                                <option value="">Pilih UPTD</option>
                                 @foreach ($uptd as $item)
                                 <option value="{{$item->id}}">{{$item->nama_uptd}}</option>
                                 @endforeach
@@ -37,6 +39,7 @@
                         <div class="form-group" id="ppk">
                             <label>PPK</label>
                             <select name="ppk_id" id="ppk_id" class="form-control" required>
+                                <option value="">Pilih PPK</option>
                                 @foreach ($ppk as $item)
                                 <option value="{{$item->user_id}}">{{$item->user->name}}</option>
                                 @endforeach
@@ -55,7 +58,7 @@
     <script>
         $(document).ready(function() {
             $('#roleAkses').modal('show');
-
+            $('#ppk').hide();
             $('#role').change(function() {
                 if ($(this).val() == 2) {
                     $('#ppk').show();
