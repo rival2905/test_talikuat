@@ -23,7 +23,7 @@
                             <select name="role" id="role" class="form-control" required>
                                 <option value="2">Admin-UPTD</option>
                                 <option value="5">PPK</option>
-                                <option value="5">Kepala-UPTD</option>
+                                <option value="6">Kepala-UPTD</option>
                             </select>
                         </div>
                         <div class="form-group">
