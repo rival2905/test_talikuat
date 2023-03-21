@@ -53,7 +53,6 @@ class DataUmumController extends Controller
             $ruas = RuasJalan::where('uptd_id', Auth::user()->userDetail->uptd_id)->get();
             $ppk = UserDetail::where([['role', 5], ['uptd_id', Auth::user()->userDetail->uptd_id]])->get();
         }
-        dd($ppk);
         return view('data-umum.create', [
             'ruas' => $ruas,
             'kontraktors' => Kontraktor::all(),
