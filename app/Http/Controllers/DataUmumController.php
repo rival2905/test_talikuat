@@ -189,7 +189,8 @@ class DataUmumController extends Controller
         try {
             $uptd = str_replace('UPTD ', '', $request->uptd_id);
             DB::beginTransaction();
-            DataUmum::where('id', $id)->update([
+            $data_umum =  DataUmum::where('id', $id)->first();
+            $data_umum->update([
                 'pemda' => $request->pemda,
                 'opd' => $request->opd,
                 'nm_paket' => $request->nm_paket,
@@ -201,10 +202,10 @@ class DataUmumController extends Controller
                 'uptd_id' => $uptd,
                 'ppk_kegiatan' => $request->ppk_kegiatan,
             ]);
-            DataUmumRuas::where('data_umum_detail_id', $id)->delete();
+            DataUmumRuas::where('data_umum_detail_id', $data_umum->detail->id)->delete();
             for ($i = 0; $i < count($request->id_ruas_jalan); $i++) {
                 DataUmumRuas::create([
-                    'data_umum_detail_id' => $id,
+                    'data_umum_detail_id' => $data_umum->detail->id,
                     'ruas_id' => $request->id_ruas_jalan[$i],
                     'segment_jalan' => $request->segmen_jalan[$i],
                     'lat_awal' => $request->lat_awal[$i],
