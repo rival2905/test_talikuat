@@ -118,7 +118,6 @@ class ProgressController extends Controller
         $response = array();
 
         if ($uptd == 'all') {
-
             $listPaket = DB::connection('talikuat22')->table('data_umum')->get();
         } else {
             $listPaket = DB::connection('talikuat22')->table('data_umum')->where('id_uptd', '=', $uptd)->get();
@@ -292,3 +291,4 @@ class ProgressController extends Controller
         return $tglWeek;
     }
 }
+
