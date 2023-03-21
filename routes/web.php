@@ -106,4 +106,8 @@ Route::middleware(['auth', 'userVerified'])->group(function () {
     Route::get('/progress-fisik', [ProgressController::class, 'index'])->name('progress-fisik.index');
 
     Route::get('/curva-s/{id}', [CurvaController::class, 'index'])->name('curva-s.index');
+
+    Route::get('/download-template-jadual/{data_umum}', [JadualController::class, 'downloadTemplate'])->name('jadual.downloadTemplate');
+
+    Route::get('/download-template-laporan-mingguan/{data_umum}', [LaporanMingguanController::class, 'downloadTemplate'])->name('laporan-mingguan-uptd.downloadTemplate');
 });

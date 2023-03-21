@@ -10,7 +10,8 @@
 </style>
 @endsection
 @section('content')
-<div class="row">
+<a class="btn btn-success " href="{{route('laporan-mingguan-uptd.downloadTemplate',$dataUmum->id)}}" rel="noopener noreferrer">Download Template Laporan</a>
+<div class="row mt-3">
     <div class="col-lg-12 grid-margin stretch-card">
         <form action="{{ route('laporan-mingguan-uptd.store',$dataUmum->id) }}" method="POST" id="form-laporan-mingguan-uptd">
             <div class="card">

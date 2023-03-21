@@ -199,4 +199,9 @@ class LaporanMingguanController extends Controller
         $tglStart = date('d-m-Y', $tglStart);
         return [$tglStart, $tglEnd];
     }
+
+    public function downloadTemplate($dataUmum)
+    {
+        return response()->download(storage_path('app/public/template/Laporan Mingguan.xlsx'), 'Laporan_Mingguan_' . $dataUmum . '.xlsx');
+    }
 }

@@ -343,4 +343,9 @@ class JadualController extends Controller
         }
         return $sum;
     }
+
+    public function downloadTemplate($data_umum)
+    {
+        return response()->download(storage_path('app/public/template/jadual_talikuat.xlsx'), 'Jadual_' . $data_umum . '.xlsx');
+    }
 }

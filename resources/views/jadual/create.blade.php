@@ -147,7 +147,7 @@
 
                 @csrf
                 <div class="row" id="upload">
-                    <div class="col-md-6 p-2">
+                    <div class="col">
                         <div class="form-group">
                             <label>File jadual</label>
                             <div class="input-group">
@@ -166,6 +166,16 @@
 
                         <div id="status"></div>
                         <span class="text-danger" style="font-size: small">Format File Salah</span>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Template Jadual</label>
+                            <div class="input-group">
+                                <a class="btn btn-primary w-100" href="{{route('jadual.downloadTemplate',$detail->data_umum->id)}}" rel="noopener noreferrer"> Download</a>
+                            </div>
+                        </div>
+
+
                     </div>
                 </div>
             </div>
