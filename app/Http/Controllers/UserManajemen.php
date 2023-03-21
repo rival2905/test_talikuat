@@ -424,10 +424,9 @@ class UserManajemen extends Controller
 
     public function pageSetRole()
     {
-        if (Auth::user()->userDetail != null) {
-            return redirect()->route('dashboard');
-        }
-        return view('user.role', ['uptd' => Uptd::all()]);
+
+        $ppk = UserDetail::where('role', 5)->with('user')->get();
+        return view('user.role', ['uptd' => Uptd::all(), 'ppk' => $ppk]);
     }
 
     /**

@@ -34,6 +34,14 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="form-group" id="ppk">
+                            <label>PPK</label>
+                            <select name="ppk_id" id="ppk_id" class="form-control" required>
+                                @foreach ($ppk as $item)
+                                <option value="{{$item->user_id}}">{{$item->user->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Save</button>
@@ -47,6 +55,14 @@
     <script>
         $(document).ready(function() {
             $('#roleAkses').modal('show');
+
+            $('#role').change(function() {
+                if ($(this).val() == 2) {
+                    $('#ppk').show();
+                } else {
+                    $('#ppk').hide();
+                }
+            });
         });
     </script>
 </body>
