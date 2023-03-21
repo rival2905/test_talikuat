@@ -143,7 +143,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Panjang KM</label>
-                            <input type="number" step="0.01" name="panjang_km" value="{{ $data_umum->detail->panjang_km }}" id="panjang_km" class="form-control" required autocomplete="off" />
+                            <input type="number" step="0.001" name="panjang_km" value="{{ $data_umum->detail->panjang_km }}" id="panjang_km" class="form-control" required autocomplete="off" />
                         </div>
                     </div>
                     <div class="col-md-4">
