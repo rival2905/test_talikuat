@@ -115,7 +115,7 @@ class DataUmumController extends Controller
             DB::commit();
             return redirect()->route('upload.dataumum', $id)->with('success', 'Data berhasil ditambahkan silahkan upload file');
         } catch (\Exception $e) {
-            dd($e);
+
             DB::rollback();
             return redirect()->route('data-umum.index')->with('error', 'Data gagal ditambahkan');
         }
