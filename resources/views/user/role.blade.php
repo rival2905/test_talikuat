@@ -38,7 +38,7 @@
                         </div>
                         <div class="form-group" id="ppk">
                             <label>PPK</label>
-                            <select name="ppk_id" id="ppk_id" class="form-control" required>
+                            <select name="ppk_id" id="ppk_id" class="form-control">
                                 <option value="">Pilih PPK</option>
                                 @foreach ($ppk as $item)
                                 <option value="{{$item->user_id}}">{{$item->user->name}}</option>

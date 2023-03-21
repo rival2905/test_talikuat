@@ -21,9 +21,9 @@ class DashboardController extends Controller
             $ppk = UserDetail::count();
         } else {
             $data = DataUmum::with('uptd')->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->where('uptd_id', Auth::user()->userDetail->uptd_id)->get();
+
             $ppk = UserDetail::where('uptd_id', Auth::user()->userDetail->uptd_id)->count();
         }
-
         foreach ($data as $d) {
             $rencana = 0;
             $realisasi = 0;
