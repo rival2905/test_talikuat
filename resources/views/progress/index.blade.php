@@ -13,28 +13,39 @@
 </head>
 
 <body class="loading">
+
     <input type="hidden" id="api-url" value="{{ route('get-data-pembangunan-by-uptd') }}" />
     <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col">
+                <div class="input-group center">
+                    <label class="input-group-text" for="inputGroupSelect01">UPTD</label>
+                    <select class="form-select" id="uptd">
+                        @foreach ($uptd as $item)
+                        <option value=" {{ $item->id }}">
+                            {{ $item->nama_uptd }}
+                        </option>
+                        @endforeach
+                        <option value="all">Semua UPTD</option>
+                    </select>
+                </div>
 
-        <div class="input-group center">
-            <label class="input-group-text" for="inputGroupSelect01">UPTD</label>
-            <select class="form-select" id="uptd">
+                <div class="input-group center mt-3">
+                    <label class="input-group-text" for="inputGroupSelect01">Tanggal awal</label>
+                    <input type="date" name="date" id="date-start" class="form-select" />
+                </div>
+                <div class="input-group center mt-3">
+                    <label class="input-group-text" for="inputGroupSelect01">Tanggal akhir</label>
+                    <input type="date" name="date" id="date-end" class="form-select" />
+                </div>
+            </div>
 
-                @foreach ($uptd as $item)
-                <option value=" {{ $item->id }}">
-                    {{ $item->nama_uptd }}
-                </option>
-                @endforeach
-                <option value="all">Semua UPTD</option>
-            </select>
+
         </div>
-        <div class="input-group center mt-3">
-            <label class="input-group-text" for="inputGroupSelect01">Tanggal</label>
-            <input type="date" name="date" id="date" class="form-select" />
-        </div>
+
     </div>
     <div class="header mt-5">
-        LAPORAN PROGRES BULANAN <br />
+        LAPORAN PROGRES MINGGUAN <br />
         PELAKSANAAN KEGIATAN PENINGKATAN / REHABILITASI JALAN DAN JEMBATAN
         <br />
         UPTD I S/D VI DINAS BINA MARGA DAN PENATAAN RUANG PROVINSI JAWA

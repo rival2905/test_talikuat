@@ -177,7 +177,7 @@ class UserManajemen extends Controller
         UserExternal::create([
             'name' => $request->name,
             'email' => $request->email,
-            'nik' => $request->nik,
+            'nik' =>  $request->nik,
             'password' => Hash::make($request->password),
             'no_telp' => $request->no_telp,
             'konsultan_id' => $request->konsultan_id,

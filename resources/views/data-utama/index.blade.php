@@ -4,22 +4,12 @@
         <div class="card-header">Data Jenis Pekerjaan</div>
         <div class="card-body">
             <div class="container">
-                <a
-                    class="btn btn-mat btn-primary mb-3"
-                    data-bs-toggle="modal"
-                    data-bs-target="#createJenisPekerjaan"
-                >
-                    Tambah</a
-                >
+                <a class="btn btn-mat btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createJenisPekerjaan">
+                    Tambah</a>
 
-                <a
-                    href="https://tk.temanjabar.net/export-to-excel"
-                    class="btn btn-mat btn-success mb-3"
-                    target="_blank"
-                >
+                <a href="https://tk.temanjabar.net/export-to-excel" class="btn btn-mat btn-success mb-3" target="_blank">
                     <i class="mdi mdi-export"></i>
-                    Export</a
-                >
+                    Export</a>
             </div>
             <div class="container" style="max-height: 80vh; overflow-y: auto">
                 <table id="nmp" class="table table-striped">
@@ -40,27 +30,10 @@
                             <td>{{$item->jenis_pekerjaan}}</td>
                             <td>{{$item->satuan}}</td>
                             <td>
-                                <a
-                                    class="btn btn-mat btn-warning waves-effect waves-light"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#updateJenisPekerjaan"
-                                    data-id="{{ $item->id }}"
-                                    data-kd_jenis_pekerjaan="{{ $item->kd_jenis_pekerjaan }}"
-                                    data-jenis_pekerjaan="{{ $item->jenis_pekerjaan }}"
-                                    data-satuan="{{ $item->satuan }}"
-                                    onclick="updateJenisPekerjaan(this)"
-                                >
-                                    <i class="bx bx-edit-alt"></i
-                                ></a>
+                                <a class="btn btn-mat btn-warning waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#updateJenisPekerjaan" data-id="{{ $item->id }}" data-kd_jenis_pekerjaan="{{ $item->kd_jenis_pekerjaan }}" data-jenis_pekerjaan="{{ $item->jenis_pekerjaan }}" data-satuan="{{ $item->satuan }}" onclick="updateJenisPekerjaan(this)">
+                                    <i class="bx bx-edit-alt"></i></a>
 
-                                <a
-                                    class="btn btn-mat btn-danger"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#deleteJenisPekerjaan"
-                                    data-id="{{ $item->id }}"
-                                    data-kd_jenis_pekerjaan="{{ $item->kd_jenis_pekerjaan }}"
-                                    onclick="deleteJenisPekerjaan(this)"
-                                >
+                                <a class="btn btn-mat btn-danger" data-bs-toggle="modal" data-bs-target="#deleteJenisPekerjaan" data-id="{{ $item->id }}" data-kd_jenis_pekerjaan="{{ $item->kd_jenis_pekerjaan }}" onclick="deleteJenisPekerjaan(this)">
                                     <i class="bx bx-trash"></i>
                                 </a>
                             </td>
@@ -75,23 +48,12 @@
         <div class="card-header">Data kontraktor</div>
         <div class="card-body">
             <div class="container">
-                <a
-                    href="{{ route('data-umum.create') }}"
-                    class="btn btn-mat btn-primary mb-3"
-                    data-bs-toggle="modal"
-                    data-bs-target="#createKontraktor"
-                >
-                    Tambah</a
-                >
+                <a href="{{ route('data-umum.create') }}" class="btn btn-mat btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createKontraktor">
+                    Tambah</a>
 
-                <a
-                    href="https://tk.temanjabar.net/export-to-excel"
-                    class="btn btn-mat btn-success mb-3"
-                    target="_blank"
-                >
+                <a href="https://tk.temanjabar.net/export-to-excel" class="btn btn-mat btn-success mb-3" target="_blank">
                     <i class="mdi mdi-export"></i>
-                    Export</a
-                >
+                    Export</a>
             </div>
             <div class="container" style="max-height: 80vh; overflow-y: auto">
                 <table id="kontraktor" class="table table-striped">
@@ -112,33 +74,10 @@
                             <td>{{$item->nama_direktur}}</td>
                             <td>{{$item->no_telp}}</td>
                             <td>
-                                <a
-                                    class="btn btn-mat btn-warning"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#editKontraktor"
-                                    data-id="{{ $item->id }}"
-                                    data-nama="{{ $item->nama }}"
-                                    data-nama_direktur="{{ $item->nama_direktur }}"
-                                    data-no_telp="{{ $item->no_telp }}"
-                                    data-alamat="{{ $item->alamat }}"
-                                    data-nama_gs="{{ $item->nama_gs }}"
-                                    data-npwp="{{ $item->npwp }}"
-                                    data-bank="{{ $item->bank }}"
-                                    data-no_rek="{{ $item->no_rek }}"
-                                    data-email="{{ $item->email }}"
-                                    onclick="updateKontraktor(this)"
-                                >
-                                    <i class="bx bx-edit-alt"></i
-                                ></a>
+                                <a class="btn btn-mat btn-warning" data-bs-toggle="modal" data-bs-target="#editKontraktor" data-id="{{ $item->id }}" data-nama="{{ $item->nama }}" data-nama_direktur="{{ $item->nama_direktur }}" data-no_telp="{{ $item->no_telp }}" data-alamat="{{ $item->alamat }}" data-nama_gs="{{ $item->nama_gs }}" data-npwp="{{ $item->npwp }}" data-bank="{{ $item->bank }}" data-no_rek="{{ $item->no_rek }}" data-email="{{ $item->email }}" onclick="updateKontraktor(this)">
+                                    <i class="bx bx-edit-alt"></i></a>
 
-                                <a
-                                    class="btn btn-mat btn-danger"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#deleteJenisPekerjaan"
-                                    data-id="{{ $item->id }}"
-                                    data-nama="{{ $item->nama }}"
-                                    onclick="deleteKontraktor(this)"
-                                >
+                                <a class="btn btn-mat btn-danger" data-bs-toggle="modal" data-bs-target="#deleteKontraktor" data-id="{{ $item->id }}" data-nama="{{ $item->nama }}" onclick="deleteKontraktor(this)">
                                     <i class="bx bx-trash"></i>
                                 </a>
                             </td>
@@ -153,22 +92,12 @@
         <div class="card-header">Data Konsultan</div>
         <div class="card-body">
             <div class="container">
-                <a
-                    class="btn btn-mat btn-primary mb-3"
-                    data-bs-toggle="modal"
-                    data-bs-target="#createKonsultan"
-                >
-                    Tambah</a
-                >
+                <a class="btn btn-mat btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createKonsultan">
+                    Tambah</a>
 
-                <a
-                    href="https://tk.temanjabar.net/export-to-excel"
-                    class="btn btn-mat btn-success mb-3"
-                    target="_blank"
-                >
+                <a href="https://tk.temanjabar.net/export-to-excel" class="btn btn-mat btn-success mb-3" target="_blank">
                     <i class="mdi mdi-export"></i>
-                    Export</a
-                >
+                    Export</a>
             </div>
             <div class="container" style="max-height: 80vh; overflow-y: auto">
                 <table id="konsultan" class="table table-striped">
@@ -185,35 +114,14 @@
                         @foreach ($konsultans as $item)
                         <tr>
                             <td>{{$loop->index +1}}</td>
-                            <td>{{$item->nama}}</td>
+                            <td>{{$item->name}}</td>
                             <td>{{$item->nama_direktur}}</td>
                             <td>{{$item->no_telp}}</td>
                             <td>
-                                <a
-                                    class="btn btn-mat btn-warning"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#editKonsultan"
-                                    data-id="{{ $item->id }}"
-                                    data-nama="{{ $item->nama }}"
-                                    data-nama_direktur="{{ $item->nama_direktur }}"
-                                    data-no_telp="{{ $item->no_telp }}"
-                                    data-alamat="{{ $item->alamat }}"
-                                    data-se="{{ $item->se }}"
-                                    data-npwp="{{ $item->npwp }}"
-                                    data-email="{{ $item->email }}"
-                                    onclick="updateKonsultan(this)"
-                                >
-                                    <i class="bx bx-edit-alt"></i
-                                ></a>
+                                <a class="btn btn-mat btn-warning" data-bs-toggle="modal" data-bs-target="#editKonsultan" data-id="{{ $item->id }}" data-nama="{{ $item->nama }}" data-nama_direktur="{{ $item->nama_direktur }}" data-no_telp="{{ $item->no_telp }}" data-alamat="{{ $item->alamat }}" data-se="{{ $item->se }}" data-npwp="{{ $item->npwp }}" data-email="{{ $item->email }}" onclick="updateKonsultan(this)">
+                                    <i class="bx bx-edit-alt"></i></a>
 
-                                <a
-                                    class="btn btn-mat btn-danger"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#deleteKonsultan"
-                                    data-id="{{ $item->id }}"
-                                    data-nama="{{ $item->nama }}"
-                                    onclick="deleteKonsultan(this)"
-                                >
+                                <a class="btn btn-mat btn-danger" data-bs-toggle="modal" data-bs-target="#deleteKonsultan" data-id="{{ $item->id }}" data-nama="{{ $item->name }}" onclick="deleteKonsultan(this)">
                                     <i class="bx bx-trash"></i>
                                 </a>
                             </td>
@@ -226,72 +134,35 @@
     </div>
 </div>
 <!-- Modal Tambah Jenis Pekerjaan -->
-<div
-    class="modal fade"
-    id="createJenisPekerjaan"
-    data-bs-backdrop="static"
-    data-bs-keyboard="false"
-    tabindex="-1"
-    aria-labelledby="createJenisPekerjaanLabel"
-    aria-hidden="true"
->
+<div class="modal fade" id="createJenisPekerjaan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="createJenisPekerjaanLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="createJenisPekerjaanLabel">
                     Tambah Data Jenis Pekerjaan
                 </h1>
-                <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                ></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form
-                action="{{ route('data-utama.create-nmp', 0) }}"
-                method="post"
-            >
+            <form action="{{ route('data-utama.create-nmp', 0) }}" method="post">
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="kd_jenis_pekerjaan" class="form-label"
-                            >Kode Pekerjaan
+                        <label for="kd_jenis_pekerjaan" class="form-label">Kode Pekerjaan
                         </label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="kd_jenis_pekerjaan"
-                            name="kd_jenis_pekerjaan"
-                        />
+                        <input type="text" class="form-control" id="kd_jenis_pekerjaan" name="kd_jenis_pekerjaan" />
                     </div>
                     <div class="mb-3">
-                        <label for="jenis_pekerjaan" class="form-label"
-                            >Jenis Pekerjaan
+                        <label for="jenis_pekerjaan" class="form-label">Jenis Pekerjaan
                         </label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="jenis_pekerjaan"
-                            name="jenis_pekerjaan"
-                        />
+                        <input type="text" class="form-control" id="jenis_pekerjaan" name="jenis_pekerjaan" />
                     </div>
                     <div class="mb-3">
                         <label for="satuan" class="form-label">Satuan </label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="satuan"
-                            name="satuan"
-                        />
+                        <input type="text" class="form-control" id="satuan" name="satuan" />
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button
-                        type="button"
-                        class="btn btn-secondary"
-                        data-bs-dismiss="modal"
-                    >
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         Close
                     </button>
                     <button type="submit" class="btn btn-success">Save</button>
@@ -301,69 +172,35 @@
     </div>
 </div>
 <!-- Modal Edit Jenis Pekerjaan -->
-<div
-    class="modal fade"
-    id="updateJenisPekerjaan"
-    data-bs-backdrop="static"
-    data-bs-keyboard="false"
-    tabindex="-1"
-    aria-labelledby="updateJenisPekerjaanLabel"
-    aria-hidden="true"
->
+<div class="modal fade" id="updateJenisPekerjaan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="updateJenisPekerjaanLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="updateJenisPekerjaanLabel">
                     Edit Data Jenis Pekerjaan
                 </h1>
-                <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                ></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="{{ route('data-utama.edit-nmp', 0) }}" method="post">
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="kd_jenis_pekerjaan" class="form-label"
-                            >Kode Pekerjaan
+                        <label for="kd_jenis_pekerjaan" class="form-label">Kode Pekerjaan
                         </label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="kd_jenis_pekerjaan"
-                            name="kd_jenis_pekerjaan"
-                        />
+                        <input type="text" class="form-control" id="kd_jenis_pekerjaan" name="kd_jenis_pekerjaan" />
                     </div>
                     <div class="mb-3">
-                        <label for="jenis_pekerjaan" class="form-label"
-                            >Jenis Pekerjaan
+                        <label for="jenis_pekerjaan" class="form-label">Jenis Pekerjaan
                         </label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="jenis_pekerjaan"
-                            name="jenis_pekerjaan"
-                        />
+                        <input type="text" class="form-control" id="jenis_pekerjaan" name="jenis_pekerjaan" />
                     </div>
                     <div class="mb-3">
                         <label for="satuan" class="form-label">Satuan </label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="satuan"
-                            name="satuan"
-                        />
+                        <input type="text" class="form-control" id="satuan" name="satuan" />
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button
-                        type="button"
-                        class="btn btn-secondary"
-                        data-bs-dismiss="modal"
-                    >
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         Close
                     </button>
                     <button type="submit" class="btn btn-success">Save</button>
@@ -373,37 +210,20 @@
     </div>
 </div>
 <!-- Modal Delete Jenis Pekerjaan -->
-<div
-    class="modal fade"
-    id="deleteJenisPekerjaan"
-    data-bs-backdrop="static"
-    data-bs-keyboard="false"
-    tabindex="-1"
-    aria-labelledby="deleteJenisPekerjaanLabel"
-    aria-hidden="true"
->
+<div class="modal fade" id="deleteJenisPekerjaan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteJenisPekerjaanLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="deleteJenisPekerjaanLabel">
                     Delete Data Jenis Pekerjaan
                 </h1>
-                <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                ></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <p>Apakah anda yakin ingin menghapus data ini?</p>
             </div>
             <div class="modal-footer">
-                <button
-                    type="button"
-                    class="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                >
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     Close
                 </button>
                 <a class="btn btn-danger">Delete</a>
@@ -412,139 +232,60 @@
     </div>
 </div>
 <!-- Modal Add Kontraktor -->
-<div
-    class="modal fade"
-    id="createKontraktor"
-    data-bs-backdrop="static"
-    data-bs-keyboard="false"
-    tabindex="-1"
-    aria-labelledby="createKontraktorLabel"
-    aria-hidden="true"
->
+<div class="modal fade" id="createKontraktor" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="createKontraktorLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="createKontraktorLabel">
                     Tambah Data Kontraktor
                 </h1>
-                <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                ></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form
-                action="{{ route('data-utama.create-kontraktor') }}"
-                method="post"
-            >
+            <form action="{{ route('data-utama.create-kontraktor') }}" method="post">
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="nama" class="form-label"
-                            >Nama Perusahaan Kontraktor
+                        <label for="nama" class="form-label">Nama Perusahaan Kontraktor
                         </label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="nama"
-                            name="nama"
-                            required
-                        />
+                        <input type="text" class="form-control" id="nama" name="nama" required />
                     </div>
                     <div class="mb-3">
-                        <label for="nama_direktur" class="form-label"
-                            >Nama Direktur
+                        <label for="nama_direktur" class="form-label">Nama Direktur
                         </label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="nama_direktur"
-                            name="nama_direktur"
-                            required
-                        />
+                        <input type="text" class="form-control" id="nama_direktur" name="nama_direktur" required />
                     </div>
                     <div class="mb-3">
-                        <label for="nama_gs" class="form-label"
-                            >Nama General Superintendent
+                        <label for="nama_gs" class="form-label">Nama General Superintendent
                         </label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="nama_gs"
-                            name="nama_gs"
-                            required
-                        />
+                        <input type="text" class="form-control" id="nama_gs" name="nama_gs" required />
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email </label>
-                        <input
-                            type="email"
-                            class="form-control"
-                            id="email"
-                            name="email"
-                            required
-                        />
+                        <input type="email" class="form-control" id="email" name="email" required />
                     </div>
                     <div class="mb-3">
                         <label for="alamat" class="form-label">Alamat</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="alamat"
-                            name="alamat"
-                            required
-                        />
+                        <input type="text" class="form-control" id="alamat" name="alamat" required />
                     </div>
                     <div class="mb-3">
                         <label for="npwp" class="form-label">NPWP</label>
-                        <input
-                            type="text"
-                            class="form-control npwp"
-                            id="npwp"
-                            name="npwp"
-                            required
-                        />
+                        <input type="text" class="form-control npwp" id="npwp" name="npwp" required />
                     </div>
                     <div class="mb-3">
                         <label for="no_telp" class="form-label">No. Telp</label>
-                        <input
-                            type="tel"
-                            class="form-control"
-                            id="no_telp"
-                            name="no_telp"
-                            required
-                        />
+                        <input type="tel" class="form-control" id="no_telp" name="no_telp" required />
                     </div>
                     <div class="mb-3">
                         <label for="bank" class="form-label">Bank</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="bank"
-                            name="bank"
-                            required
-                        />
+                        <input type="text" class="form-control" id="bank" name="bank" required />
                     </div>
                     <div class="mb-3">
-                        <label for="no_rek" class="form-label"
-                            >No. Rekening</label
-                        >
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="no_rek"
-                            name="no_rek"
-                            required
-                        />
+                        <label for="no_rek" class="form-label">No. Rekening</label>
+                        <input type="text" class="form-control" id="no_rek" name="no_rek" required />
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button
-                        type="button"
-                        class="btn btn-secondary"
-                        data-bs-dismiss="modal"
-                    >
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         Close
                     </button>
                     <button type="submit" class="btn btn-success">Save</button>
@@ -554,139 +295,60 @@
     </div>
 </div>
 <!-- Modal Edit Kontraktor -->
-<div
-    class="modal fade"
-    id="editKontraktor"
-    data-bs-backdrop="static"
-    data-bs-keyboard="false"
-    tabindex="-1"
-    aria-labelledby="editKontraktorLabel"
-    aria-hidden="true"
->
+<div class="modal fade" id="editKontraktor" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editKontraktorLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="editKontraktorLabel">
                     Tambah Data Kontraktor
                 </h1>
-                <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                ></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form
-                action="{{ route('data-utama.create-kontraktor') }}"
-                method="post"
-            >
+            <form action="{{ route('data-utama.create-kontraktor') }}" method="post">
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="nama" class="form-label"
-                            >Nama Perusahaan Kontraktor
+                        <label for="nama" class="form-label">Nama Perusahaan Kontraktor
                         </label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="nama"
-                            name="nama"
-                            required
-                        />
+                        <input type="text" class="form-control" id="nama" name="nama" required />
                     </div>
                     <div class="mb-3">
-                        <label for="nama_direktur" class="form-label"
-                            >Nama Direktur
+                        <label for="nama_direktur" class="form-label">Nama Direktur
                         </label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="nama_direktur"
-                            name="nama_direktur"
-                            required
-                        />
+                        <input type="text" class="form-control" id="nama_direktur" name="nama_direktur" required />
                     </div>
                     <div class="mb-3">
-                        <label for="nama_gs" class="form-label"
-                            >Nama General Superintendent
+                        <label for="nama_gs" class="form-label">Nama General Superintendent
                         </label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="nama_gs"
-                            name="nama_gs"
-                            required
-                        />
+                        <input type="text" class="form-control" id="nama_gs" name="nama_gs" required />
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email </label>
-                        <input
-                            type="email"
-                            class="form-control"
-                            id="email"
-                            name="email"
-                            required
-                        />
+                        <input type="email" class="form-control" id="email" name="email" required />
                     </div>
                     <div class="mb-3">
                         <label for="alamat" class="form-label">Alamat</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="alamat"
-                            name="alamat"
-                            required
-                        />
+                        <input type="text" class="form-control" id="alamat" name="alamat" required />
                     </div>
                     <div class="mb-3">
                         <label for="npwp" class="form-label">NPWP</label>
-                        <input
-                            type="text"
-                            class="form-control npwp"
-                            id="npwp"
-                            name="npwp"
-                            required
-                        />
+                        <input type="text" class="form-control npwp" id="npwp" name="npwp" required />
                     </div>
                     <div class="mb-3">
                         <label for="no_telp" class="form-label">No. Telp</label>
-                        <input
-                            type="tel"
-                            class="form-control"
-                            id="no_telp"
-                            name="no_telp"
-                            required
-                        />
+                        <input type="tel" class="form-control" id="no_telp" name="no_telp" required />
                     </div>
                     <div class="mb-3">
                         <label for="bank" class="form-label">Bank</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="bank"
-                            name="bank"
-                            required
-                        />
+                        <input type="text" class="form-control" id="bank" name="bank" required />
                     </div>
                     <div class="mb-3">
-                        <label for="no_rek" class="form-label"
-                            >No. Rekening</label
-                        >
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="no_rek"
-                            name="no_rek"
-                            required
-                        />
+                        <label for="no_rek" class="form-label">No. Rekening</label>
+                        <input type="text" class="form-control" id="no_rek" name="no_rek" required />
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button
-                        type="button"
-                        class="btn btn-secondary"
-                        data-bs-dismiss="modal"
-                    >
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         Close
                     </button>
                     <button type="submit" class="btn btn-success">Save</button>
@@ -696,37 +358,20 @@
     </div>
 </div>
 <!-- Modal Delete Kontraktor -->
-<div
-    class="modal fade"
-    id="deleteKontraktor"
-    data-bs-backdrop="static"
-    data-bs-keyboard="false"
-    tabindex="-1"
-    aria-labelledby="deleteKontraktorLabel"
-    aria-hidden="true"
->
+<div class="modal fade" id="deleteKontraktor" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteKontraktorLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="deleteKontraktorLabel">
                     Delete Data Kontraktor
                 </h1>
-                <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                ></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <p>Apakah anda yakin ingin menghapus data ini?</p>
             </div>
             <div class="modal-footer">
-                <button
-                    type="button"
-                    class="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                >
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     Close
                 </button>
                 <a class="btn btn-danger">Delete</a>
@@ -735,117 +380,52 @@
     </div>
 </div>
 <!-- Modal Tambah Konsultan -->
-<div
-    class="modal fade"
-    id="createKonsultan"
-    data-bs-backdrop="static"
-    data-bs-keyboard="false"
-    tabindex="-1"
-    aria-labelledby="createKonsultanLabel"
-    aria-hidden="true"
->
+<div class="modal fade" id="createKonsultan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="createKonsultanLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="createKonsultanLabel">
                     Tambah Data Konsultan
                 </h1>
-                <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                ></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form
-                action="{{ route('data-utama.create-konsultan') }}"
-                method="post"
-            >
+            <form action="{{ route('data-utama.create-konsultan') }}" method="post">
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="nama" class="form-label"
-                            >Nama Perusahaan Konsultan
+                        <label for="nama" class="form-label">Nama Perusahaan Konsultan
                         </label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="nama"
-                            name="nama"
-                            required
-                        />
+                        <input type="text" class="form-control" id="nama" name="nama" required />
                     </div>
                     <div class="mb-3">
-                        <label for="nama_direktur" class="form-label"
-                            >Nama Direktur
+                        <label for="nama_direktur" class="form-label">Nama Direktur
                         </label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="nama_direktur"
-                            name="nama_direktur"
-                            required
-                        />
+                        <input type="text" class="form-control" id="nama_direktur" name="nama_direktur" required />
                     </div>
                     <div class="mb-3">
-                        <label for="nama_se" class="form-label"
-                            >Nama Site Engineer
+                        <label for="nama_se" class="form-label">Nama Site Engineer
                         </label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="nama_se"
-                            name="nama_se"
-                            required
-                        />
+                        <input type="text" class="form-control" id="nama_se" name="nama_se" required />
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email </label>
-                        <input
-                            type="email"
-                            class="form-control"
-                            id="email"
-                            name="email"
-                            required
-                        />
+                        <input type="email" class="form-control" id="email" name="email" required />
                     </div>
                     <div class="mb-3">
                         <label for="alamat" class="form-label">Alamat</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="alamat"
-                            name="alamat"
-                            required
-                        />
+                        <input type="text" class="form-control" id="alamat" name="alamat" required />
                     </div>
                     <div class="mb-3">
                         <label for="npwp" class="form-label">NPWP</label>
-                        <input
-                            type="text"
-                            class="form-control npwp"
-                            id="npwp"
-                            name="npwp"
-                            required
-                        />
+                        <input type="text" class="form-control npwp" id="npwp" name="npwp" required />
                     </div>
                     <div class="mb-3">
                         <label for="no_telp" class="form-label">No. Telp</label>
-                        <input
-                            type="tel"
-                            class="form-control"
-                            id="no_telp"
-                            name="no_telp"
-                            required
-                        />
+                        <input type="tel" class="form-control" id="no_telp" name="no_telp" required />
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button
-                        type="button"
-                        class="btn btn-secondary"
-                        data-bs-dismiss="modal"
-                    >
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         Close
                     </button>
                     <button type="submit" class="btn btn-success">Save</button>
@@ -855,117 +435,52 @@
     </div>
 </div>
 <!-- Modal Edit Konsultan -->
-<div
-    class="modal fade"
-    id="editKonsultan"
-    data-bs-backdrop="static"
-    data-bs-keyboard="false"
-    tabindex="-1"
-    aria-labelledby="editKonsultanLabel"
-    aria-hidden="true"
->
+<div class="modal fade" id="editKonsultan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editKonsultanLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="editKonsultanLabel">
                     Tambah Data Konsultan
                 </h1>
-                <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                ></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form
-                action="{{ route('data-utama.create-konsultan') }}"
-                method="post"
-            >
+            <form action="{{ route('data-utama.create-konsultan') }}" method="post">
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="nama" class="form-label"
-                            >Nama Perusahaan Konsultan
+                        <label for="nama" class="form-label">Nama Perusahaan Konsultan
                         </label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="nama"
-                            name="nama"
-                            required
-                        />
+                        <input type="text" class="form-control" id="nama" name="nama" required />
                     </div>
                     <div class="mb-3">
-                        <label for="nama_direktur" class="form-label"
-                            >Nama Direktur
+                        <label for="nama_direktur" class="form-label">Nama Direktur
                         </label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="nama_direktur"
-                            name="nama_direktur"
-                            required
-                        />
+                        <input type="text" class="form-control" id="nama_direktur" name="nama_direktur" required />
                     </div>
                     <div class="mb-3">
-                        <label for="nama_se" class="form-label"
-                            >Nama Site Engineer
+                        <label for="nama_se" class="form-label">Nama Site Engineer
                         </label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="nama_se"
-                            name="nama_se"
-                            required
-                        />
+                        <input type="text" class="form-control" id="nama_se" name="nama_se" required />
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email </label>
-                        <input
-                            type="email"
-                            class="form-control"
-                            id="email"
-                            name="email"
-                            required
-                        />
+                        <input type="email" class="form-control" id="email" name="email" required />
                     </div>
                     <div class="mb-3">
                         <label for="alamat" class="form-label">Alamat</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="alamat"
-                            name="alamat"
-                            required
-                        />
+                        <input type="text" class="form-control" id="alamat" name="alamat" required />
                     </div>
                     <div class="mb-3">
                         <label for="npwp" class="form-label">NPWP</label>
-                        <input
-                            type="text"
-                            class="form-control npwp"
-                            id="npwp"
-                            name="npwp"
-                            required
-                        />
+                        <input type="text" class="form-control npwp" id="npwp" name="npwp" required />
                     </div>
                     <div class="mb-3">
                         <label for="no_telp" class="form-label">No. Telp</label>
-                        <input
-                            type="tel"
-                            class="form-control"
-                            id="no_telp"
-                            name="no_telp"
-                            required
-                        />
+                        <input type="tel" class="form-control" id="no_telp" name="no_telp" required />
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button
-                        type="button"
-                        class="btn btn-secondary"
-                        data-bs-dismiss="modal"
-                    >
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         Close
                     </button>
                     <button type="submit" class="btn btn-success">Save</button>
@@ -975,37 +490,20 @@
     </div>
 </div>
 <!-- Modal Delete Kontraktor -->
-<div
-    class="modal fade"
-    id="deleteKonsultan"
-    data-bs-backdrop="static"
-    data-bs-keyboard="false"
-    tabindex="-1"
-    aria-labelledby="deleteKonsultanLabel"
-    aria-hidden="true"
->
+<div class="modal fade" id="deleteKonsultan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteKonsultanLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="deleteKonsultanLabel">
                     Delete Data Kontraktor
                 </h1>
-                <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                ></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <p>Apakah anda yakin ingin menghapus data ini?</p>
             </div>
             <div class="modal-footer">
-                <button
-                    type="button"
-                    class="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                >
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     Close
                 </button>
                 <a class="btn btn-danger">Delete</a>
@@ -1017,7 +515,7 @@
 @endsection @section('scripts')
 
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         $("#nmp").DataTable();
         $("#kontraktor").DataTable();
         $("#konsultan").DataTable();
@@ -1113,6 +611,7 @@
         const url = "{{ route('data-utama.delete-konsultan', 0) }}";
         var id = $(el).data("id");
         var nama = $(el).data("nama");
+        console.log(nama);
         $("#deleteKonsultanLabel").html("Delete Data Konsultan " + nama);
         $("#deleteKonsultan .btn-danger").attr("href", url.replace("0", id));
         $("#deleteKonsultan").modal("show");

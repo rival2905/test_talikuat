@@ -74,7 +74,7 @@ class DataUmumController extends Controller
         $get_id = DataUmum::count();
         $get_id = $get_id  == 0 ? 1 : $get_id + 1;
         $uptd = str_replace('UPTD ', '', $request->uptd_id);
-        $id = 'PW-' . $uptd . '-' . $request->id_ruas_jalan[0] . '-' . $get_id;
+        $id = 'PK-' . $uptd . '-' . $request->id_ruas_jalan[0] . '-' . $get_id;
         try {
             DB::beginTransaction();
             DataUmum::create([
@@ -234,7 +234,7 @@ class DataUmumController extends Controller
     public function createAdendum(Request $request, $id)
     {
         try {
-            $jadual = Jadual::where('data_umum_detail_id', $id)->first();
+            $jadual = Jadual::where('data_umum_detail_id', $id);
             if ($jadual == null) {
                 return redirect()->route('data-umum.index')->with('error', 'Harap Upload Jadual Kontak Awal Terlebih Dahulu');
             }
@@ -264,7 +264,7 @@ class DataUmumController extends Controller
                     'long_akhir' => $request->long_akhir[$i],
                 ]);
             }
-            $data = DataUmumDetail::where([['data_umum_id', $id], ['is_active', 1]])->first();
+            $data = DataUmumDetail::where([['data_umum_id', $id], ['is_active', 1]]);
             $data->update([
                 'is_active' => 0
             ]);
@@ -291,66 +291,67 @@ class DataUmumController extends Controller
         $data = DataUmum::find($id);
 
 
+
         $fileDkh = new \stdClass;
         $fileDkh->label = 'Daftar Kuantitas dan Harga (DKH)';
         $fileDkh->name = 'file_dkh';
-        $fileDkh->file = $data->fileDkh->first() ? $data->fileDkh->first()->file_name : null;
+        $fileDkh->file = $data->fileDkh ? $data->fileDkh : null;
 
 
         $fileKontrak = new \stdClass;
         $fileKontrak->label = 'Perjanjian Kontrak';
         $fileKontrak->name = 'file_kontrak';
-        $fileKontrak->file = $data->fileKontrak->first() ? $data->fileKontrak->first()->file_name : null;
+        $fileKontrak->file = $data->fileKontrak ? $data->fileKontrak : null;
 
         $fileSPMK = new \stdClass;
         $fileSPMK->label = 'SPMK';
         $fileSPMK->name = 'file_spmk';
-        $fileSPMK->file = $data->fileSPMK->first() ? $data->fileSPMK->first()->file_name : null;
+        $fileSPMK->file = $data->fileSPMK ? $data->fileSPMK : null;
 
         $fileUmum = new \stdClass;
         $fileUmum->label = 'Syarat Umum';
         $fileUmum->name = 'file_umum';
-        $fileUmum->file = $data->fileUmum->first() ? $data->fileUmum->first()->file_name : null;
+        $fileUmum->file = $data->fileUmum ? $data->fileUmum : null;
 
         $fileSyaratKhusus = new \stdClass;
         $fileSyaratKhusus->label = 'Syarat Khusus';
         $fileSyaratKhusus->name = 'file_syarat_khusus';
-        $fileSyaratKhusus->file = $data->fileSyaratKhusus->first() ? $data->fileSyaratKhusus->first()->file_name : null;
+        $fileSyaratKhusus->file = $data->fileSyaratKhusus ? $data->fileSyaratKhusus : null;
 
         $fileJadual = new \stdClass;
         $fileJadual->label = 'Jadual Pelaksanaan Pekerjaan';
         $fileJadual->name = 'file_jadual';
-        $fileJadual->file = $data->fileJadual->first() ? $data->fileJadual->first()->file_name : null;
+        $fileJadual->file = $data->fileJadual ? $data->fileJadual : null;
 
         $fileGambarRencana = new \stdClass;
         $fileGambarRencana->label = 'Gambar Rencana';
         $fileGambarRencana->name = 'file_gambar_rencana';
-        $fileGambarRencana->file = $data->fileGambarRencana->first() ? $data->fileGambarRencana->first()->file_name : null;
+        $fileGambarRencana->file = $data->fileGambarRencana ? $data->fileGambarRencana : null;
 
         $fileSPPBJ = new \stdClass;
         $fileSPPBJ->label = 'SPPBJ';
         $fileSPPBJ->name = 'file_sppbj';
-        $fileSPPBJ->file = $data->fileSPPBJ->first() ? $data->fileSPPBJ->first()->file_name : null;
+        $fileSPPBJ->file = $data->fileSPPBJ ? $data->fileSPPBJ : null;
 
         $fileSPL = new \stdClass;
         $fileSPL->label = 'SPL';
         $fileSPL->name = 'file_spl';
-        $fileSPL->file = $data->fileSPL->first() ? $data->fileSPL->first()->file_name : null;
+        $fileSPL->file = $data->fileSPL ? $data->fileSPL : null;
 
         $fileSpeckUmum = new \stdClass;
         $fileSpeckUmum->label = 'Spesifikasi Umum';
         $fileSpeckUmum->name = 'file_speck_umum';
-        $fileSpeckUmum->file = $data->fileSpeckUmum->first() ? $data->fileSpeckUmum->first()->file_name : null;
+        $fileSpeckUmum->file = $data->fileSpeckUmum ? $data->fileSpeckUmum : null;
 
         $fileJaminan = new \stdClass;
         $fileJaminan->label = 'Jaminan - Jaminan';
         $fileJaminan->name = 'file_jaminan';
-        $fileJaminan->file = $data->fileJaminan->first() ? $data->fileJaminan->first()->file_name : null;
+        $fileJaminan->file = $data->fileJaminan ? $data->fileJaminan : null;
 
         $fileBAPL = new \stdClass;
         $fileBAPL->label = 'BAPL';
         $fileBAPL->name = 'file_bapl';
-        $fileBAPL->file = $data->fileBAPL->first() ? $data->fileBAPL->first()->file_name : null;
+        $fileBAPL->file = $data->fileBAPL ? $data->fileBAPL : null;
 
         $fileInit = [$fileDkh, $fileKontrak, $fileSPMK, $fileUmum, $fileSyaratKhusus, $fileJadual, $fileGambarRencana, $fileSPPBJ, $fileSPL, $fileSpeckUmum, $fileJaminan, $fileBAPL];
 

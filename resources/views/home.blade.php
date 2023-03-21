@@ -116,6 +116,8 @@
             <hr>
             <div class="mt-3" style="max-height: 60vh; overflow-y: auto;padding:0px;overflow-x: hidden;">
                 @foreach ($data as $item)
+
+                <strong class="text-uppercase"> {{$item->nm_paket}}</strong>
                 <div class="row mt-2">
                     <div class="col-sm-2 align-self-center">
                         <a href="{{route('curva-s.index',$item->id)}}" target="_blank" rel="noopener noreferrer">
@@ -139,8 +141,8 @@
                             </div>
                         </div>
                         <div class="progress mt-2 progress-bar-striped" style="height: 25px" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                            <div class="progress-bar bg-warning" style="width: 100%">
-                                {{ $item->laporanUptdAproved->days == 0 ? "Paket Sudah Selesai" :"Tersisa ".$item->laporanUptdAproved->days." Hari Lagi"  }}
+                            <div class="progress-bar bg-warning" style="width: {{$item->laporanUptdAproved->reaming == 0 ? '100%' : $item->laporanUptdAproved->reaming}}">
+                                {{ $item->laporanUptdAproved->reaming == 0 ? "Paket Sudah Selesai" : $item->laporanUptdAproved->reaming." Hari"  }}
                             </div>
                         </div>
                     </div>

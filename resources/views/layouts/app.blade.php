@@ -94,15 +94,12 @@
                     <span class="nav_name">Laporan Progress</span>
                 </a>
                 @endif
-                <a href="#" class="nav_link">
-                    <i class='bx bxs-cloud-download nav_icon'></i>
-                    <span class="nav_name">Pusat Unduhan</span>
-                </a>
+
             </div>
 
             <a href="{{ route('logout') }}" class="nav_link">
                 <i class="bx bx-log-out nav_icon"></i>
-                <span class="nav_name">SignOut</span>
+                <span class="nav_name">Sign Out</span>
             </a>
         </nav>
     </div>

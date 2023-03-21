@@ -36,13 +36,9 @@
                             <td>{{$item->uptd->nama_uptd}}</td>
                             <td>
                                 <a class="btn btn-mat btn-warning" data-bs-toggle="modal" data-bs-target="#editDataAdminUptd" data-id="{{ $item->user->id }}" data-name="{{ $item->user->name }}" data-email="{{ $item->user->email }}" data-no_pegawai="{{ @$item->user->profile->no_pegawai}}" data-no_telp="{{ @$item->user->profile->no_tlp}}" data-uptd="{{ $item->user->internal_role_id}}" onclick="updateAdminUptd(this)">
-                                    <i class="mdi mdi-pencil"></i>
-                                    Edit</a>
+                                    <i class="bx bx-edit-alt"></i></a>
 
-                                <a class="btn btn-mat btn-danger" data-bs-toggle="modal" data-bs-target="#deleteKonsultan" data-id="{{ $item->id }}" data-nama="{{ $item->nama }}" onclick="deleteKonsultan(this)">
-                                    <i class="mdi mdi-delete"></i>
-                                    Hapus
-                                </a>
+
                             </td>
                         </tr>
                         @endforeach
@@ -84,12 +80,10 @@
                             <td>{{$item->uptd->nama_uptd}}</td>
                             <td>
                                 <a class="btn btn-mat btn-warning" data-bs-toggle="modal" data-bs-target="#editDataKonsultan" data-id="{{ $item->id }}" data-name="{{ $item->name }}" data-email="{{ $item->email }}" data-nik="{{ $item->nik}}" data-uptd="{{ $item->uptd_id}}" data-no_telp="{{ $item->no_telp}}" data-konsultan_id="{{ $item->konsultan_id}}" data-jabatan="{{ $item->jabatan}}" onclick="updateUserKonsultan(this)">
-                                    <i class="mdi mdi-pencil"></i>
-                                    Edit</a>
+                                    <i class="bx bx-edit-alt"></i></a>
 
                                 <a class="btn btn-mat btn-danger" data-bs-toggle="modal" data-bs-target="#deleteUserKonsultan" data-id="{{ $item->id }}" data-name="{{ $item->name }}" onclick="deleteUserKonsultan(this)">
-                                    <i class="mdi mdi-delete"></i>
-                                    Hapus
+                                    <i class="bx bx-trash"></i>
                                 </a>
                             </td>
                         </tr>
@@ -133,13 +127,9 @@
                             <td>{{$item->uptd->nama_uptd}}</td>
                             <td>
                                 <a class="btn btn-mat btn-warning" data-bs-toggle="modal" data-bs-target="#editUserPPK" data-id="{{ $item->user->id }}" data-name="{{ $item->user->name }}" data-email="{{ $item->user->email }}" data-nip="{{ $item->user->profile->no_pegawai}}" data-uptd="{{ $item->user->internal_role_id}}" data-no_telp="{{ $item->user->profile->no_tlp}}" onclick="updateUserPPK(this)">
-                                    <i class="mdi mdi-pencil"></i>
-                                    Edit</a>
+                                    <i class="bx bx-edit-alt"></i></a>
 
-                                <a class="btn btn-mat btn-danger" data-bs-toggle="modal" data-bs-target="#deleteUserPPK" data-id="{{ $item->id }}" data-name="{{ $item->name }}" onclick="deleteUserPPK(this)">
-                                    <i class="mdi mdi-delete"></i>
-                                    Hapus
-                                </a>
+
                             </td>
                             @endforeach
                         </tr>
@@ -174,11 +164,6 @@
                         <label for="no_pegawai" class="form-label">NIP / NIK
                         </label>
                         <input type="text" class="form-control" id="no_pegawai" name="no_pegawai" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password
-                        </label>
-                        <input type="password" class="form-control" id="password" name="password" required />
                     </div>
                     <div class="mb-3">
                         <label for="no_tlp" class="form-label">No. Telp</label>
@@ -271,7 +256,7 @@
     </div>
 </div>
 <!-- Modal Delete Admin UPTD -->
-<div class="modal fade" id="deleteJenisPekerjaan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteJenisPekerjaanLabel" aria-hidden="true">
+<div class="modal fade" id="deleteDataAdminUptd" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteDataAdminUptdLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -642,6 +627,7 @@
             .find("option[value=" + uptd + "]")
             .attr("selected", true);
     }
+
 
     function updateUserKonsultan(el) {
         const url = "{{ route('user-manajement.update-admin-konsultan', 0) }}";

@@ -25,12 +25,16 @@ class DashboardController extends Controller
             $deviasi = 0;
             $days = 0;
             $now = date('Y-m-d');
+            $start = date('Y-m-d', strtotime($d->tgl_spmk));
             $end_date = date('Y-m-d', strtotime($d->tgl_spmk . "+" . $d->detailWithJadual->lama_waktu . " days"));
-            $now = new DateTime($now);
-            $end = new DateTime($end_date);
-            $interval = $end->diff($now);
-            $days = $d->detailWithJadual->lama_waktu - $interval->days;
-            if ($days < 0) {
+            $d1 = new DateTime($now);
+            $d2 = new DateTime($start);
+            $d3 = new DateTime($end_date);
+            $days = $d1->diff($d2)->format("%a");
+            $days2 = $d1->diff($d3)->format("%a");
+
+
+            if ($days < $d->tgl_spmk) {
                 $days = 0;
             }
             foreach ($d->detailWithJadual->jadualDetail as $jadual) {
@@ -43,7 +47,8 @@ class DashboardController extends Controller
             foreach ($d->laporanUptdAproved as $laporan) {
                 $realisasi += floatval($laporan->realisasi);
             }
-            $d->laporanUptdAproved->days = $days;
+            $d->laporanUptdAproved->reaming = $days;
+            $d->laporanUptdAproved->enddate = $days2;
             $d->laporanUptdAproved->realisasi =  number_format($realisasi, 2, '.', '.');
             $d->laporanUptdAproved->rencana = number_format($rencana, 2, '.', '.');
             $d->laporanUptdAproved->deviasi = number_format($rencana - $realisasi, 2, '.', '.');

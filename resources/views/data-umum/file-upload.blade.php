@@ -1,6 +1,5 @@
 @extends('layouts.app') @section('content')
 
-
 <div class="card">
     <div class="card-body">
         <div class="card-block">
@@ -12,16 +11,17 @@
                         <div class="custom-file">
                             <input type="file" class="form-control" name="{{$file->name}}" accept="application/pdf" onchange="fileValidation(this)" id="{{$file->name}}" />
                         </div>
-                        @if($file->file)
+                        @if(count($file->file) > 0) @foreach($file->file as $file)
+
                         <div class="input-group-append ms-3">
-                            <a class="btn btn-primary" type="button" href="{{ route('show.file.dataumum',['id'=>$data->id,'file'=>$file->file] ) }}" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{{$file->file}}">
-                                <i class='bx bx-file'></i>
+                            <a class="btn btn-primary" type="button" href="{{ route('show.file.dataumum',['id'=>$data->id,'file'=>$file->file_name] ) }}" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{{$file->file_name}}">
+                                <i class="bx bx-file"></i>
                             </a>
                         </div>
-                        @endif
+                        @endforeach @endif
                         <div class="input-group-append ms-3">
                             <button class="btn btn-success" type="button" id="{{$file->name.'_upload'}}" onclick="handleSumbit(this)" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Upload">
-                                <i class='bx bx-upload'></i>
+                                <i class="bx bx-upload"></i>
                             </button>
                         </div>
                     </div>

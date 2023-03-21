@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserExternal extends User
+class UserExternal extends Model
 {
-    protected $guarded = [];
+    use HasFactory;
     protected $connection = 'mysql';
     protected $table = 'user_externals';
+    protected $guarded = [];
 
     public function kontraktor()
     {

@@ -93,7 +93,7 @@ class DataUtamaController extends Controller
     function createKonsultan(Request $request)
     {
         Konsultan::create([
-            'nama' => $request->nama,
+            'name' => $request->nama,
             'alamat' => $request->alamat,
             'nama_direktur' => $request->nama_direktur,
             'no_telp' => $request->no_telp,

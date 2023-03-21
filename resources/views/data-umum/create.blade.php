@@ -97,7 +97,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Nama Kegiatan / Paket</label>
-                            <input type="text" name="nm_paket" id="nm_paket" value="" class="form-control" required="" autocomplete="off" style="text-transform: uppercase" />
+                            <input type="text" name="nm_paket" id="nm_paket" value="" class="form-control text-uppercase" required="" autocomplete="off" style="text-transform: uppercase" />
                         </div>
                     </div>
                     <div class="col-md-4">

@@ -1,6 +1,9 @@
 var uptd = $("#uptd").val();
 const today = new Date();
-$("#date").val(today.toISOString().slice(0, 10));
+const nextWeek = new Date(today);
+nextWeek.setDate(nextWeek.getDate() + 7);
+$("#date-start").val(today.toISOString().slice(0, 10));
+$("#date-end").val(nextWeek.toISOString().slice(0, 10));
 $("#status").text("Status : " + $("#date").val());
 
 $("#date").change(() => {
