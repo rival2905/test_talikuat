@@ -2,15 +2,13 @@
 <div class="container">
     @if(Auth::user()->userDetail->role == 1)
     <div class="card mb-4">
-        <div class="card-header">User Admin UPTD</div>
+        <div class="card-header">User Admin PPK</div>
         <div class="card-body">
             <div class="container">
                 <a class="btn btn-mat btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createAdminUptd">
                     Tambah</a>
 
-                <a href="https://tk.temanjabar.net/export-to-excel" class="btn btn-mat btn-success mb-3" target="_blank">
-                    <i class="mdi mdi-export"></i>
-                    Export</a>
+
             </div>
             <div class="container" style="max-height: 80vh; overflow-y: auto">
                 <table id="adminUPTD" class="table table-striped">
@@ -54,9 +52,7 @@
                 <a class="btn btn-mat btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createUserKonsultan">
                     Tambah</a>
 
-                <a href="https://tk.temanjabar.net/export-to-excel" class="btn btn-mat btn-success mb-3" target="_blank">
-                    <i class="mdi mdi-export"></i>
-                    Export</a>
+
             </div>
             <div class="container" style="max-height: 80vh; overflow-y: auto">
                 <table id="userKonsultan" class="table table-striped">
@@ -101,9 +97,7 @@
                 <a class="btn btn-mat btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createUserPPK">
                     Tambah</a>
 
-                <a href="https://tk.temanjabar.net/export-to-excel" class="btn btn-mat btn-success mb-3" target="_blank">
-                    <i class="mdi mdi-export"></i>
-                    Export</a>
+
             </div>
             <div class="container" style="max-height: 80vh; overflow-y: auto">
                 <table id="nmp" class="table table-striped">

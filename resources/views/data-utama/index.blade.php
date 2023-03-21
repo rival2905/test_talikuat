@@ -7,9 +7,7 @@
                 <a class="btn btn-mat btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createJenisPekerjaan">
                     Tambah</a>
 
-                <a href="https://tk.temanjabar.net/export-to-excel" class="btn btn-mat btn-success mb-3" target="_blank">
-                    <i class="mdi mdi-export"></i>
-                    Export</a>
+
             </div>
             <div class="container" style="max-height: 80vh; overflow-y: auto">
                 <table id="nmp" class="table table-striped">
@@ -51,9 +49,7 @@
                 <a href="{{ route('data-umum.create') }}" class="btn btn-mat btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createKontraktor">
                     Tambah</a>
 
-                <a href="https://tk.temanjabar.net/export-to-excel" class="btn btn-mat btn-success mb-3" target="_blank">
-                    <i class="mdi mdi-export"></i>
-                    Export</a>
+
             </div>
             <div class="container" style="max-height: 80vh; overflow-y: auto">
                 <table id="kontraktor" class="table table-striped">
@@ -95,9 +91,7 @@
                 <a class="btn btn-mat btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createKonsultan">
                     Tambah</a>
 
-                <a href="https://tk.temanjabar.net/export-to-excel" class="btn btn-mat btn-success mb-3" target="_blank">
-                    <i class="mdi mdi-export"></i>
-                    Export</a>
+
             </div>
             <div class="container" style="max-height: 80vh; overflow-y: auto">
                 <table id="konsultan" class="table table-striped">

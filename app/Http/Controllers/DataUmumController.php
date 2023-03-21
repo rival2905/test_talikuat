@@ -234,24 +234,12 @@ class DataUmumController extends Controller
     public function createAdendum(Request $request, $id)
     {
         try {
-            $jadual = Jadual::where('data_umum_detail_id', $id);
-            if ($jadual == null) {
+            $jadual = Jadual::where('data_umum_detail_id', $id)->get();
+            if (count($jadual) == 0) {
                 return redirect()->route('data-umum.index')->with('error', 'Harap Upload Jadual Kontak Awal Terlebih Dahulu');
             }
             $uptd = str_replace('UPTD ', '', $request->uptd_id);
             DB::beginTransaction();
-            DataUmum::where('id', $id)->update([
-                'pemda' => $request->pemda,
-                'opd' => $request->opd,
-                'nm_paket' => $request->nm_paket,
-                'no_kontrak' => $request->no_kontrak,
-                'tgl_kontrak' => $request->tgl_kontrak,
-                'no_spmk' => $request->no_spmk,
-                'tgl_spmk' => $request->tgl_spmk,
-                'kategori_paket' => $request->kategori_paket_id,
-                'uptd_id' => $uptd,
-                'ppk_kegiatan' => $request->ppk_kegiatan,
-            ]);
             DataUmumRuas::where('data_umum_detail_id', $id)->delete();
             for ($i = 0; $i < count($request->id_ruas_jalan); $i++) {
                 DataUmumRuas::create([
@@ -268,15 +256,27 @@ class DataUmumController extends Controller
             $data->update([
                 'is_active' => 0
             ]);
-            DataUmumDetail::where('data_umum_id', $id)->create([
+            $data->data_umum->update([
+                'pemda' => $request->pemda,
+                'opd' => $request->opd,
+                'nm_paket' => $request->nm_paket,
+                'no_kontrak' => $request->no_kontrak,
+                'tgl_kontrak' => $request->tgl_kontrak,
+                'no_spmk' => $request->no_spmk,
+                'tgl_spmk' => $request->tgl_spmk,
+                'kategori_paket' => $request->kategori_paket_id,
+                'uptd_id' => $uptd,
+                'ppk_kegiatan' => $request->ppk_kegiatan,
+            ]);
+            $count = DataUmumDetail::where('data_umum_detail_id', $data->id)->count();
+            DataUmumDetail::create([
                 'nilai_kontrak' => $request->nilai_kontrak,
                 'panjang_km' => $request->panjang_km,
                 'lama_waktu' => $request->lama_waktu,
                 'kontraktor_id' => $request->kontraktor_id,
                 'konsultan_id' => $request->konsultan_id,
                 'ppk_id' => $request->ppk_user_id,
-                'keterangan' => 'Adendum',
-                'is_active' => 0
+                'keterangan' => 'Adendum ' . $count,
             ]);
             DB::commit();
             return redirect()->route('data-umum.index')->with('success', 'Data Umum berhasil diubah');

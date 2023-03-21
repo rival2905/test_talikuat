@@ -7,9 +7,7 @@
                     <i class="mdi mdi-account-plus menu-icon"></i>
                     Tambah</a>
 
-                <a href="https://tk.temanjabar.net/export-to-excel" class="btn btn-mat btn-success mb-3" target="_blank">
-                    <i class="mdi mdi-export"></i>
-                    Export</a>
+
             </div>
             <div class="container">
                 <table class="table table-bordered table-striped" id="table">

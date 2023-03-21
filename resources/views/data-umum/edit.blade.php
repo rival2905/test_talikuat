@@ -290,7 +290,7 @@
         <div class="row py-3">
             <div class="col"><button type="submit" class="btn btn-success  w-100">Update</button></div>
             <div class="col"><a href="{{route('upload.dataumum',$data_umum->id)}}" class="btn btn-warning  w-100">Upload File</a></div>
-            <div class="col"><button type="button" data-bs-toggle="modal" data-bs-target="#adendumModal" class="btn btn-dark  w-100" data-id="{{$data_umum->id}}" onclick="adendum(this)">Adendum</button></div>
+            <div class="col"><button type="button" data-bs-toggle="modal" data-bs-target="#adendumModal" class="btn btn-dark  w-100" data-id="{{$data_umum->detail->id}}" onclick="adendum(this)">Adendum</button></div>
         </div>
     </form>
 </div>
