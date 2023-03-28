@@ -12,6 +12,7 @@ use App\Models\Konsultan;
 use App\Models\Kontraktor;
 use App\Models\RuasJalan;
 use App\Models\TempFileJadual;
+use App\Models\Uptd;
 use stdClass;
 use App\Models\UserDetail;
 use Carbon\Carbon;
@@ -56,12 +57,15 @@ class JadualController extends Controller
             $ruas = RuasJalan::where('uptd_id', Auth::user()->userDetail->uptd_id)->get();
         }
 
+
+
         return view('jadual.create', [
             'detail' => DataUmumDetail::find($id),
             'kontraktors' => Kontraktor::all(),
             'konsultans' => Konsultan::all(),
             'ppks' => UserDetail::where([['role', 5], ['uptd_id', Auth::user()->userDetail->uptd_id]])->get(),
             'ruas' => $ruas,
+            'uptds ' => Uptd::all(),
         ]);
     }
 
@@ -346,6 +350,6 @@ class JadualController extends Controller
 
     public function downloadTemplate($data_umum)
     {
-        return response()->download(storage_path('app/public/template/jadual_talikuat.xlsx'), 'Jadual_' . $data_umum . '.xlsx');
+        return response()->download(storage_path('app/public/template/jadual_talikuat.xlsx'), $data_umum . '.xlsx');
     }
 }

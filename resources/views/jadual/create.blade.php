@@ -16,27 +16,15 @@
                         <input type="text" name="opd" id="opd" value="DINAS BINA MARGA DAN PENATAAN RUANG" class="form-control" required readonly />
                     </div>
                 </div>
-                @if(Auth::user()->userDetail->uptd_id == 0)
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label>UPTD</label>
-                        <select name="uptd_id" class="form-select">
-                            @foreach ($uptds as $item)
-                            <option value="{{ $item->id }}">
-                                {{ $item->nama_uptd }}
-                            </option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                @else
+
+
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>UTPD</label>
-                        <input type="text" name="uptd_id" id="uptd_id" value="{{Auth::user()->userDetail->uptd->nama_uptd}}" class="form-control" required readonly />
+                        <input type="text" name="uptd_id" id="uptd_id" value="{{$detail->data_umum->uptd->nama_uptd}}" class="form-control" required readonly />
                     </div>
                 </div>
-                @endif
+
             </div>
             <div class="row align-items-start mb-3">
                 <div class="col-md-4">
@@ -292,10 +280,10 @@
                     $('button[type="submit"]').show();
                 },
                 error: (error) => {
-                    console.log(error);
+
                     $(".progress").hide();
                     $("#upload").addClass("border border-danger");
-                    $(".text-danger").text('Format File Salah');
+                    $(".text-danger").text(error.responseJSON.message);
                     $(".text-danger").show();
                 },
             });
