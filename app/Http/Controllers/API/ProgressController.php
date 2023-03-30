@@ -296,7 +296,7 @@ class ProgressController extends Controller
         if ($request->uptd == 'all') {
             $data = DataUmum::with('uptd')->with('detail')->with('laporanKonsultan')->get();
         } else {
-            $data = DataUmum::with('uptd')->with('detail')->with('laporanKonsultan')->where('id_uptd', $request->uptd)->get();
+            $data = DataUmum::with('uptd')->with('detail')->with('laporanKonsultan')->where('uptd_id', $request->uptd)->get();
         }
 
 
