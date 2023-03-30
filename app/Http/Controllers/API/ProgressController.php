@@ -290,5 +290,19 @@ class ProgressController extends Controller
 
         return $tglWeek;
     }
-}
 
+    public function mapsApi(Request $request)
+    {
+        if ($request->uptd == 'all') {
+            $data = DataUmum::with('uptd')->with('detail')->with('laporanKonsultan')->get();
+        } else {
+            $data = DataUmum::with('uptd')->with('detail')->with('laporanKonsultan')->where('id_uptd', $request->uptd)->get();
+        }
+
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $data
+        ]);
+    }
+}

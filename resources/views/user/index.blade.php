@@ -197,7 +197,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="editDataAdminUptdLabel">
-                    Edit Data Jenis Pekerjaan
+                    Edit Admin PPK
                 </h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -230,6 +230,18 @@
                         <label for="uptd" class="form-label">UPTD </label>
                         <select name="uptd" id="uptd" class="form-select" required>
                             <option value="">Pilih UPTD</option>
+                            <option value="56">UPTD 1</option>
+                            <option value="115">UPTD 2</option>
+                            <option value="58">UPTD 3</option>
+                            <option value="66">UPTD 4</option>
+                            <option value="73">UPTD 5</option>
+                            <option value="80">UPTD 6</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ppk" class="form-label">PPK </label>
+                        <select name="ppk" id="uptd" class="form-select" required>
+                            <option value="">Pilih PPK</option>
                             <option value="56">UPTD 1</option>
                             <option value="115">UPTD 2</option>
                             <option value="58">UPTD 3</option>
@@ -603,6 +615,11 @@
         $("#adminUPTD").DataTable();
         $("#userKonsultan").DataTable();
     });
+
+    let dataPPK = `{!! json_encode($ppk) !!}`;
+
+    dataPPK = JSON.parse(dataPPK);
+    console.log(dataPPK);
 
     function updateAdminUptd(el) {
         const url = "{{ route('user-manajement.update-admin-uptd', 0) }}";

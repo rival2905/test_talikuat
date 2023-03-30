@@ -64,7 +64,7 @@
                     <i class="bx bxs-spreadsheet nav_icon"></i>
                     <span class="nav_name">Jadual</span>
                 </a>
-                @if (Auth::user()->userDetail->role == 2 ||Auth::user()->userDetail->role == 1 ||Auth::user()->userDetail->role == 6)
+                @if (Auth::user()->userDetail->role == 2 ||Auth::user()->userDetail->role == 1 ||Auth::user()->userDetail->role == 6 ||Auth::user()->userDetail->role == 5)
                 <a href="{{route('laporan-mingguan-uptd.index')}}" class="nav_link">
                     <i class='bx bxs-report nav_icon'></i>
                     <span class="nav_name">Laporan Mingguan UPTD</span>
