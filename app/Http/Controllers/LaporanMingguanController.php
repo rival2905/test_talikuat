@@ -18,14 +18,18 @@ class LaporanMingguanController extends Controller
      */
     public function index()
     {
-        $dataUmum = '';
+        $data = '';
         if (Auth::user()->userDetail->uptd_id == 0) {
-            $dataUmum = DataUmum::with('uptd')->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->orderBy('id', 'desc')->get();
+            $data = DataUmum::with('uptd')->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->orderBy('id', 'desc')->get();
+        } elseif (Auth::user()->userDetail->role == 5) {
+            $data = DataUmum::with('uptd')->whereHas('detailWithJadual', function ($query) {
+                $query->where('ppk_id', Auth::user()->userDetail->user_id);
+            })->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->where('uptd_id', Auth::user()->userDetail->uptd_id)->orderBy('id', 'desc')->get();
         } else {
-            $dataUmum = DataUmum::with('uptd')->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->where('uptd_id', Auth::user()->userDetail->uptd_id)->orderBy('id', 'desc')->get();
+            $data = DataUmum::with('uptd')->whereHas('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->where('uptd_id', Auth::user()->userDetail->uptd_id)->orderBy('id', 'desc')->get();
         }
         return view('laporan-mingguan-uptd.index', [
-            'dataUmum' => $dataUmum
+            'dataUmum' => $data
         ]);
     }
 
