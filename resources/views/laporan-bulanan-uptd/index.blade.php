@@ -39,7 +39,7 @@
                             </td>
                             <td>
                                 <button class="btn btn-mat btn-info waves-effect waves-light" data-bs-target="#detailModal" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Detail Laporan" data-bs-data="{{$laporan}}" onclick="renderDetailModal(this)"><i class="bx bx-search-alt-2"></i></button>
-                                @if(Auth::user()->userDetail->role == 6 && $laporan->status == 0)
+                                @if(Auth::user()->userDetail->role == 6 || Auth::user()->userDetail->role == 1 && $laporan->status == 0)
                                 <button class="btn btn-mat btn-warning waves-effect waves-light" data-bs-target="#approvalModal" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Approval Laporan" data-bs-priode="{{$laporan->priode}}" data-bs-id="{{$laporan->id}}" onclick="renderModal(this)"><i class="bx bxs-file-doc"></i></button>
                                 @endif
                                 @if($laporan->status == 2)
