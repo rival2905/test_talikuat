@@ -14,7 +14,7 @@ use App\Http\Controllers\LaporanMingguanController;
 use App\Http\Controllers\LaporanKonsultan;
 use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\UserManajemen;
-
+use App\Http\Controllers\UtilsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -110,4 +110,7 @@ Route::middleware(['auth', 'userVerified'])->group(function () {
     Route::get('/download-template-jadual/{data_umum}', [JadualController::class, 'downloadTemplate'])->name('jadual.downloadTemplate');
 
     Route::get('/download-template-laporan-mingguan/{data_umum}', [LaporanMingguanController::class, 'downloadTemplate'])->name('laporan-mingguan-uptd.downloadTemplate');
+
+    Route::get('/progress-all', [UtilsController::class, 'progressAll'])->name('progress-all.index');
+    Route::get('/progress/{uptd}', [UtilsController::class, 'progressUptd'])->name('progress-all.filter');
 });

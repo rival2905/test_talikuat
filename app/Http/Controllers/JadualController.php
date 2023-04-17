@@ -88,8 +88,8 @@ class JadualController extends Controller
             $data_umum = DataUmumDetail::where('id', $id)->where('is_active', 1)->first();
 
             $volume = $this->sumBobot($list_jadual);
-            if ($volume < 99 || $volume > 101) {
-                return redirect()->back()->withErrors('Volume tidak sesuai');
+            if ($volume < 99 || $volume > 105) {
+                return redirect()->back()->with('error', 'Volume tidak sesuai');
             }
             DB::beginTransaction();
             foreach ($list_jadual as $val) {
