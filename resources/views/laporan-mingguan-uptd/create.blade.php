@@ -109,12 +109,9 @@
 <script>
     $(document).ready(function() {
         $('#totalParent').hide();
-        $("input[name='volume[]']").mask("00.00", {
-            reverse: false
-        });
-        $('#realisasi').mask("00.00", {
-            reverse: false
-        });
+
+
+
         $("#file_laporan").on("change", function() {
             $("body").addClass("loading");
             var data = new FormData();

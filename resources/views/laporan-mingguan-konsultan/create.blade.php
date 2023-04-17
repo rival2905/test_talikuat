@@ -58,7 +58,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Realisasi</label>
-                                <input type="text" name="realisasi" id="realisasi" class="form-control" required />
+                                <input type="number" name="realisasi" id="realisasi" class="form-control" required max="99.99" min="0" />
                                 @error('realisasi')
                                 <div class="invalid-feedback" style="display: block; color: red">
                                     {{ $message }}
@@ -108,12 +108,7 @@
 <script>
     $(document).ready(function() {
         $('#totalParent').hide();
-        $("input[name='volume[]']").mask("00.00", {
-            reverse: false
-        });
-        $('#realisasi').mask("00.00", {
-            reverse: false
-        });
+
         $("#file_laporan").on("change", function() {
             $("body").addClass("loading");
             var data = new FormData();
