@@ -167,6 +167,7 @@
     });
 
     function renderDetailModal(el) {
+        $('.nmp-data').remove();
         var data = $(el).data('bs-data');
         $('#detailModal').modal('show');
         $('#nmPaket').val(data.data_umum_id);
@@ -199,7 +200,7 @@
     }
 
     function nmpBuilder(nmp, volume) {
-        return `<div class="form-group row mb-3">
+        return `<div class="form-group row mb-3 nmp-data">
                     <label class="text-wrap">${nmp}</label>
                     <div class="input-group">
                         <input type="text" class="form-control" value="${volume}" required autocomplete="off" />
