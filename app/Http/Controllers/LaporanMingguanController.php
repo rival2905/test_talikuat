@@ -41,7 +41,7 @@ class LaporanMingguanController extends Controller
     public function create($id)
     {
         $dataUmum = DataUmum::where('id', $id)->with('detail', 'laporanUptd', 'detailWithJadual')->first();
-        $count = $dataUmum->laporanUptd->count() + 1;
+        $count = $dataUmum->laporanUptd->count() == 0 ? 1 : $dataUmum->laporanUptd->count() + 1;
         $totalMinggu = $dataUmum->detail->lama_waktu / 7;
         $totalMinggu = (int)ceil($totalMinggu);
         $tgl = $count == 1 ? $dataUmum->tgl_spmk : $dataUmum->laporanUptd->last()->tgl_end;
