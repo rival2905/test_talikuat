@@ -128,13 +128,13 @@
                     $("body").removeClass("loading");
                     var deviasi = res.data.realisasi - $('#rencana').val().replace(/,/g, '.');
                     if (deviasi < 0) {
-                        $('#deviasi').val(deviasi.toFixed(2));
+                        $('#deviasi').val(deviasi.toFixed(3));
                         $('#deviasi').css('color', 'red');
                     } else {
-                        $('#deviasi').val(deviasi.toFixed(2));
+                        $('#deviasi').val(deviasi.toFixed(3));
                         $('#deviasi').css('color', 'green');
                     }
-                    $("#realisasi").val(res.data.realisasi.toFixed(2));
+                    $("#realisasi").val(res.data.realisasi.toFixed(3));
                     $("#file_path").val(res.data.filePath);
                     $("body").removeClass("loading");
                 })
@@ -157,10 +157,10 @@
             var realisasi = $('#realisasi').val().replace(/,/g, '.');
             var deviasi = realisasi - rencana;
             if (deviasi < 0) {
-                $('#deviasi').val(deviasi.toFixed(2));
+                $('#deviasi').val(deviasi.toFixed(3));
                 $('#deviasi').css('color', 'red');
             } else {
-                $('#deviasi').val(deviasi.toFixed(2));
+                $('#deviasi').val(deviasi.toFixed(3));
                 $('#deviasi').css('color', 'green');
             }
 
@@ -196,11 +196,11 @@
         } else if (volume.length != nmp.length) {
             alert('Nomor mata pembayaran harus diisi isi 0 jika tidak ada');
             return false;
-        } else if (totalVolume != realisasi) {
+        } else if (totalVolume.toFixed(3) != realisasi.toFixed(3)) {
             console.log(totalVolume);
             console.log(realisasi);
             $('#totalParent').show();
-            $('#total').html(totalVolume.toFixed(2));
+            $('#total').html(totalVolume.toFixed(3));
             alert('Total volume harus sama dengan realisasi');
             return false;
         } else {
