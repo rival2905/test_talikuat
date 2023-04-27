@@ -162,6 +162,7 @@
                         <th>Volume</th>
                         <th>Satuan</th>
                         <th>Bobot</th>
+                        <th>Nilai</th>
                         <th>Koefisien</th>
                     </thead>
                     <tbody></tbody>

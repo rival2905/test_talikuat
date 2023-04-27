@@ -183,6 +183,7 @@ function renderDetailJadual(index) {
         <td>${v.volume}</td>
         <td>${v.satuan}</td>
         <td>${v.bobot}</td>
+        <td>${parseFloat(v.nilai).toFixed(3)}</td>
         <td>${v.koefisien}</td>
         </tr>
         `);

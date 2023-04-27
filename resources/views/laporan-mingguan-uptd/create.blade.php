@@ -169,7 +169,7 @@
 
     function validate() {
         var file_laporan = $('#file_laporan').val();
-        var realisasi = $('#realisasi').val();
+        var realisasi = parseFloat($('#realisasi').val());
         var deviasi = $('#deviasi').val();
         var volume = $("input[name='volume[]']").map(function() {
             return $(this).val();
@@ -196,7 +196,7 @@
         } else if (volume.length != nmp.length) {
             alert('Nomor mata pembayaran harus diisi isi 0 jika tidak ada');
             return false;
-        } else if (totalVolume.toFixed(3) != realisasi.toFixed(3)) {
+        } else if (totalVolume.toFixed(3) != realisasi.toFixed(3) || totalVolume.toFixed(3) - realisasi.toFixed(3) > 0.001) {
             console.log(totalVolume);
             console.log(realisasi);
             $('#totalParent').show();

@@ -41,21 +41,13 @@ class LaporanMingguanController extends Controller
     public function create($id)
     {
         $dataUmum = DataUmum::where('id', $id)->with('detail', 'laporanUptd', 'detailWithJadual')->first();
-        $count = $dataUmum->laporanUptd->count() == 0 ? 1 : $dataUmum->laporanUptd->count() + 1;
+        $count =  $dataUmum->laporanUptd->count() + 1;
         $totalMinggu = $dataUmum->detail->lama_waktu / 7;
         $totalMinggu = (int)ceil($totalMinggu);
         $tgl = $count == 1 ? $dataUmum->tgl_spmk : $dataUmum->laporanUptd->last()->tgl_end;
         $getTgl = $this->getTgl($tgl, $count);
         $count = $count . " / " . $totalMinggu . ' Tanggal ' . $getTgl[0] . ' s/d ' . $getTgl[1];
         $rencana = 0;
-        $days = 0;
-        $now = date('Y-m-d');
-        $end_date = date('Y-m-d', strtotime($dataUmum->tgl_spmk . "+" . $dataUmum->detailWithJadual->lama_waktu . " days"));
-        $now = new DateTime($now);
-        $end = new DateTime($end_date);
-        $interval = $end->diff($now);
-        $days = $interval->days;
-
         foreach ($dataUmum->detailWithJadual->jadualDetail as $jadual) {
             foreach ($jadual->detail as $detail) {
                 if (strtotime($detail->tanggal) <= strtotime($getTgl[1])) {
@@ -63,7 +55,9 @@ class LaporanMingguanController extends Controller
                 }
             }
         }
-        $dataUmum->detailWithJadual->jadualDetail = number_format($rencana, 2, '.', '.');
+
+        $dataUmum->detailWithJadual->jadualDetail = number_format($rencana, 3, '.', '.');
+
         return view('laporan-mingguan-uptd.create', [
             'dataUmum' => $dataUmum,
             'count' => $count,
