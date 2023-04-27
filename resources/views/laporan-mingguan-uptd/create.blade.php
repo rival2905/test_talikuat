@@ -86,7 +86,7 @@
                         <div class="input-group">
                             <input type="hidden" name="nmp[]" value="{{$item->nmp}}" />
                             <input type="hidden" name="uraian[]" value="{{$item->uraian}}" />
-                            <input type="text" name="volume[]" id="nmp" class="form-control" required autocomplete="off" />
+                            <input type="text" name="volume[]" id="nmp" class="form-control" required autocomplete="off" onchange="this.value = this.value.replace(',', '.');" />
                         </div>
                     </div>
                     @endforeach
@@ -185,7 +185,7 @@
         });
         var totalVolume = 0;
         for (var i = 0; i < volume.length; i++) {
-            totalVolume += parseFloat(volume[i]);
+            totalVolume += parseFloat(volume[i].replace(/,/g, '.'));
         }
         if (file_laporan == '') {
             alert('File laporan harus diisi');
