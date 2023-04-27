@@ -44,7 +44,8 @@ class LaporanMingguanController extends Controller
         $count =  $dataUmum->laporanUptd->count() + 1;
         $totalMinggu = $dataUmum->detail->lama_waktu / 7;
         $totalMinggu = (int)ceil($totalMinggu);
-        $tgl = $count == 1 ? $dataUmum->tgl_spmk : $dataUmum->laporanUptd->last()->tgl_end;
+        $tgl = $count == 1 ? $dataUmum->tgl_spmk : $dataUmum->laporanUptd->sortByDesc('id')->first()->tgl_end;
+        dd($tgl);
         $getTgl = $this->getTgl($tgl, $count);
         $count = $count . " / " . $totalMinggu . ' Tanggal ' . $getTgl[0] . ' s/d ' . $getTgl[1];
         $rencana = 0;
