@@ -28,11 +28,17 @@
                             <td>{{$data->detail->ppk->nama}}</td>
                             <td>
                                 @if($data->detail->jadual->count() ==0)
+                                @if (Auth::user()->userDetail->role != 7)
                                 <a href="{{route('jadual.create',$data->detail->id)}}" class="btn btn-mat btn-warning waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Upload Jadual"><i class='bx bxs-calendar-alt'></i></a>
                                 @else
-                                <a href="{{route('jadual.show',$data->detail->id)}}" class="btn btn-mat btn-success waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Detail"><i class="bx bx-search-alt-2"></i></a>
-                                <a href="{{route('jadual.edit',$data->detail->id)}}" class="btn btn-mat btn-warning waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Edit"><i class="bx bx-edit-alt"></i></a>
+                                Belum Diupload
+                                @endif
+                                @else
 
+                                <a href="{{route('jadual.show',$data->detail->id)}}" class="btn btn-mat btn-success waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Detail"><i class="bx bx-search-alt-2"></i></a>
+                                @if (Auth::user()->userDetail->role != 7)
+                                <a href="{{route('jadual.edit',$data->detail->id)}}" class="btn btn-mat btn-warning waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Edit"><i class="bx bx-edit-alt"></i></a>
+                                @endif
                                 @endif
 
 

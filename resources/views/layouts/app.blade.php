@@ -51,11 +51,13 @@
                     <span class="nav_name">Manajemen User</span>
                 </a>
                 @endif
+                @if (Auth::user()->userDetail->role != 7)
                 <a href="{{ route('data-utama.index') }}" class="nav_link">
                     <i class="bx bx-data nav_icon"></i>
 
                     <span class="nav_name">Data Utama</span>
                 </a>
+                @endif
                 <a href="{{ route('data-umum.index') }}" class="nav_link">
                     <i class='bx bx-file nav_icon'></i>
                     <span class="nav_name">Data Umum</span>

@@ -8,22 +8,28 @@
                 <div class="col">
                     <label for="file">{{$file->label}}</label>
                     <div class="input-group mb-3 d-flex">
+                        @if (Auth::user()->userDetail->role != 7)
                         <div class="custom-file">
                             <input type="file" class="form-control" name="{{$file->name}}" accept="application/pdf" onchange="fileValidation(this)" id="{{$file->name}}" />
                         </div>
+                        @endif
                         @if(count($file->file) > 0) @foreach($file->file as $file)
-
                         <div class="input-group-append ms-3">
                             <a class="btn btn-primary" type="button" href="{{ route('show.file.dataumum',['id'=>$data->id,'file'=>$file->file_name] ) }}" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{{$file->file_name}}">
                                 <i class="bx bx-file"></i>
                             </a>
                         </div>
-                        @endforeach @endif
+                        @endforeach
+                        @else
+                        <P class="text-danger">Belum ada file</P>
+                        @endif
+                        @if (Auth::user()->userDetail->role != 7)
                         <div class="input-group-append ms-3">
                             <button class="btn btn-success" type="button" id="{{$file->name.'_upload'}}" onclick="handleSumbit(this)" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Upload">
                                 <i class="bx bx-upload"></i>
                             </button>
                         </div>
+                        @endif
                     </div>
 
                     <div class="form-group">
