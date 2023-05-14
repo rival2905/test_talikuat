@@ -65,6 +65,7 @@ Route::middleware(['auth', 'userVerified'])->group(function () {
     Route::post('/data-utama/create-konsultan', [DataUtamaController::class, 'createKonsultan'])->name('data-utama.create-konsultan');
 
     Route::resource('data-umum', DataUmumController::class);
+    Route::get('data-umum/data/{thn}', [DataUmumController::class, 'index'])->name('data-umum.index');
     Route::get('data-umum/upload/{id}', [DataUmumController::class, 'fileUpload'])->name('upload.dataumum');
     Route::post('/store_file/{id}', [DataUmumController::class, 'store_file'])->name('store.file.dataumum');
     Route::get('/file/{id}/{file}', [DataUmumController::class, 'show_file'])->name('show.file.dataumum');

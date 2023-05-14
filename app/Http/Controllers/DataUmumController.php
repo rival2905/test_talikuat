@@ -24,21 +24,24 @@ class DataUmumController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($thn)
     {
+
         $data = '';
         if (Auth::user()->userDetail->uptd_id == 0) {
-            $data = DataUmum::with('uptd')->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->orderBy('id', 'desc')->get();
+            $data = DataUmum::where('thn', $thn)->with('uptd')->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->orderBy('id', 'desc')->get();
         } elseif (Auth::user()->userDetail->role == 5) {
-            $data = DataUmum::with('uptd')->whereHas('detailWithJadual', function ($query) {
+            $data = DataUmum::where('thn', $thn)->with('uptd')->whereHas('detailWithJadual', function ($query) {
                 $query->where('ppk_id', Auth::user()->userDetail->user_id);
             })->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->where('uptd_id', Auth::user()->userDetail->uptd_id)->orderBy('id', 'desc')->get();
         } else {
-            $data = DataUmum::with('uptd')->whereHas('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->where('uptd_id', Auth::user()->userDetail->uptd_id)->orderBy('id', 'desc')->get();
+            $data = DataUmum::where('thn', $thn)->with('uptd')->whereHas('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->where('uptd_id', Auth::user()->userDetail->uptd_id)->orderBy('id', 'desc')->get();
         }
+
 
         return view('data-umum.index', [
             'data_umums' => $data,
+            'thn' => DataUmum::pluck('thn')->unique()
         ]);
     }
 
@@ -94,6 +97,7 @@ class DataUmumController extends Controller
                 'kategori_paket' => $request->kategori_paket_id,
                 'uptd_id' => $uptd,
                 'ppk_kegiatan' => $request->ppk_kegiatan,
+                'thn' => date('Y', strtotime($request->tgl_kontrak)),
             ]);
             $detail_id = DataUmumDetail::create([
                 'data_umum_id' => $id,

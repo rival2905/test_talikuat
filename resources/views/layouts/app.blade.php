@@ -58,7 +58,7 @@
                     <span class="nav_name">Data Utama</span>
                 </a>
                 @endif
-                <a href="{{ route('data-umum.index') }}" class="nav_link">
+                <a href="{{ route('data-umum.index',date('Y')) }}" class="nav_link">
                     <i class='bx bx-file nav_icon'></i>
                     <span class="nav_name">Data Umum</span>
                 </a>

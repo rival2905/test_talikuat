@@ -9,6 +9,9 @@
                     Tambah</a>
 
                 @endif
+                <a class="btn btn-mat btn-warning mb-3" data-bs-toggle="modal" data-bs-target="#dataThn">
+                    Pilih Tahun Database
+                </a>
             </div>
             <div class="container">
                 <table class="table table-bordered table-striped" id="table">
@@ -46,12 +49,49 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="dataThn" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="dataThnLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="dataThnLabel">Pilih Tahun Database</h1>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Tahun</label>
+                    <select name="thn" id="thn" class="form-control" required>
+                        <option value="">-- Pilih Tahun --</option>
+                        @foreach ($thn as $item)
+                        <option value="{{$item}}">{{$item}}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="btn" id="submit" class="btn btn-success">Submit</button>
+            </div>
+        </div>
+
+    </div>
+</div>
 @endsection @section('scripts')
 <script>
     $(document).ready(function() {
+        const url = `{{ route('data-umum.index',1) }}`.replace('1', '')
         $("#table").DataTable({
             responsive: true,
             autoWidth: false,
+        });
+
+        $('#submit').click(function() {
+            var thn = $('#thn').val();
+            if (thn != '') {
+                window.location.href = url + thn;
+            } else {
+                alert('Pilih Tahun Database');
+            }
         });
     });
 </script>
