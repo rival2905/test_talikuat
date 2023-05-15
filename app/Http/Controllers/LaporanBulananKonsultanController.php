@@ -19,9 +19,9 @@ class LaporanBulananKonsultanController extends Controller
     {
         $dataUmum = '';
         if (Auth::user()->userDetail->uptd_id == 0) {
-            $dataUmum = DataUmum::with('laporanBulananKonsultan')->orderBy('id', 'desc')->get();
+            $dataUmum = DataUmum::where('thn', date('Y'))->with('laporanBulananKonsultan')->orderBy('id', 'desc')->get();
         } else {
-            $dataUmum = DataUmum::with('laporanBulananKonsultan')->where('uptd_id', Auth::user()->userDetail->uptd_id)->orderBy('id', 'desc')->get();
+            $dataUmum = DataUmum::where('thn', date('Y'))->with('laporanBulananKonsultan')->where('uptd_id', Auth::user()->userDetail->uptd_id)->orderBy('id', 'desc')->get();
         }
         return view('laporan-bulanan-konsultan.index', [
             'dataUmum' => $dataUmum
