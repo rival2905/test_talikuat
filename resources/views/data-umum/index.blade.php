@@ -32,7 +32,7 @@
                             <td class="text-uppercase">{{$data->nm_paket}}</td>
                             <td>{{$data->detail->kontraktor->nama}}</td>
                             <td>{{$data->detail->konsultan->name}}</td>
-                            <td>{{$data->detail->ppk->nama}}</td>
+                            <td>{{$data->detail->ppk->nama ?? ''}}</td>
                             <td>
                                 <a href="{{route('data-umum.show',$data->id) }}" class="btn btn-mat btn-success waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Detail"><i class="bx bx-search-alt-2"></i></a>
                                 @if (Auth::user()->userDetail->role != 7 && date('Y') == $data->thn)
