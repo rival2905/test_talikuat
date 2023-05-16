@@ -126,7 +126,7 @@ class DataUmumController extends Controller
         } catch (\Exception $e) {
 
             DB::rollback();
-            return redirect()->route('data-umum.index')->with('error', 'Data gagal ditambahkan');
+            return redirect()->route('data-umum.index', date('Y', strtotime($request->tgl_kontrak)))->with('error', 'Data gagal ditambahkan');
         }
     }
 
@@ -210,6 +210,7 @@ class DataUmumController extends Controller
                 'kategori_paket' => $request->kategori_paket_id,
                 'uptd_id' => $uptd,
                 'ppk_kegiatan' => $request->ppk_kegiatan,
+                'thn' => date('Y', strtotime($request->tgl_kontrak))
             ]);
             DataUmumRuas::where('data_umum_detail_id', $data_umum->detail->id)->delete();
             for ($i = 0; $i < count($request->id_ruas_jalan); $i++) {
@@ -233,11 +234,11 @@ class DataUmumController extends Controller
                 'keterangan' => 'Kontrak Awal'
             ]);
             DB::commit();
-            return redirect()->route('data-umum.index')->with('success', 'Data Umum berhasil diubah');
+            return redirect()->route('data-umum.index', date('Y', strtotime($request->tgl_kontrak)))->with('success', 'Data Umum berhasil diubah');
         } catch (\Exception $e) {
             dd($e);
             DB::rollback();
-            return redirect()->route('data-umum.index')->with('error', 'Data Umum gagal diubah');
+            return redirect()->route('data-umum.index', date('Y', strtotime($request->tgl_kontrak)))->with('error', 'Data Umum gagal diubah');
         }
     }
 
@@ -246,7 +247,7 @@ class DataUmumController extends Controller
         try {
             $jadual = Jadual::where('data_umum_detail_id', $id)->get();
             if (count($jadual) == 0) {
-                return redirect()->route('data-umum.index')->with('error', 'Harap Upload Jadual Kontak Awal Terlebih Dahulu');
+                return redirect()->route('data-umum.index', date('Y'))->with('error', 'Harap Upload Jadual Kontak Awal Terlebih Dahulu');
             }
             $uptd = str_replace('UPTD ', '', $request->uptd_id);
             DB::beginTransaction();
@@ -289,10 +290,10 @@ class DataUmumController extends Controller
                 'keterangan' => 'Adendum ' . $count,
             ]);
             DB::commit();
-            return redirect()->route('data-umum.index')->with('success', 'Data Umum berhasil diubah');
+            return redirect()->route('data-umum.index', date('Y', strtotime($request->tgl_kontrak)))->with('success', 'Data Umum berhasil diubah');
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect()->route('data-umum.index')->with('error', 'Data Umum gagal diubah');
+            return redirect()->route('data-umum.index', date('Y', strtotime($request->tgl_kontrak)))->with('error', 'Data Umum gagal diubah');
         }
     }
 
