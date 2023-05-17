@@ -30,32 +30,32 @@ class DataUmum extends Model
 
     public function laporanUptdAproved()
     {
-        return $this->hasMany(LaporanMingguan::class, 'data_umum_id')->where('status', 1)->orderBy('created_at', 'DESC')->with('detail');
+        return $this->hasMany(LaporanMingguan::class, 'data_umum_id')->where('status', 1)->orderBy('id', 'ASC')->with('detail');
     }
 
     public function laporanUptd()
     {
-        return $this->hasMany(LaporanMingguan::class, 'data_umum_id')->orderBy('created_at', 'DESC')->with('detail');
+        return $this->hasMany(LaporanMingguan::class, 'data_umum_id')->orderBy('id', 'ASC')->with('detail');
     }
 
     public function laporanKonsultan()
     {
-        return $this->hasMany(LaporanMingguanKonsultan::class, 'data_umum_id')->orderBy('created_at', 'DESC')->with('detail');
+        return $this->hasMany(LaporanMingguanKonsultan::class, 'data_umum_id')->orderBy('id', 'ASC')->with('detail');
     }
 
     public function laporanBulananUPTDAproved()
     {
-        return $this->hasMany(LaporanBulananUptd::class, 'data_umum_id')->where('status', 1)->orderBy('created_at', 'DESC')->with('detail');
+        return $this->hasMany(LaporanBulananUptd::class, 'data_umum_id')->where('status', 1)->orderBy('id', 'ASC')->with('detail');
     }
 
     public function laporanBulananUPTD()
     {
-        return $this->hasMany(LaporanBulananUptd::class, 'data_umum_id')->orderBy('created_at', 'DESC')->with('detail');
+        return $this->hasMany(LaporanBulananUptd::class, 'data_umum_id')->orderBy('id', 'ASC')->with('detail');
     }
 
     public function laporanBulananKonsultan()
     {
-        return $this->hasMany(LaporanBulananKonsultan::class, 'data_umum_id')->orderBy('created_at', 'DESC')->with('detail');
+        return $this->hasMany(LaporanBulananKonsultan::class, 'data_umum_id')->orderBy('id', 'ASC')->with('detail');
     }
 
     public function fileDataUmum()

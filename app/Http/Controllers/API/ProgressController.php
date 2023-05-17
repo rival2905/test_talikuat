@@ -43,7 +43,9 @@ class ProgressController extends Controller
             $sortedDate = $this->sortDateAsWeek($tgl_spmk, $jml_minggu, $end_date);
             $rencana = [];
             $realisasi = [];
+            dd($d->laporanUptdAproved);
             foreach ($d->laporanUptdAproved as $k => $value) {
+
                 $lapNmp = [];
                 $obj = new \stdClass;
                 $obj->minggu = $k + 1;
