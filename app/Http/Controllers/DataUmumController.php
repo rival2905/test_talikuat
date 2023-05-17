@@ -263,7 +263,9 @@ class DataUmumController extends Controller
                     'long_akhir' => $request->long_akhir[$i],
                 ]);
             }
-            $data = DataUmumDetail::where([['data_umum_id', $id], ['is_active', 1]]);
+
+            $data = DataUmumDetail::where([['id', $id], ['is_active', 1]])->with('data_umum')->first();
+
             $data->update([
                 'is_active' => 0
             ]);
@@ -279,8 +281,9 @@ class DataUmumController extends Controller
                 'uptd_id' => $uptd,
                 'ppk_kegiatan' => $request->ppk_kegiatan,
             ]);
-            $count = DataUmumDetail::where('data_umum_detail_id', $data->id)->count();
+            $count = DataUmumDetail::where('data_umum_id', $data->data_umum->id)->count();
             DataUmumDetail::create([
+                'data_umum_id' => $data->data_umum->id,
                 'nilai_kontrak' => $request->nilai_kontrak,
                 'panjang_km' => $request->panjang_km,
                 'lama_waktu' => $request->lama_waktu,
@@ -293,6 +296,7 @@ class DataUmumController extends Controller
             return redirect()->route('data-umum.index', date('Y', strtotime($request->tgl_kontrak)))->with('success', 'Data Umum berhasil diubah');
         } catch (\Exception $e) {
             DB::rollback();
+            dd($e);
             return redirect()->route('data-umum.index', date('Y', strtotime($request->tgl_kontrak)))->with('error', 'Data Umum gagal diubah');
         }
     }

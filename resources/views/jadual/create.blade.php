@@ -121,7 +121,7 @@
     <form action="{{ route('jadual.store',$detail->id) }}" method="post">
         <div class="card">
             <div class="card-header">
-                Data Jadual Pekerjaan
+                Data Jadual Pekerjaan {{ @$detail->keterangan }}
             </div>
 
             <div class="card-body mb-3">
