@@ -16,9 +16,11 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        let dataJson = '{!! json_encode($data) !!}';
-        dataJson = JSON.parse(dataJson);
+        let dataJson = '@json($data)';
+        //replace all / to //
+        dataJson = dataJson.replace(/\//g, '//');
         console.log(dataJson);
+        dataJson = JSON.parse(dataJson);
         const rencana = dataJson.rencana.map((item) => item.nilai);
         const realisasi = dataJson.realisasi.map((item) => item.nilai);
         console.log(realisasi);

@@ -29,9 +29,9 @@ class ProgressController extends Controller
         }
 
         if ($request->uptd == 'all') {
-            $data = DataUmum::with('uptd')->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->get();
+            $data = DataUmum::where('thn', date('Y'))->wih('uptd')->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->get();
         } else {
-            $data = DataUmum::with('uptd')->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->where('uptd_id', $request->uptd)->get();
+            $data = DataUmum::where('thn', date('Y'))->with('uptd')->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->where('uptd_id', $request->uptd)->get();
         }
         $response = [];
         foreach ($data as $d) {
