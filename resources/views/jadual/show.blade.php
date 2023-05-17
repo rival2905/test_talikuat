@@ -181,8 +181,21 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js" integrity="sha512-VMsZqo0ar06BMtg0tPsdgRADvl0kDHpTbugCBBrL55KmucH6hP9zWdLIWY//OTfMnzz6xWQRxQqsUFefwHuHyg==" crossorigin="anonymous"></script>
 <script src="{{ asset('assets/custom/jadual.js') }}"></script>
 <script>
-    const data = '{!! json_encode($jadualDetail)  !!}';
-    const dataJadual = JSON.parse(data);
-    nonAdendum(dataJadual);
+    const urlApi = "{{ route('get-data-curva', $detail->data_umum->id) }}";
+
+    try {
+        $.ajax({
+            url: urlApi,
+            method: "GET",
+            async: false
+        }).done(function(response) {
+            console.log(response);
+            nonAdendum(response.data);
+        });
+
+    } catch (error) {
+        console.log(error);
+
+    }
 </script>
 @endsection
