@@ -197,7 +197,7 @@
         } else if (volume.length != nmp.length) {
             alert('Nomor mata pembayaran harus diisi isi 0 jika tidak ada');
             return false;
-        } else if (totalVolume.toFixed(3) != parseFloat(realisasi).toFixed(3) || totalVolume.toFixed(3) - parseFloat(realisasi).toFixed(3) > 0.001) {
+        } else if (totalVolume.toFixed(3) != parseFloat(realisasi).toFixed(3)) {
             console.log(totalVolume);
             console.log(realisasi);
             $('#totalParent').show();

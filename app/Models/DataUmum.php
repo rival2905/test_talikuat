@@ -23,6 +23,11 @@ class DataUmum extends Model
         return $this->hasOne(DataUmumDetail::class, 'data_umum_id')->where('is_active', 1)->with('kontraktor', 'konsultan', 'ppk', 'ruas');
     }
 
+    public function detailWithJadualAwal()
+    {
+        return $this->hasMany(DataUmumDetail::class, 'data_umum_id')->where('is_active', 0)->with('jadualDetail');
+    }
+
     public function detailWithJadual()
     {
         return $this->hasOne(DataUmumDetail::class, 'data_umum_id')->where('is_active', 1)->with('kontraktor', 'konsultan', 'ppk', 'ruas', 'jadualDetail');

@@ -118,6 +118,24 @@
             </div>
         </div>
     </div>
+    @if($detail->keterangan != null)
+    <div class="card mb-4">
+        <div class="card-header">
+            Data Jadual Kontrak Awal
+        </div>
+
+        <div class="card-body mb-3">
+            <div class="row">
+                <canvas id="kontrakAwal"></canvas>
+            </div>
+
+            <div class="contianer text-center">
+                <div class="row" id="dataJadual"></div>
+            </div>
+
+        </div>
+    </div>
+    @endif
     <form action="{{ route('jadual.store',$detail->id) }}" method="post">
         <div class="card">
             <div class="card-header">
@@ -293,4 +311,23 @@
         location.reload();
     });
 </script>
+@if($detail->keterangan !=null)
+<script>
+    const urlApi = "{{ route('get-data-curva', $detail->data_umum->id) }}";
+
+    try {
+        $.ajax({
+            url: urlApi,
+            method: "GET",
+            async: false
+        }).done(function(response) {
+            nonAdendum(response.data);
+        });
+
+    } catch (error) {
+        console.log(error);
+
+    }
+</script>
+@endif
 @endsection
