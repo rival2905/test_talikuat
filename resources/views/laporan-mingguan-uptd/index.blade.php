@@ -167,13 +167,14 @@
     });
 
     function renderDetailModal(el) {
+        const urlFile = "{{route('file-laporan.index', ':path')}}".replace(':path', '');
         $('.nmp-data').remove();
         var data = $(el).data('bs-data');
         $('#detailModal').modal('show');
         $('#nmPaket').val(data.data_umum_id);
         $('#priode').val(data.priode);
         console.log(data);
-        $('#detailModal a').attr('href', data.file_path).html(data.file_path.replace('public/lampiran/laporan_konsultan/', ''));
+        $('#detailModal a').attr('href', urlFile + data.file_path.replace('public/lampiran/laporan_konsultan/', '')).html(data.file_path.replace('public/lampiran/laporan_konsultan/', ''));
         $('#rencana').val(data.rencana);
         $('#realisasi').val(data.realisasi);
         $('#deviasi').val(data.deviasi);

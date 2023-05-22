@@ -25,6 +25,7 @@
             }).done(function(response) {
                 const rencana = response.data.rencana.map((item) => item.nilai);
                 const realisasi = response.data.realisasi.map((item) => item.nilai);
+                console.log(realisasi);
                 const labels = response.data.tanggal;
                 const data = {
                     labels: labels,

@@ -9,6 +9,7 @@ use App\Models\Kontraktor;
 use App\Models\Uptd;
 use App\Models\UserDetail;
 use DateTime;
+use Faker\Core\File;
 use Illuminate\Support\Facades\Auth;
 
 class UtilsController extends Controller
@@ -135,5 +136,15 @@ class UtilsController extends Controller
             'konsultan' => Konsultan::count(),
             'kontraktor' => Kontraktor::count()
         ]);
+    }
+
+    public function fileLaporan($fname)
+    {
+        $path = storage_path('app/public/lampiran/laporan_konsultan/' . $fname);
+
+        if (!file_exists($path)) {
+            abort(404);
+        }
+        return response()->file($path);
     }
 }
