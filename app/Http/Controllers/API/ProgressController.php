@@ -118,14 +118,29 @@ class ProgressController extends Controller
 
     public function getDataPembangunanbyId($id)
     {
-        $data = DataUmum::where('id', $id)->with('detail')->first();
-        $jadualDB = Jadual::where('data_umum_detail_id', $data->detail->id)->with('detail')->get();
+        $data = DataUmum::where('id', $id)->with('detail', 'detailWithJadualAwal')->first();
         $jadualDetail = new stdClass();
+
+        foreach ($data->detailWithJadualAwal as $konAwal) {
+
+            $dataAwal = new stdClass();
+            $dataAwal->curva = [];
+            $jadualDB = Jadual::where('data_umum_detail_id', $konAwal->id)->with('detail')->get();
+
+            foreach ($jadualDB as $val) {
+
+                array_push($dataAwal->curva, $val->detail[0]);
+            }
+            $jadualDetail->kontrak[$konAwal->keterangan] =  $dataAwal->curva;
+        }
+
+        $jadualDB = Jadual::where('data_umum_detail_id', $data->detail->id)->with('detail')->get();
         $jadualDetail->data_umum = $data;
         $jadualDetail->curva = [];
         foreach ($jadualDB as $val) {
             array_push($jadualDetail->curva, $val->detail);
         }
+
         return response()->json([
             'status' => 'success',
             'data' => $jadualDetail
@@ -327,7 +342,8 @@ class ProgressController extends Controller
 
     public function getProgressDataById($id)
     {
-        $data = DataUmum::where('id', $id)->with('uptd')->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->first();
+        $data = DataUmum::where('id', $id)->with('uptd')->with('detailWithJadualAwal')->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->first();
+        dd($data);
         $jadualId = [];
         $tgl_spmk = $data->tgl_spmk;
         $end_date = date('Y-m-d', strtotime($tgl_spmk . ' + ' . $data->detailWithJadual->lama_waktu . ' days'));
