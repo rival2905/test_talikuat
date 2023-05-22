@@ -45,7 +45,7 @@
         </div>
 
         @if($item->laporanUptd->where('status','!=',1)->count() > 0)
-        <p class="text-danger">Laporan Belum Disetujui Oleh Kepalata UPTD</p>
+        <p class="text-danger">Laporan Belum Disetujui Oleh Kepala UPTD</p>
         @endif
         @if( $item->laporanUptd->count() == 0)
         <p class="text-danger">Belum Ada laporan</p>
