@@ -23,9 +23,17 @@
                 method: "GET",
                 async: false
             }).done(function(response) {
+
                 const rencana = response.data.rencana.map((item) => item.nilai);
-                const realisasi = response.data.realisasi.map((item) => item.nilai);
+                const realisasi = response.data.realisasi.map((item) => parseFloat(item.nilai));
+                const cumulativeSum = (
+                    (sum) => (value) =>
+                    (sum += value)
+                )(0);
+                const realisasiSum = realisasi.map(cumulativeSum);
                 console.log(realisasi);
+                console.log(realisasiSum);
+
                 const labels = response.data.tanggal;
                 const data = {
                     labels: labels,
@@ -37,7 +45,7 @@
                         tension: 0.1
                     }, {
                         label: 'Realisasi',
-                        data: realisasi.sort(),
+                        data: realisasiSum,
                         fill: false,
                         borderColor: 'red',
                         tension: 0.1
