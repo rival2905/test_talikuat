@@ -48,16 +48,13 @@ class LaporanMingguanController extends Controller
         $getTgl = $this->getTgl($tgl, $count);
         $count = $count . " / " . $totalMinggu . ' Tanggal ' . $getTgl[0] . ' s/d ' . $getTgl[1];
         $rencana = 0;
-        $tex = [];
         foreach ($dataUmum->detailWithJadual->jadualDetail as $jadual) {
             foreach ($jadual->detail as $detail) {
-                if (strtotime($detail->tanggal) <= strtotime($getTgl[1]) && strtotime($detail->tanggal) >= strtotime($getTgl[0])) {
-                    array_push($tex, $detail->nilai);
+                if (strtotime($detail->tanggal) <= strtotime($getTgl[1])) {
                     $rencana += floatval($detail->nilai);
                 }
             }
         }
-        dd($tex);
 
         $dataUmum->detailWithJadual->jadualDetail = number_format($rencana, 3, '.', '.');
 
