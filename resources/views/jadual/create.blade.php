@@ -118,11 +118,10 @@
             </div>
         </div>
     </div>
-
     <form action="{{ route('jadual.store',$detail->id) }}" method="post">
         <div class="card">
             <div class="card-header">
-                Data Jadual Pekerjaan {{ @$detail->keterangan }}
+                Data Jadual Pekerjaan
             </div>
 
             <div class="card-body mb-3">
@@ -294,23 +293,4 @@
         location.reload();
     });
 </script>
-@if($detail->keterangan !=null)
-<script>
-    const urlApi = "{{ route('get-data-curva', $detail->data_umum->id) }}";
-
-    try {
-        $.ajax({
-            url: urlApi,
-            method: "GET",
-            async: false
-        }).done(function(response) {
-            nonAdendum(response.data);
-        });
-
-    } catch (error) {
-        console.log(error);
-
-    }
-</script>
-@endif
 @endsection

@@ -3,7 +3,7 @@
     <div class="row justify-content-center">
         <div class="col">
             <div class="card bg-warning">
-                <a href="https://tk.temanjabar.net/admin/master_kontraktor" style="text-decoration: none">
+                <a href="{{route('data-utama.index')}}" style="text-decoration: none">
                     <div class="card-body px-3 py-4">
                         <div class="d-flex justify-content-between align-items-start">
                             <div class="color-card">
@@ -24,7 +24,7 @@
         </div>
         <div class="col">
             <div class="card bg-info">
-                <a href="https://tk.temanjabar.net/admin/master_kontraktor" style="text-decoration: none">
+                <a href="{{route('data-utama.index')}}" style="text-decoration: none">
                     <div class="card-body px-3 py-4">
                         <div class="d-flex justify-content-between align-items-start">
                             <div class="color-card">
@@ -48,7 +48,7 @@
         </div>
         <div class="col">
             <div class="card bg-primary">
-                <a href="https://tk.temanjabar.net/admin/master_kontraktor" style="text-decoration: none">
+                <a href="{{route('data-utama.index')}}" style="text-decoration: none">
                     <div class="card-body px-3 py-4">
                         <div class="d-flex justify-content-between align-items-start">
                             <div class="color-card">
@@ -70,7 +70,7 @@
         </div>
         <div class="col">
             <div class="card bg-warning">
-                <a href="https://tk.temanjabar.net/admin/master_kontraktor" style="text-decoration: none">
+                <a href="{{route('data-umum.index',date('Y'))}}" style="text-decoration: none">
                     <div class="card-body px-3 py-4">
                         <div class="d-flex justify-content-between align-items-start">
                             <div class="color-card">
