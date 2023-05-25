@@ -18,9 +18,10 @@
                     </thead>
                     <tbody>
                         @foreach ($data_umum as $data)
+
                         <tr>
                             <td>{{$data->id}}</td>
-                            <td>{{$data->nm_paket}}</td>
+                            <td>{{$data->nm_paket}}@if(str_contains($data->detail->keterangan,"Adendum")) ( {{$data->detail->keterangan}} )@endif</td>
 
                             <td>{{$data->uptd->nama_uptd}}</td>
                             <td>{{$data->detail->kontraktor->nama}}</td>
