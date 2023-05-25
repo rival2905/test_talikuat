@@ -251,18 +251,7 @@ class DataUmumController extends Controller
             }
             $uptd = str_replace('UPTD ', '', $request->uptd_id);
             DB::beginTransaction();
-            DataUmumRuas::where('data_umum_detail_id', $id)->delete();
-            for ($i = 0; $i < count($request->id_ruas_jalan); $i++) {
-                DataUmumRuas::create([
-                    'data_umum_detail_id' => $id,
-                    'ruas_id' => $request->id_ruas_jalan[$i],
-                    'segment_jalan' => $request->segmen_jalan[$i],
-                    'lat_awal' => $request->lat_awal[$i],
-                    'long_awal' => $request->long_awal[$i],
-                    'lat_akhir' => $request->lat_akhir[$i],
-                    'long_akhir' => $request->long_akhir[$i],
-                ]);
-            }
+
 
             $data = DataUmumDetail::where([['id', $id], ['is_active', 1]])->with('data_umum')->first();
 
@@ -282,7 +271,7 @@ class DataUmumController extends Controller
                 'ppk_kegiatan' => $request->ppk_kegiatan,
             ]);
             $count = DataUmumDetail::where('data_umum_id', $data->data_umum->id)->count();
-            DataUmumDetail::create([
+            $data_detail = DataUmumDetail::create([
                 'data_umum_id' => $data->data_umum->id,
                 'nilai_kontrak' => $request->nilai_kontrak,
                 'panjang_km' => $request->panjang_km,
@@ -292,6 +281,17 @@ class DataUmumController extends Controller
                 'ppk_id' => $request->ppk_user_id,
                 'keterangan' => 'Adendum ' . $count,
             ]);
+            for ($i = 0; $i < count($request->id_ruas_jalan); $i++) {
+                DataUmumRuas::create([
+                    'data_umum_detail_id' => $data_detail->id,
+                    'ruas_id' => $request->id_ruas_jalan[$i],
+                    'segment_jalan' => $request->segmen_jalan[$i],
+                    'lat_awal' => $request->lat_awal[$i],
+                    'long_awal' => $request->long_awal[$i],
+                    'lat_akhir' => $request->lat_akhir[$i],
+                    'long_akhir' => $request->long_akhir[$i],
+                ]);
+            }
             DB::commit();
             return redirect()->route('data-umum.index', date('Y', strtotime($request->tgl_kontrak)))->with('success', 'Data Umum berhasil diubah');
         } catch (\Exception $e) {
