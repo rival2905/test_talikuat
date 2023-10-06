@@ -24,8 +24,9 @@
                         <P class="text-danger">Belum ada file</P>
                         @endif
                         @if (Auth::user()->userDetail->role != 7)
+                        
                         <div class="input-group-append ms-3">
-                            <button class="btn btn-success" type="button" id="{{$file->name.'_upload'}}" onclick="handleSumbit(this)" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Upload">
+                            <button class="btn btn-success" type="button" data-id="{{$file->name ?? $file->file_label.'_upload'}}" onclick="handleSumbit(this)" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Upload">
                                 <i class="bx bx-upload"></i>
                             </button>
                         </div>
@@ -51,6 +52,7 @@
 @endsection @section('scripts')
 <script>
     function fileValidation(file) {
+        console.log(file);
         var fileId = file.id;
         var fileInput = document.getElementById(file.id);
         var filePath = fileInput.value;
@@ -73,7 +75,8 @@
     }
 
     function handleSumbit(el) {
-        var fileId = el.id.replace("_upload", "");
+        var fileId = el.dataset.id.replace("_upload", "");
+        console.log(el.dataset);
         var fileInput = document.getElementById(fileId);
         if (fileValidation(fileInput)) {
             var formData = new FormData();
