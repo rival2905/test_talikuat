@@ -367,7 +367,7 @@ class DataUmumController extends Controller
         $fileJaminan->file = $data->fileJaminan ? $data->fileJaminan : null;
 
         $fileBAPL = new \stdClass;
-        $fileBAPL->label = 'BAPL';
+        $fileBAPL->label = 'BAHP';
         $fileBAPL->name = 'file_bapl';
         $fileBAPL->file = $data->fileBAPL ? $data->fileBAPL : null;
 
