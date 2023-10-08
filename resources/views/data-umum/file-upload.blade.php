@@ -14,14 +14,14 @@
                         </div>
                         @endif
                         @if(count($file->file) > 0) @foreach($file->file as $file)
-                        <div class="input-group-append ms-3">
-                            <a class="btn btn-primary" type="button" href="{{ route('show.file.dataumum',['id'=>$data->id,'file'=>$file->file_name] ) }}" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{{$file->file_name}}">
+                        <div class="input-group-append ms-3 js-noMenu">
+                            <a class="btn btn-primary js-noMenu" type="button" href="{{ route('show.file.dataumum',['id'=>$data->id,'file'=>$file->file_name] ) }}" data-bs-id="{{$data->id}}" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{{$file->file_name}}" oncontextmenu="deleteModal(this)">
                                 <i class="bx bx-file"></i>
                             </a>
                         </div>
                         @endforeach
                         @else
-                        <P class="text-danger">Belum ada file</P>
+                        <P class="text-danger" style="margin-left: 10px">Belum ada file</P>
                         @endif
                         @if (Auth::user()->userDetail->role != 7)
                         
@@ -49,10 +49,35 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="modalDeleteFile" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalDeleteFileLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modalDeleteFileLabel">
+                    Delete File
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Apakah anda yakin ingin menghapus file ini ?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <form action="" method="get" id="formDeleteFile">
+                    @method('DELETE')
+                    <button  type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            
+            </div>
+        </div>
+    </div>
+</div>
 @endsection @section('scripts')
 <script>
     function fileValidation(file) {
-        console.log(file);
+
         var fileId = file.id;
         var fileInput = document.getElementById(file.id);
         var filePath = fileInput.value;
@@ -136,9 +161,18 @@
             });
         }
     }
-
+    function deleteModal(el) {
+     
+        const uri = "{{route('deletefile.dataumum',[0,1])}}".replace('0',$(el).attr('data-bs-id'));
+        const form =  $("#formDeleteFile").attr('action',encodeURI(uri.replace('/1','/'+$(el).attr('data-bs-title'))));
+        $("#modalDeleteFile").modal("show");
+      }
+    [...document.querySelectorAll(".js-noMenu")].forEach( el => 
+        el.addEventListener('contextmenu', e => e.preventDefault())
+    );
     $(document).ready(function() {
         $(".progress").hide();
     });
+    
 </script>
 @endsection

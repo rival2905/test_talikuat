@@ -67,6 +67,7 @@ Route::middleware(['auth', 'userVerified'])->group(function () {
     Route::resource('data-umum', DataUmumController::class);
     Route::get('data-umum/data/{thn}', [DataUmumController::class, 'index'])->name('data-umum.index');
     Route::get('data-umum/upload/{id}', [DataUmumController::class, 'fileUpload'])->name('upload.dataumum');
+    Route::get('data-umum/deletefile/{id}/{fileName}', [DataUmumController::class, 'deletefile'])->name('deletefile.dataumum');
     Route::post('/store_file/{id}', [DataUmumController::class, 'store_file'])->name('store.file.dataumum');
     Route::get('/file/{id}/{file}', [DataUmumController::class, 'show_file'])->name('show.file.dataumum');
     Route::put('/adendum/create/{id}', [DataUmumController::class, 'createAdendum'])->name('adendum.create');

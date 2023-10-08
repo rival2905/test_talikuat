@@ -78,11 +78,14 @@ class DataUmumController extends Controller
      */
     public function store(Request $request)
     {
-
+        if (!$request->id_ruas_jalan) {
+            return back()->with('error', 'Data Ruas Jalan Belum diisi')->withInput();
+        }
         $get_id = DataUmum::count();
         $get_id = $get_id  == 0 ? 1 : $get_id + 1;
         $uptd = str_replace('UPTD ', '', $request->uptd_id);
         $id = 'PK-' . $uptd . '-' . $request->id_ruas_jalan[0] . '-' . $get_id;
+
         try {
             DB::beginTransaction();
             DataUmum::create([
@@ -400,6 +403,12 @@ class DataUmumController extends Controller
     {
         $file = storage_path('app/public/data_umum/' . $id . '/' . $file_name);
         return response()->file($file);
+    }
+
+    public function deletefile($id, $fileName)
+    {
+        FileDataUmum::where([['data_umum_id', $id], ['file_name', $fileName]])->delete();
+        return redirect()->route('upload.dataumum', $id)->with('success', 'File berhasil di hapus');
     }
     /**
      * Remove the specified resource from storage.
