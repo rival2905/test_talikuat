@@ -352,7 +352,7 @@ class DataUmumController extends Controller
         $fileSPPBJ->file = $data->fileSPPBJ ? $data->fileSPPBJ : null;
 
         $fileSPL = new \stdClass;
-        $fileSPL->label = 'SPL';
+        $fileSPL->label = 'SPL ( Penyerahan Lapangan )';
         $fileSPL->name = 'file_spl';
         $fileSPL->file = $data->fileSPL ? $data->fileSPL : null;
 
@@ -367,7 +367,7 @@ class DataUmumController extends Controller
         $fileJaminan->file = $data->fileJaminan ? $data->fileJaminan : null;
 
         $fileBAPL = new \stdClass;
-        $fileBAPL->label = 'BAHP';
+        $fileBAPL->label = 'BA PHO ( Serah Terima Pertama )';
         $fileBAPL->name = 'file_bapl';
         $fileBAPL->file = $data->fileBAPL ? $data->fileBAPL : null;
 
