@@ -29,7 +29,7 @@
                         @foreach($file->file as $file)
                         <div class="row">
                               <div class="col">
-                                <a href="{{ route('show.file.dataumum',['id'=>$data->id,'file'=>$file->file_name] ) }}" data-bs-id="{{$data->id}}" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{{$file->file_name}}" style="margin-right: 10px">
+                                <a href="{{ route('show.file.dataumum',['id'=>$data->id,'file'=>$file->file_name] ) }}" data-bs-id="{{$data->id}}" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Download" style="margin-right: 10px">
                                     {{$file->file_name}}
                                 </a>
                                 <button class="btn btn-danger" type="button" onclick="deleteModal(this)" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Delete File" data-bs-id="{{$data->id}}"data-bs-file="{{$file->file_name}}" >
