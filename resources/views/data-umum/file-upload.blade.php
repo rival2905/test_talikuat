@@ -4,8 +4,8 @@
     <div class="card-body">
         <div class="card-block">
             @csrf @foreach($file_init as $file)
-            <div class="row">
-                <div class="col">
+            <div class="row border p-3 m-2">
+                <div class="col p-3">
                     <label for="file">{{$file->label}}</label>
                     <div class="input-group mb-3 d-flex">
                         @if (Auth::user()->userDetail->role != 7)
