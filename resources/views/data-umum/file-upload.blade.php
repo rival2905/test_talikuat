@@ -13,18 +13,10 @@
                             <input type="file" class="form-control" name="{{$file->name}}" accept="application/pdf" onchange="fileValidation(this)" id="{{$file->name}}" />
                         </div>
                         @endif
-                        @if(count($file->file) > 0) @foreach($file->file as $file)
-                        <div class="input-group-append ms-3 js-noMenu">
-                            <a class="btn btn-primary js-noMenu" type="button" href="{{ route('show.file.dataumum',['id'=>$data->id,'file'=>$file->file_name] ) }}" data-bs-id="{{$data->id}}" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{{$file->file_name}}" oncontextmenu="deleteModal(this)">
-                                <i class="bx bx-file"></i>
-                            </a>
-                        </div>
-                        @endforeach
-                        @else
+                        @if(count($file->file) < 0)
                         <P class="text-danger" style="margin-left: 10px">Belum ada file</P>
                         @endif
                         @if (Auth::user()->userDetail->role != 7)
-                        
                         <div class="input-group-append ms-3">
                             <button class="btn btn-success" type="button" data-id="{{$file->name ?? $file->file_label.'_upload'}}" onclick="handleSumbit(this)" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Upload">
                                 <i class="bx bx-upload"></i>
@@ -32,6 +24,23 @@
                         </div>
                         @endif
                     </div>
+                 
+                        
+                        @foreach($file->file as $file)
+                        <div class="row">
+                              <div class="col">
+                                <a href="{{ route('show.file.dataumum',['id'=>$data->id,'file'=>$file->file_name] ) }}" data-bs-id="{{$data->id}}" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{{$file->file_name}}" style="margin-right: 10px">
+                                    {{$file->file_name}}
+                                </a>
+                                <button class="btn btn-danger" type="button" onclick="deleteModal(this)" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Delete File" data-bs-id="{{$data->id}}"data-bs-file="{{$file->file_name}}" >
+                                    <i class="bx bx-trash"></i>
+                            </button>
+                              </div>
+                            </div>
+                        @endforeach
+                
+                   
+               
 
                     <div class="form-group">
                         <span class="text-danger">
@@ -164,7 +173,7 @@
     function deleteModal(el) {
      
         const uri = "{{route('deletefile.dataumum',[0,1])}}".replace('0',$(el).attr('data-bs-id'));
-        const form =  $("#formDeleteFile").attr('action',encodeURI(uri.replace('/1','/'+$(el).attr('data-bs-title'))));
+        const form =  $("#formDeleteFile").attr('action',encodeURI(uri.replace('/1','/'+$(el).attr('data-bs-file'))));
         $("#modalDeleteFile").modal("show");
       }
     [...document.querySelectorAll(".js-noMenu")].forEach( el => 
