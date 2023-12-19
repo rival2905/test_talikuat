@@ -56,13 +56,12 @@ async function render() {
     $.post(apiUrl, { uptd: uptd }, (res) => {
         const data = res.data;
         let no = 1;
-        let totalMinggu = 0;
         for (let i = 0; i < data.length; i++) {
-            totalMinggu = diffDate(
-                data[i].data_umum.tgl_spmk,
-                $("#date").val()
-            );
             let minggu = diffDate(data[i].data_umum.tgl_spmk, $("#date").val());
+            let totalMinggu = data[i].data_umum.detail.lama_waktu / 7;
+            if (minggu > totalMinggu) {
+                minggu = totalMinggu.toFixed(0);
+            }
 
             // var keterangan =
             //     data[i].laporan_konsultan[minggu - 1] == undefined
