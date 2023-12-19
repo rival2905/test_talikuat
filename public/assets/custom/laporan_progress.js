@@ -12,6 +12,22 @@ $("#date").change(() => {
     render();
 });
 
+$("#date-start").change(() => {
+    $("#date-end").attr("min", $("#date-start").val());
+    $("#date-end").val($("#date-start").val());
+    $("#date").val($("#date-start").val());
+    $("#status").text("Status : " + $("#date").val());
+    $("tbody").empty();
+    render();
+});
+
+$("#date-end").change(() => {
+    $("#date").val($("#date-end").val());
+    $("#status").text("Status : " + $("#date").val());
+    $("tbody").empty();
+    render();
+});
+
 $("#uptd").change(() => {
     uptd = $("#uptd").val();
     if (uptd == "all") {
@@ -39,22 +55,27 @@ $(document).ready(() => {
 async function render() {
     $.post(apiUrl, { uptd: uptd }, (res) => {
         const data = res.data;
-        console.log(data);
         let no = 1;
+        let totalMinggu = 0;
         for (let i = 0; i < data.length; i++) {
-            let minggu = diffDate(data[i].tgl_spmk, $("#date").val());
-            var keterangan =
-                data[i].laporan_konsultan[minggu - 1] == undefined
-                    ? `Laporan Minggu Ke ${minggu} Belum Diupload`
-                    : "";
-            const rencana = getRencana(data[i], minggu);
+            totalMinggu = diffDate(
+                data[i].data_umum.tgl_spmk,
+                $("#date").val()
+            );
+            let minggu = diffDate(data[i].data_umum.tgl_spmk, $("#date").val());
 
-            const realisasi = getRealisasi(data[i], minggu);
+            // var keterangan =
+            //     data[i].laporan_konsultan[minggu - 1] == undefined
+            //         ? `Laporan Minggu Ke ${minggu} Belum Diupload`
+            //         : "";
+            const rencana = getRencana(data[i].rencana, minggu);
+
+            const realisasi = getRealisasi(data[i].realisasi, minggu);
 
             var deviasiText = getDeviasi(rencana, realisasi);
             var paketIsDone = checkTglSpmk(
-                data[i].tgl_spmk,
-                data[i].detail_with_jadual.lama_waktu - 1
+                data[i].data_umum.tgl_spmk,
+                data[i].data_umum.detail.lama_waktu - 1
             );
             $("tbody").append(
                 "<tr>" +
@@ -62,43 +83,43 @@ async function render() {
                     no +
                     "</td>" +
                     '<td style="text-align:left;">' +
-                    data[i].nm_paket +
+                    data[i].data_umum.nm_paket +
                     "</td>" +
                     "<td>" +
-                    data[i].detail_with_jadual.panjang_km +
+                    data[i].data_umum.detail.panjang_km +
                     "</td>" +
                     '<td style="text-align:left;">' +
-                    data[i].detail_with_jadual.kontraktor.nama +
+                    data[i].data_umum.detail.kontraktor.nama +
                     "</td>" +
                     "<td>" +
-                    data[i].tgl_spmk +
+                    data[i].data_umum.tgl_spmk +
                     "<br/>" +
-                    new Date(data[i].tgl_spmk)
-                        .addDays(data[i].detail_with_jadual.lama_waktu - 1)
+                    new Date(data[i].data_umum.tgl_spmk)
+                        .addDays(data[i].data_umum.detail.lama_waktu - 1)
                         .toISOString()
                         .substring(0, 10) +
                     "</td>" +
                     "<td>" +
-                    data[i].detail_with_jadual.lama_waktu +
+                    data[i].data_umum.detail.lama_waktu +
                     " Hari" +
                     "</td>" +
                     '<td style="text-align:left;">1. ' +
-                    data[i].detail_with_jadual.nilai_kontrak +
+                    data[i].data_umum.detail.nilai_kontrak +
                     "<br/>2. " +
-                    data[i].tgl_kontrak +
+                    data[i].data_umum.tgl_kontrak +
                     "<br/>3.<br/>4. </td>" +
                     '<td style="text-align:left;">' +
-                    data[i].detail_with_jadual.konsultan.name +
+                    data[i].data_umum.detail.konsultan.name +
                     "<br/>" +
                     "<strong>Site Engineer</strong>" +
                     "<br/>" +
-                    data[i].detail_with_jadual.konsultan.se +
+                    data[i].data_umum.detail.konsultan.se +
                     "</td>" +
                     "<td>" +
                     minggu +
                     "</td>" +
                     "<td>" +
-                    data[i].detail_with_jadual.jadualDetail.toFixed(2) +
+                    rencana.toFixed(3) +
                     "</td>" +
                     "<td>" +
                     realisasi +
@@ -158,21 +179,21 @@ function checkTglSpmk(spmk, jmlHari) {
 }
 
 function getRencana(data, minggu) {
-    if (data.laporan_uptd_aproved.length == 0) {
+    if (data.length == 0) {
         return 0;
     } else {
-        return data.laporan_uptd_aproved[minggu - 1] == undefined
-            ? data.laporan_uptd_aproved.at(-1).rencana
-            : data.laporan_uptd_aproved[minggu - 1].rencana;
+        return data[minggu - 1] == undefined
+            ? data.at(-1).nilai
+            : data[minggu - 1].nilai;
     }
 }
 
 function getRealisasi(data, minggu) {
-    if (data.laporan_uptd_aproved.length == 0) {
+    if (data.length == 0) {
         return 0;
     } else {
-        return data.laporan_uptd_aproved[minggu - 1] == undefined
-            ? data.laporan_uptd_aproved.at(-1).realisasi
-            : data.laporan_uptd_aproved[minggu - 1].realisasi;
+        return data[minggu - 1] == undefined
+            ? parseFloat(data.at(-1).nilai.replace(",", ".")).toFixed(3)
+            : parseFloat(data[minggu - 1].nilai.replace(",", ".")).toFixed(3);
     }
 }

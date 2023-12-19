@@ -15,6 +15,7 @@
 <body class="loading">
 
     <input type="hidden" id="api-url" value="{{ route('get-data-pembangunan-by-uptd') }}" />
+    <input type="hidden" id="date" value="{{date('Y-m-d')}}" />
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col">
