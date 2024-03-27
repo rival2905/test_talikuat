@@ -65,7 +65,7 @@ return [
         'temanjabar' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),
-            'host' => '182.253.37.42',
+            'host' => 'tj.temanjabar.net',
             'port' => env('DB_PORT', '3306'),
             'database' => 'teman_jabar',
             'username' => env('DB_USERNAME', 'forge'),
