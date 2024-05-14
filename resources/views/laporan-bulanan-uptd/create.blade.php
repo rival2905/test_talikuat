@@ -2,7 +2,8 @@
 @section('content')
 <div class="row">
     <div class="col-lg-12 grid-margin stretch-card">
-        <form action="{{ route('laporan-bulanan-uptd.store',$dataUmum->id) }}" method="POST" id="form-laporan-mingguan-uptd">
+        <form action="{{ route('laporan-bulanan-uptd.store',$dataUmum->id) }}" method="POST"
+            id="form-laporan-mingguan-uptd">
             <div class="card">
                 @csrf
                 <input type="hidden" name="file_path" id="file_path" />
@@ -11,7 +12,8 @@
                         <label class="col-sm-2 col-form-label">Nama Paket</label>
                         <div class="col-sm-10">
                             <div class="input-group">
-                                <input type="text" class="form-control" value="{{$dataUmum->nm_paket}}" required readonly />
+                                <input type="text" class="form-control" value="{{$dataUmum->nm_paket}}" required
+                                    readonly />
                             </div>
                         </div>
                     </div>
@@ -38,9 +40,11 @@
                         <label class="col-sm-2 col-form-label">Upload File Laporan</label>
                         <div class="col-sm-10">
                             <div class="input-group">
-                                <input type="file" class="form-control" id="file_laporan" name="file_laporan" required accept="application/pdf" />
+                                <input type="file" class="form-control" id="file_laporan" name="file_laporan" required
+                                    accept="application/pdf" />
 
-                                <div class="invalid-feedback" id="invalid-file_laporan" style="display: block; color: red"></div>
+                                <div class="invalid-feedback" id="invalid-file_laporan"
+                                    style="display: block; color: red"></div>
                             </div>
                         </div>
                     </div>
@@ -48,7 +52,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Rencana</label>
-                                <input type="text" name="rencana" value="" id="rencana" class="form-control" required readonly />
+                                <input type="text" name="rencana" value="" id="rencana" class="form-control" required />
                                 @error('rencana')
                                 <div class="invalid-feedback" style="display: block; color: red">
                                     {{ $message }}
@@ -86,7 +90,8 @@
                         <div class="input-group">
                             <input type="hidden" name="nmp[]" value="{{$item->nmp}}" />
                             <input type="hidden" name="uraian[]" value="{{$item->uraian}}" />
-                            <input type="text" name="volume[]" id="nmp" class="form-control" required autocomplete="off" />
+                            <input type="text" name="volume[]" id="nmp" class="form-control" required
+                                autocomplete="off" />
                         </div>
                     </div>
                     @endforeach
@@ -118,6 +123,15 @@
 
             });
         });
+
+        $('#realisasi').on('change', function() {
+            let rencana = $('#rencana').val();
+            let realisasi = $('#realisasi').val();
+            let deviasi = parseFloat(rencana) - parseFloat(realisasi);
+            $('#deviasi').val(deviasi.toFixed(2));
+        });
+
+
         $("#file_laporan").on("change", function() {
             $("body").addClass("loading");
             var data = new FormData();
