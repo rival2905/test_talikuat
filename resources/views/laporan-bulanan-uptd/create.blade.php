@@ -127,8 +127,15 @@
         $('#realisasi').on('change', function() {
             let rencana = $('#rencana').val();
             let realisasi = $('#realisasi').val();
-            let deviasi = parseFloat(rencana) - parseFloat(realisasi);
-            $('#deviasi').val(deviasi.toFixed(2));
+            let deviasi = parseFloat(realisasi) - parseFloat(rencana);
+            if (deviasi > 0) {
+                $('#deviasi').val(deviasi.toFixed(2)).css('color', 'green');
+            } else {
+                $('#deviasi').val(deviasi.toFixed(2)).css('color', 'red');
+            }
+            if(deviasi == 0){
+                $('#deviasi').val(deviasi.toFixed(2)).css('color', 'black');
+            }
         });
 
 
