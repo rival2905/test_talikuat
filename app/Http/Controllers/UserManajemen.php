@@ -393,15 +393,36 @@ class UserManajemen extends Controller
             }
             $user->save();
 
-            UserProfile::updateOrCreate(['user_id' => $id], [
-                'no_pegawai' => $request->no_pegawai,
-                'nama' => $request->name,
-                'no_tlp' => $request->no_tlp
-            ]);
-            UserDetail::updateOrCreate(['user_id' => $id], [
-                'role' => 5,
-                'uptd_id' => $uptd_id,
-            ]);
+            $userProfile = UserProfile::where('user_id', $id)->first();
+
+            if ($userProfile) {
+                $userProfile->no_pegawai = $request->no_pegawai;
+                $userProfile->nama = $request->name;
+                $userProfile->no_tlp = $request->no_tlp;
+                $userProfile->save();
+            } else {
+                UserProfile::create([
+                    'no_pegawai' => $request->no_pegawai,
+                    'nama' => $request->name,
+                    'no_tlp' => $request->no_tlp,
+                    'user_id' => $id,
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'created_by' => Auth::user()->id,
+                ]);
+            }
+            $userDertail = UserDetail::where('user_id', $id)->first();
+            if ($userDertail) {
+                $userDertail->role = 5;
+                $userDertail->uptd_id = $uptd_id;
+                $userDertail->save();
+            } else {
+                UserDetail::create([
+                    'user_id' => $id,
+                    'role' => 5,
+                    'uptd_id' => $uptd_id,
+                    'is_active' => 1,
+                ]);
+            }
 
             return redirect()->back()->with('success', 'Berhasil mengubah user PPK');
         } catch (\Throwable $th) {
