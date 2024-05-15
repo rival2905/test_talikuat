@@ -129,6 +129,7 @@ class DataUmumController extends Controller
         } catch (\Exception $e) {
 
             DB::rollback();
+            dd($e);
             return redirect()->route('data-umum.index', date('Y', strtotime($request->tgl_kontrak)))->with('error', 'Data gagal ditambahkan');
         }
     }
