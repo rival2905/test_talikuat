@@ -19,7 +19,9 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.3.1/css/rowReorder.dataTables.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"
+        integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
@@ -29,6 +31,7 @@
         <div class="header_toggle">
             <i class="bx bx-menu" id="header-toggle"></i>
         </div>
+        <h3 class="text-center text-white">Selamat Datang, {{ Auth::user()->name }}</h3>
         <div class="header_img">
             <img src="{{ asset('assets/images/talikuat.png') }}" alt="" />
         </div>
@@ -66,7 +69,8 @@
                     <i class="bx bxs-spreadsheet nav_icon"></i>
                     <span class="nav_name">Jadual</span>
                 </a>
-                @if (Auth::user()->userDetail->role == 2 ||Auth::user()->userDetail->role == 1 ||Auth::user()->userDetail->role == 6 ||Auth::user()->userDetail->role == 5)
+                @if (Auth::user()->userDetail->role == 2 ||Auth::user()->userDetail->role == 1
+                ||Auth::user()->userDetail->role == 6 ||Auth::user()->userDetail->role == 5)
                 <a href="{{route('laporan-mingguan-uptd.index')}}" class="nav_link">
                     <i class='bx bxs-report nav_icon'></i>
                     <span class="nav_name">Laporan Mingguan UPTD</span>
@@ -131,7 +135,9 @@
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script src="{{ asset('assets/js/main.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.13.4/jquery.mask.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"
+        integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         $(document).ready(function() {
             $(".alert").delay(3000).fadeOut(500);
