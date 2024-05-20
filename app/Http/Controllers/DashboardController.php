@@ -35,6 +35,12 @@ class DashboardController extends Controller
             $data = DataUmum::where('thn', date('Y'))->with('uptd')->whereHas('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->where('uptd_id', Auth::user()->userDetail->uptd_id)->orderBy('id', 'desc')->get();
         }
         foreach ($data as $d) {
+            if ($d->detailWithJadual == null) {
+                $d->detailWithJadual = (object) [
+                    'lama_waktu' => 0,
+                    'jadualDetail' => []
+                ];
+            }
             $rencana = 0;
             $realisasi = 0;
             $deviasi = 0;
