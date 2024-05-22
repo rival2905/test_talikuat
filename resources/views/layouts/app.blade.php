@@ -94,7 +94,7 @@
                     <span class="nav_name">Laporan Bulanan Konsultan</span>
                 </a>
                 @endif
-                @if (Auth::user()->userDetail->role == 1)
+                @if (Auth::user()->userDetail->role == 1 || Auth::user()->userDetail->role == 7)
                 <a href="{{route('progress-fisik.index')}}" class="nav_link">
                     <i class="bx bx-bar-chart-alt-2 nav_icon"></i>
                     <span class="nav_name">Laporan Progress</span>
