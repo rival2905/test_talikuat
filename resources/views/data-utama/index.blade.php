@@ -1,6 +1,6 @@
 @extends('layouts.app') @section('content')
 <div class="container">
-    <div class="card">
+    <div class="card" id="card-nmp">
         <div class="card-header">Data Jenis Pekerjaan</div>
         <div class="card-body">
             <div class="container">
@@ -9,7 +9,7 @@
 
 
             </div>
-            <div class="container" style="max-height: 80vh; overflow-y: auto">
+            <div class="container">
                 <table id="nmp" class="table table-striped">
                     <thead>
                         <tr>
@@ -28,10 +28,17 @@
                             <td>{{$item->jenis_pekerjaan}}</td>
                             <td>{{$item->satuan}}</td>
                             <td>
-                                <a class="btn btn-mat btn-warning waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#updateJenisPekerjaan" data-id="{{ $item->id }}" data-kd_jenis_pekerjaan="{{ $item->kd_jenis_pekerjaan }}" data-jenis_pekerjaan="{{ $item->jenis_pekerjaan }}" data-satuan="{{ $item->satuan }}" onclick="updateJenisPekerjaan(this)">
+                                <a class="btn btn-mat btn-warning waves-effect waves-light" data-bs-toggle="modal"
+                                    data-bs-target="#updateJenisPekerjaan" data-id="{{ $item->id }}"
+                                    data-kd_jenis_pekerjaan="{{ $item->kd_jenis_pekerjaan }}"
+                                    data-jenis_pekerjaan="{{ $item->jenis_pekerjaan }}"
+                                    data-satuan="{{ $item->satuan }}" onclick="updateJenisPekerjaan(this)">
                                     <i class="bx bx-edit-alt"></i></a>
 
-                                <a class="btn btn-mat btn-danger" data-bs-toggle="modal" data-bs-target="#deleteJenisPekerjaan" data-id="{{ $item->id }}" data-kd_jenis_pekerjaan="{{ $item->kd_jenis_pekerjaan }}" onclick="deleteJenisPekerjaan(this)">
+                                <a class="btn btn-mat btn-danger" data-bs-toggle="modal"
+                                    data-bs-target="#deleteJenisPekerjaan" data-id="{{ $item->id }}"
+                                    data-kd_jenis_pekerjaan="{{ $item->kd_jenis_pekerjaan }}"
+                                    onclick="deleteJenisPekerjaan(this)">
                                     <i class="bx bx-trash"></i>
                                 </a>
                             </td>
@@ -42,11 +49,12 @@
             </div>
         </div>
     </div>
-    <div class="card mt-4">
+    <div class="card mt-4" id="card-kontraktor">
         <div class="card-header">Data kontraktor</div>
         <div class="card-body">
             <div class="container">
-                <a href="{{ route('data-umum.create') }}" class="btn btn-mat btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createKontraktor">
+                <a href="{{ route('data-umum.create') }}" class="btn btn-mat btn-primary mb-3" data-bs-toggle="modal"
+                    data-bs-target="#createKontraktor">
                     Tambah</a>
 
 
@@ -70,10 +78,18 @@
                             <td>{{$item->nama_direktur}}</td>
                             <td>{{$item->no_telp}}</td>
                             <td>
-                                <a class="btn btn-mat btn-warning" data-bs-toggle="modal" data-bs-target="#editKontraktor" data-id="{{ $item->id }}" data-nama="{{ $item->nama }}" data-nama_direktur="{{ $item->nama_direktur }}" data-no_telp="{{ $item->no_telp }}" data-alamat="{{ $item->alamat }}" data-nama_gs="{{ $item->nama_gs }}" data-npwp="{{ $item->npwp }}" data-bank="{{ $item->bank }}" data-no_rek="{{ $item->no_rek }}" data-email="{{ $item->email }}" onclick="updateKontraktor(this)">
+                                <a class="btn btn-mat btn-warning" data-bs-toggle="modal"
+                                    data-bs-target="#editKontraktor" data-id="{{ $item->id }}"
+                                    data-nama="{{ $item->nama }}" data-nama_direktur="{{ $item->nama_direktur }}"
+                                    data-no_telp="{{ $item->no_telp }}" data-alamat="{{ $item->alamat }}"
+                                    data-nama_gs="{{ $item->nama_gs }}" data-npwp="{{ $item->npwp }}"
+                                    data-bank="{{ $item->bank }}" data-no_rek="{{ $item->no_rek }}"
+                                    data-email="{{ $item->email }}" onclick="updateKontraktor(this)">
                                     <i class="bx bx-edit-alt"></i></a>
 
-                                <a class="btn btn-mat btn-danger" data-bs-toggle="modal" data-bs-target="#deleteKontraktor" data-id="{{ $item->id }}" data-nama="{{ $item->nama }}" onclick="deleteKontraktor(this)">
+                                <a class="btn btn-mat btn-danger" data-bs-toggle="modal"
+                                    data-bs-target="#deleteKontraktor" data-id="{{ $item->id }}"
+                                    data-nama="{{ $item->nama }}" onclick="deleteKontraktor(this)">
                                     <i class="bx bx-trash"></i>
                                 </a>
                             </td>
@@ -84,7 +100,7 @@
             </div>
         </div>
     </div>
-    <div class="card mt-4">
+    <div class="card mt-4" id="card-konsultan">
         <div class="card-header">Data Konsultan</div>
         <div class="card-body">
             <div class="container">
@@ -112,10 +128,17 @@
                             <td>{{$item->nama_direktur}}</td>
                             <td>{{$item->no_telp}}</td>
                             <td>
-                                <a class="btn btn-mat btn-warning" data-bs-toggle="modal" data-bs-target="#editKonsultan" data-id="{{ $item->id }}" data-nama="{{ $item->nama }}" data-nama_direktur="{{ $item->nama_direktur }}" data-no_telp="{{ $item->no_telp }}" data-alamat="{{ $item->alamat }}" data-se="{{ $item->se }}" data-npwp="{{ $item->npwp }}" data-email="{{ $item->email }}" onclick="updateKonsultan(this)">
+                                <a class="btn btn-mat btn-warning" data-bs-toggle="modal"
+                                    data-bs-target="#editKonsultan" data-id="{{ $item->id }}"
+                                    data-nama="{{ $item->nama }}" data-nama_direktur="{{ $item->nama_direktur }}"
+                                    data-no_telp="{{ $item->no_telp }}" data-alamat="{{ $item->alamat }}"
+                                    data-se="{{ $item->se }}" data-npwp="{{ $item->npwp }}"
+                                    data-email="{{ $item->email }}" onclick="updateKonsultan(this)">
                                     <i class="bx bx-edit-alt"></i></a>
 
-                                <a class="btn btn-mat btn-danger" data-bs-toggle="modal" data-bs-target="#deleteKonsultan" data-id="{{ $item->id }}" data-nama="{{ $item->name }}" onclick="deleteKonsultan(this)">
+                                <a class="btn btn-mat btn-danger" data-bs-toggle="modal"
+                                    data-bs-target="#deleteKonsultan" data-id="{{ $item->id }}"
+                                    data-nama="{{ $item->name }}" onclick="deleteKonsultan(this)">
                                     <i class="bx bx-trash"></i>
                                 </a>
                             </td>
@@ -128,7 +151,8 @@
     </div>
 </div>
 <!-- Modal Tambah Jenis Pekerjaan -->
-<div class="modal fade" id="createJenisPekerjaan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="createJenisPekerjaanLabel" aria-hidden="true">
+<div class="modal fade" id="createJenisPekerjaan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="createJenisPekerjaanLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -166,7 +190,8 @@
     </div>
 </div>
 <!-- Modal Edit Jenis Pekerjaan -->
-<div class="modal fade" id="updateJenisPekerjaan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="updateJenisPekerjaanLabel" aria-hidden="true">
+<div class="modal fade" id="updateJenisPekerjaan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="updateJenisPekerjaanLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -204,7 +229,8 @@
     </div>
 </div>
 <!-- Modal Delete Jenis Pekerjaan -->
-<div class="modal fade" id="deleteJenisPekerjaan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteJenisPekerjaanLabel" aria-hidden="true">
+<div class="modal fade" id="deleteJenisPekerjaan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="deleteJenisPekerjaanLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -226,7 +252,8 @@
     </div>
 </div>
 <!-- Modal Add Kontraktor -->
-<div class="modal fade" id="createKontraktor" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="createKontraktorLabel" aria-hidden="true">
+<div class="modal fade" id="createKontraktor" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="createKontraktorLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -289,7 +316,8 @@
     </div>
 </div>
 <!-- Modal Edit Kontraktor -->
-<div class="modal fade" id="editKontraktor" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editKontraktorLabel" aria-hidden="true">
+<div class="modal fade" id="editKontraktor" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="editKontraktorLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -352,7 +380,8 @@
     </div>
 </div>
 <!-- Modal Delete Kontraktor -->
-<div class="modal fade" id="deleteKontraktor" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteKontraktorLabel" aria-hidden="true">
+<div class="modal fade" id="deleteKontraktor" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="deleteKontraktorLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -374,7 +403,8 @@
     </div>
 </div>
 <!-- Modal Tambah Konsultan -->
-<div class="modal fade" id="createKonsultan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="createKonsultanLabel" aria-hidden="true">
+<div class="modal fade" id="createKonsultan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="createKonsultanLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -429,7 +459,8 @@
     </div>
 </div>
 <!-- Modal Edit Konsultan -->
-<div class="modal fade" id="editKonsultan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editKonsultanLabel" aria-hidden="true">
+<div class="modal fade" id="editKonsultan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="editKonsultanLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -484,7 +515,8 @@
     </div>
 </div>
 <!-- Modal Delete Kontraktor -->
-<div class="modal fade" id="deleteKonsultan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteKonsultanLabel" aria-hidden="true">
+<div class="modal fade" id="deleteKonsultan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="deleteKonsultanLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -514,6 +546,20 @@
         $("#kontraktor").DataTable();
         $("#konsultan").DataTable();
         $(".npwp").mask("99.999.999.9-999.999");
+        var params = new URLSearchParams(window.location.search);
+        if(params.has('nmp')) {
+            $("#card-nmp").show();
+            $("#card-kontraktor").hide();
+            $("#card-konsultan").hide();
+        } else if(params.has('kontraktor')) {
+            $("#card-nmp").hide();
+            $("#card-kontraktor").show();
+            $("#card-konsultan").hide();
+        } else if(params.has('konsultan')) {
+            $("#card-nmp").hide();
+            $("#card-kontraktor").hide();
+            $("#card-konsultan").show();
+        }
     });
 
     function updateJenisPekerjaan(el) {

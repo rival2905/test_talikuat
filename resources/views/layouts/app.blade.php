@@ -55,11 +55,19 @@
                 </a>
                 @endif
                 @if (Auth::user()->userDetail->role != 7)
-                <a href="{{ route('data-utama.index') }}" class="nav_link">
+                <a class="nav_link" id="masterDataLink">
                     <i class="bx bx-data nav_icon"></i>
-
-                    <span class="nav_name">Data Utama</span>
+                    <span class="nav_name">Master Data <i id="dropdownIconMaster" class="bx "></i></span>
                 </a>
+                <div id="masterDataDropdown" class="nav_dropdown" style="display: none;">
+                    <a href="{{ route('data-utama.index','nmp')}}" class="nav_link"><i class="bx bx-circle"></i>Data
+                        Jenis Pekerjaan</a>
+                    <a href="{{ route('data-utama.index','kontraktor') }}" class="nav_link"><i
+                            class="bx bx-circle"></i>Data
+                        kontraktor</a>
+                    <a href="{{ route('data-utama.index','konsultan') }}" class="nav_link"><i
+                            class="bx bx-circle"></i>Data Konsultan</a>
+                </div>
                 @endif
                 <a href="{{ route('data-umum.index',date('Y')) }}" class="nav_link">
                     <i class='bx bx-file nav_icon'></i>
@@ -71,34 +79,41 @@
                 </a>
                 @if (Auth::user()->userDetail->role == 2 ||Auth::user()->userDetail->role == 1
                 ||Auth::user()->userDetail->role == 6 ||Auth::user()->userDetail->role == 5)
-                <a href="{{route('laporan-mingguan-uptd.index')}}" class="nav_link">
+                <a class="nav_link" id="laporanLink">
                     <i class='bx bxs-report nav_icon'></i>
-                    <span class="nav_name">Laporan Mingguan UPTD</span>
+                    <span class="nav_name">Laporan <i id="dropdownIconLaporan" class="bx "></span>
                 </a>
-                <a href="{{route('laporan-bulanan-uptd.index')}}" class="nav_link">
-                    <i class='bx bxs-report nav_icon'></i>
-                    <span class="nav_name">Laporan Bulanan UPTD</span>
-                </a>
-                <a href="{{route('laporan-keuangan.index')}}" class="nav_link">
-                    <i class='bx bxs-report nav_icon'></i>
-                    <span class="nav_name">Laporan keuangan</span>
-                </a>
-                @endif
-                @if (Auth::user()->userDetail->role == 4 ||Auth::user()->userDetail->role == 1)
-                <a href="{{route('laporan-mingguan-konsultan.index')}}" class="nav_link">
-                    <i class='bx bxs-report nav_icon'></i>
-                    <span class="nav_name">Laporan Mingguan Konsultan</span>
-                </a>
-                <a href="{{route('laporan-bulanan-konsultan.index')}}" class="nav_link">
-                    <i class='bx bxs-report nav_icon'></i>
-                    <span class="nav_name">Laporan Bulanan Konsultan</span>
-                </a>
-                @endif
-                @if (Auth::user()->userDetail->role == 1 || Auth::user()->userDetail->role == 7)
-                <a href="{{route('progress-fisik.index')}}" class="nav_link">
-                    <i class="bx bx-bar-chart-alt-2 nav_icon"></i>
-                    <span class="nav_name">Laporan Progress</span>
-                </a>
+                <div id="laporanDropdown" class="nav_dropdown" style="display: none;">
+                    <a href="{{route('laporan-mingguan-uptd.index')}}" class="nav_link">
+                        <i class='bx bxs-report nav_icon'></i>
+                        <span class="nav_name">Laporan Mingguan UPTD</span>
+                    </a>
+                    <a href="{{route('laporan-bulanan-uptd.index')}}" class="nav_link">
+                        <i class='bx bxs-report nav_icon'></i>
+                        <span class="nav_name">Laporan Bulanan UPTD</span>
+                    </a>
+                    <a href="{{route('laporan-keuangan.index')}}" class="nav_link">
+                        <i class='bx bxs-report nav_icon'></i>
+                        <span class="nav_name">Laporan keuangan</span>
+                    </a>
+                    @endif
+                    @if (Auth::user()->userDetail->role == 4 ||Auth::user()->userDetail->role == 1)
+                    <a href="{{route('laporan-mingguan-konsultan.index')}}" class="nav_link">
+                        <i class='bx bxs-report nav_icon'></i>
+                        <span class="nav_name">Laporan Mingguan Konsultan</span>
+                    </a>
+                    <a href="{{route('laporan-bulanan-konsultan.index')}}" class="nav_link">
+                        <i class='bx bxs-report nav_icon'></i>
+                        <span class="nav_name">Laporan Bulanan Konsultan</span>
+                    </a>
+                    @endif
+                    @if (Auth::user()->userDetail->role == 1 || Auth::user()->userDetail->role == 7)
+                    <a href="{{route('progress-fisik.index')}}" class="nav_link">
+                        <i class="bx bx-bar-chart-alt-2 nav_icon"></i>
+                        <span class="nav_name">Laporan Progress</span>
+                    </a>
+                </div>
+
                 @endif
 
             </div>
@@ -143,6 +158,17 @@
             $(".alert").delay(3000).fadeOut(500);
 
             $('[data-bs-toggle="tooltip"]').tooltip();
+
+            // Dropdown functionality
+            $('#masterDataLink').on('click', function() {
+                $('#masterDataDropdown').slideToggle("slow");
+                $('#dropdownIconMaster').toggleClass('bx-chevron-down');
+            });
+
+            $('#laporanLink').on('click', function() {
+                $('#laporanDropdown').slideToggle("slow");
+                $('#dropdownIconLaporan').toggleClass('bx-chevron-down');
+            });
         });
     </script>
     @yield('scripts')

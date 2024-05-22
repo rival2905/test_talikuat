@@ -98,6 +98,7 @@ a {
     color: var(--first-color-light);
     margin-bottom: 0.5rem;
     transition: 0.3s;
+    text-decoration: none;
 }
 .nav_link:hover {
     color: var(--white-color);
@@ -168,4 +169,8 @@ main {
     .body-pd {
         padding-left: calc(var(--nav-width) + 188px);
     }
+}
+
+.nav_dropdown {
+    background-color: #dbb323;
 }
