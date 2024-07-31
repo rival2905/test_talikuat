@@ -42,7 +42,7 @@
                         tension: 0.1
                     });
                     datasets.push({
-                    label: 'Adendum',
+                    label: 'Adendum 1',
                     data: rencana,
                     fill: false,
                     borderColor: 'rgb(75, 192, 192)',
