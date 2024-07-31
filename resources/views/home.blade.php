@@ -121,28 +121,38 @@
                 <div class="row mt-2">
                     <div class="col-sm-2 align-self-center">
                         <a href="{{route('curva-s.index',$item->id)}}" target="_blank" rel="noopener noreferrer">
-                            <h4 data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{{$item->nm_paket}}">{{$item->id}}</h4>
+                            <h4 data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{{$item->nm_paket}}">
+                                {{$item->id}}</h4>
                         </a>
                     </div>
                     <div class="col-sm-9">
-                        <div class="progress progress-bar-striped" style="height: 25px" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress progress-bar-striped" style="height: 25px" role="progressbar"
+                            aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
                             <div class="progress-bar" style="width: {{$item->laporanUptdAproved->rencana}}%">
                                 {{$item->laporanUptdAproved->rencana}} %
                             </div>
                         </div>
-                        <div class="progress progress-bar-striped mt-2" style="height: 25px" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                            <div class="progress-bar bg-success" style="width: {{$item->laporanUptdAproved->realisasi}}%">
+                        <div class="progress progress-bar-striped mt-2" style="height: 25px" role="progressbar"
+                            aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar bg-success"
+                                style="width: {{$item->laporanUptdAproved->realisasi}}%">
                                 {{$item->laporanUptdAproved->realisasi}}%
                             </div>
                         </div>
-                        <div class="progress progress-bar-striped mt-2" style="height: 25px" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                            <div class="progress-bar bg-danger" style="width: {{$item->laporanUptdAproved->deviasi < 0  ? 5 : $item->laporanUptdAproved->deviasi }}%">
-                                {{ $item->laporanUptdAproved->deviasi < 0 ?str_replace("-","+",$item->laporanUptdAproved->deviasi): "-".$item->laporanUptdAproved->deviasi   }}%
+                        <div class="progress progress-bar-striped mt-2" style="height: 25px" role="progressbar"
+                            aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar bg-danger"
+                                style="width: {{$item->laporanUptdAproved->deviasi < 0  ? 5 : $item->laporanUptdAproved->deviasi }}%">
+                                {{ $item->laporanUptdAproved->deviasi < 0 ?str_replace("-","+",$item->
+                                    laporanUptdAproved->deviasi): "-".$item->laporanUptdAproved->deviasi }}%
                             </div>
                         </div>
-                        <div class="progress mt-2 progress-bar-striped" style="height: 25px" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                            <div class="progress-bar bg-warning" style="width: {{$item->laporanUptdAproved->reaming == 0 ? '100%' : $item->laporanUptdAproved->reaming}}">
-                                {{ $item->laporanUptdAproved->reaming == 0 ? "Paket Sudah Selesai" : $item->laporanUptdAproved->reaming." Hari"  }}
+                        <div class="progress mt-2 progress-bar-striped" style="height: 25px" role="progressbar"
+                            aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar bg-warning"
+                                style="width: {{$item->laporanUptdAproved->paket_selesai == true ? 100 : $item->laporanUptdAproved->persen}}%">
+                                {{$item->laporanUptdAproved->paket_selesai == true ? "Paket Sudah Selesai" :
+                                $item->laporanUptdAproved->hari_terpakai . " Hari"}}
                             </div>
                         </div>
                     </div>
