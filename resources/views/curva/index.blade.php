@@ -32,6 +32,30 @@
                 )(0);
                 const realisasiSum = realisasi.map(cumulativeSum);
                 const labels = response.data.tanggal;
+                if(response.data.adendum){
+                    const adendum = response.data.adendum.rencana.map((item) => parseFloat(item.nilai));
+                    datasets.push({
+                        label: 'Rencana',
+                        data: adendum,
+                        fill: false,
+                        borderColor: 'yellow',
+                        tension: 0.1
+                    });
+                    datasets.push({
+                    label: 'Adendum',
+                    data: rencana,
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                });
+                datasets.push({
+                    label: 'Realisasi',
+                    data: realisasiSum,
+                    fill: false,
+                    borderColor: 'red',
+                    tension: 0.1
+                });
+                }else{
                 datasets.push({
                     label: 'Rencana',
                     data: rencana,
@@ -46,16 +70,9 @@
                     borderColor: 'red',
                     tension: 0.1
                 });
-                if(response.data.adendum){
-                    const adendum = response.data.adendum.rencana.map((item) => parseFloat(item.nilai));
-                    datasets.push({
-                        label: 'Adendum 1',
-                        data: adendum,
-                        fill: false,
-                        borderColor: 'yellow',
-                        tension: 0.1
-                    });
                 }
+               
+             
                 const data = {
                     labels: labels,
                     datasets: datasets,
