@@ -23,7 +23,7 @@
                 method: "GET",
                 async: false
             }).done(function(response) {
-
+                const datasets =[]
                 const rencana = response.data.rencana.map((item) => item.nilai);
                 const realisasi = response.data.realisasi.map((item) => parseFloat(item.nilai));
                 const cumulativeSum = (
@@ -31,25 +31,34 @@
                     (sum += value)
                 )(0);
                 const realisasiSum = realisasi.map(cumulativeSum);
-                console.log(realisasi);
-                console.log(realisasiSum);
-
                 const labels = response.data.tanggal;
+                datasets.push({
+                    label: 'Rencana',
+                    data: rencana,
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                });
+                datasets.push({
+                    label: 'Realisasi',
+                    data: realisasiSum,
+                    fill: false,
+                    borderColor: 'red',
+                    tension: 0.1
+                });
+                if(response.data.adendum){
+                    const adendum = response.data.adendum.rencana.map((item) => parseFloat(item.nilai));
+                    datasets.push({
+                        label: 'Adendum 1',
+                        data: adendum,
+                        fill: false,
+                        borderColor: 'yellow',
+                        tension: 0.1
+                    });
+                }
                 const data = {
                     labels: labels,
-                    datasets: [{
-                        label: 'Rencana',
-                        data: rencana,
-                        fill: false,
-                        borderColor: 'rgb(75, 192, 192)',
-                        tension: 0.1
-                    }, {
-                        label: 'Realisasi',
-                        data: realisasiSum,
-                        fill: false,
-                        borderColor: 'red',
-                        tension: 0.1
-                    }],
+                    datasets: datasets,
                     options: {
                         responsive: true,
                         hover: {

@@ -134,8 +134,8 @@ class JadualController extends Controller
             DB::commit();
             return redirect()->route('jadual.index')->with('success', 'Jadual berhasil diinput');
         } catch (\Throwable $e) {
-            dd($e);
             DB::rollback();
+            dd($e);
             return back()->with('error', 'Jadual gagal diinput');
         }
     }

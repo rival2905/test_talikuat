@@ -25,7 +25,7 @@ class DataUmum extends Model
 
     public function detailWithJadualAwal()
     {
-        return $this->hasMany(DataUmumDetail::class, 'data_umum_id')->where('is_active', 0)->with('jadualDetail');
+        return $this->hasOne(DataUmumDetail::class, 'data_umum_id')->where('is_active', 0)->with('jadualDetail');
     }
 
     public function detailWithJadual()

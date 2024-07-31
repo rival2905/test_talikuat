@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\DataUmum;
+use App\Models\DataUmumDetail;
 use App\Models\Jadual;
 use App\Models\JadualDetail;
 use Carbon\Carbon;
@@ -401,9 +402,72 @@ class ProgressController extends Controller
         $newdata->realisasi = $realisasi;
         $newdata->tanggal = $sortedDate;
 
+        $is_adendum = DataUmumDetail::where('data_umum_id', $id)->where('is_active', 0)->first();
+        if ($is_adendum) {
+            $newdata->adendum = $this->getDataAdendum($id);
+        }
+
         return response()->json([
             'status' => 'success',
             'data' => $newdata
         ]);
+    }
+
+    public function getDataAdendum($id)
+    {
+        $data = DataUmum::where('id', $id)->with('detailWithJadualAwal')->first();
+        $jadualId = [];
+        $tgl_spmk = $data->tgl_spmk;
+        $end_date = date('Y-m-d', strtotime($tgl_spmk . ' + ' . $data->detailWithJadualAwal->lama_waktu . ' days'));
+        $jml_minggu = is_float($data->detailWithJadualAwal->lama_waktu / 7) ? floor($data->detailWithJadualAwal->lama_waktu / 7) + 1 : floor($data->detailWithJadualAwal->lama_waktu / 7);
+        $sortedDate = $this->sortDateAsWeek($tgl_spmk, $jml_minggu, $end_date);
+        $rencana = [];
+        foreach ($data->detailWithJadualAwal->jadualDetail as $key => $value) {
+            $jadualId[] = $value->id;
+        }
+
+        for ($i = 0; $i < count($sortedDate); $i++) {
+            $sum = 0;
+            $detail = [];
+            $nmp = [];
+            $dataJadual = JadualDetail::whereIn('jadual_id', $jadualId)->whereBetween('tanggal', [$sortedDate[$i], $this->addDayswithdate($sortedDate[$i], 6)])->get();
+            foreach ($dataJadual as $value) {
+                if (array_key_exists($value->nmp . ' - ' . $value->uraian, $nmp)) {
+                    $nmp[$value->nmp . ' - ' . $value->uraian] += floatval($value->nilai);
+                } else {
+                    $nmp[$value->nmp . ' - ' . $value->uraian] = floatval($value->nilai);
+                }
+                $sum += floatval($value->nilai);
+                array_push($detail, $value);
+            }
+
+            $obj = new \stdClass;
+            $obj->minggu = $i + 1;
+            $obj->tanggal = $sortedDate[$i] . ' - ' . $this->addDayswithdate($sortedDate[$i], 6);
+            $obj->nilai_this_week = floatval($sum);
+            $obj->detail = $nmp;
+            $obj->nilai = floatval($sum);
+            $rencana[$i] = $obj;
+        }
+
+        foreach ($rencana as $key => $ren) {
+            if ($key == 0) {
+
+                $ren->nilai == floatval($ren->nilai_this_week);
+            } else {
+                $ren->nilai = floatval($rencana[$key - 1]->nilai) + floatval($ren->nilai_this_week);
+            }
+        }
+
+        foreach ($sortedDate as $key => $date) {
+            $sortedDate[$key] = $date . ' - ' . $this->addDayswithdate($date, 6);
+        }
+
+        $newdata = new \stdClass;
+        $newdata->data = DataUmum::where('id', $id)->with('uptd', 'detail')->first();
+        $newdata->rencana = $rencana;
+        $newdata->tanggal = $sortedDate;
+
+        return $newdata;
     }
 }
