@@ -18,10 +18,15 @@ class LaporanBulananKonsultanController extends Controller
     public function index()
     {
         $dataUmum = '';
-        if (Auth::user()->userDetail->uptd_id == 0) {
+        if (Auth::guard('external')->check()) {
+            $user = Auth::guard('external')->user();
+        } else {
+            $user = Auth::user()->userDetail;
+        }
+        if ($user->uptd_id == 0) {
             $dataUmum = DataUmum::where('thn', date('Y'))->with('laporanBulananKonsultan')->orderBy('id', 'desc')->get();
         } else {
-            $dataUmum = DataUmum::where('thn', date('Y'))->with('laporanBulananKonsultan')->where('uptd_id', Auth::user()->userDetail->uptd_id)->orderBy('id', 'desc')->get();
+            $dataUmum = DataUmum::where('thn', date('Y'))->with('laporanBulananKonsultan')->where('uptd_id', $user->uptd_id)->orderBy('id', 'desc')->get();
         }
         return view('laporan-bulanan-konsultan.index', [
             'dataUmum' => $dataUmum

@@ -19,10 +19,16 @@ class LaporanKonsultan extends Controller
     public function index()
     {
         $dataUmum = '';
-        if (Auth::user()->userDetail->uptd_id == 0) {
-            $dataUmum = DataUmum::where('thn', date('Y'))->with('uptd')->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->orderBy('id', 'desc')->get();
+        if (Auth::guard('external')->check()) {
+            $user = Auth::guard('external')->user();
         } else {
-            $dataUmum = DataUmum::where('thn', date('Y'))->with('uptd')->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->where('uptd_id', Auth::user()->userDetail->uptd_id)->orderBy('id', 'desc')->get();
+            $user = Auth::user()->userDetail;
+        }
+
+        if ($user->uptd_id == 0) {
+            $dataUmum = DataUmum::where('thn', date('Y'))->with('uptd')->with('detailWithJadual')->with('laporanKonsultan')->orderBy('id', 'desc')->get();
+        } else {
+            $dataUmum = DataUmum::where('thn', date('Y'))->with('uptd')->with('detailWithJadual')->with('laporanKonsultan')->where('uptd_id',  $user->uptd_id)->orderBy('id', 'desc')->get();
         }
         return view('laporan-mingguan-konsultan.index', [
             'dataUmum' => $dataUmum
@@ -89,7 +95,7 @@ class LaporanKonsultan extends Controller
         ])->id;
         for ($i = 0; $i < count($request->nmp); $i++) {
             LaporanMingguanKonsultanDetail::create([
-                'laporan_mingguan_id' => $id,
+                'laporan_mingguan_konsultan_id' => $id,
                 'kd_jenis_pekerjaan' => $request->nmp[$i],
                 'nmp' => $request->nmp[$i] . ' - ' . $request->uraian[$i],
                 'volume' => $request->volume[$i],

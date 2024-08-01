@@ -38,6 +38,18 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/user-manajement/set-role', [UserManajemen::class, 'pageSetRole'])->name('user-manajement.set-role-page');
 });
 
+Route::middleware(['auth.external'])->group(function () {
+    Route::get('/dashboard-konsultan', [DashboardController::class, 'index'])->name('dashboard-external');
+    Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::get('/laporan-mingguan-konsultan-external', [LaporanKonsultan::class, 'index'])->name('laporan-mingguan-konsultan-external.index');
+    Route::get('/laporan-mingguan-konsultan-external/create/{id}', [LaporanKonsultan::class, 'create'])->name('laporan-mingguan-konsultan-external.create');
+    Route::post('/laporan-mingguan-konsultan-external/store/{id}', [LaporanKonsultan::class, 'store'])->name('laporan-mingguan-konsultan-external.store');
+
+    Route::get('/laporan-bulanan-konsultan-external', [LaporanBulananKonsultanController::class, 'index'])->name('laporan-bulanan-konsultan-external.index');
+    Route::get('/laporan-bulanan-konsultan-external/create/{id}', [LaporanBulananKonsultanController::class, 'create'])->name('laporan-bulanan-konsultan-external.create');
+    Route::post('/laporan-bulanan-konsultan-external/store/{id}', [LaporanBulananKonsultanController::class, 'store'])->name('laporan-bulanan-konsultan-external.store');
+});
+
 Route::middleware(['auth', 'userVerified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -115,6 +127,7 @@ Route::middleware(['auth', 'userVerified'])->group(function () {
 
     Route::get('/progress-all', [UtilsController::class, 'progressAll'])->name('progress-all.index');
     Route::get('/progress/{uptd}', [UtilsController::class, 'progressUptd'])->name('progress-all.filter');
-
-    Route::get('/file-laporan/{path}', [UtilsController::class, 'fileLaporan'])->name('file-laporan.index');
 });
+
+Route::get('/download-template-laporan-mingguan/{data_umum}', [LaporanMingguanController::class, 'downloadTemplate'])->name('laporan-mingguan-uptd.downloadTemplate');
+Route::get('/file-laporan/{path}', [UtilsController::class, 'fileLaporan'])->name('file-laporan.index');

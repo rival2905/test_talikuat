@@ -29,8 +29,8 @@ class LoginController extends Controller
             } else {
                 $user = UserExternal::where('email', $request->email)->first();
                 if ($user) {
-                    if (Auth::guard('user_externals')->attempt(['email' => $user->email, 'password' => $request->password])) {
-                        return redirect()->route('dashboard');
+                    if (Auth::guard('external')->attempt(['email' => $user->email, 'password' => $request->password])) {
+                        return redirect()->route('dashboard-external');
                     }
                 }
             }
@@ -43,7 +43,7 @@ class LoginController extends Controller
             } else {
                 $user = UserExternal::where('nik', $request->email)->first();
                 if ($user) {
-                    if (Auth::guard('user_externals')->attempt(['email' => $user->email, 'password' => $request->password])) {
+                    if (Auth::guard('external')->attempt(['email' => $user->email, 'password' => $request->password])) {
                         return redirect()->route('dashboard');
                     }
                 }

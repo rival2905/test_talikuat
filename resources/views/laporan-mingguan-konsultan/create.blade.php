@@ -12,91 +12,105 @@
 @section('content')
 <div class="row">
     <div class="col-lg-12 grid-margin stretch-card">
-        <form action="{{ route('laporan-mingguan-konsultan.store',$dataUmum->id) }}" method="POST" id="form-laporan-mingguan-uptd">
-            <div class="card">
-                @csrf
-                <input type="hidden" name="file_path" id="file_path" />
-                <input type="hidden" name="tgl_start" value="{{ $getTgl[0] }}" />
-                <input type="hidden" name="tgl_end" value="{{ $getTgl[1] }}" />
-                <div class="card-body">
-                    <div class="form-group row mb-3">
-                        <label class="col-sm-2 col-form-label">Nama Paket</label>
-                        <div class="col-sm-10">
-                            <div class="input-group">
-                                <input type="text" class="form-control" value="{{$dataUmum->nm_paket}}" required readonly />
+        @if(!Auth::guard('external')->check())
+        <form action="{{ route('laporan-mingguan-konsultan.store',$dataUmum->id) }}" method="POST"
+            id="form-laporan-mingguan-uptd">
+            @else
+            <form action="{{ route('laporan-mingguan-konsultan-external.store',$dataUmum->id) }}" method="POST"
+                id="form-laporan-mingguan-uptd">
+                @endif
+                <div class="card">
+                    @csrf
+                    <input type="hidden" name="file_path" id="file_path" />
+                    <input type="hidden" name="tgl_start" value="{{ $getTgl[0] }}" />
+                    <input type="hidden" name="tgl_end" value="{{ $getTgl[1] }}" />
+                    <div class="card-body">
+                        <div class="form-group row mb-3">
+                            <label class="col-sm-2 col-form-label">Nama Paket</label>
+                            <div class="col-sm-10">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" value="{{$dataUmum->nm_paket}}" required
+                                        readonly />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group row mb-3">
-                        <label class="col-sm-2 col-form-label">Minggu Ke</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" value="{{ $count }}" name="priode" readonly />
+                        <div class="form-group row mb-3">
+                            <label class="col-sm-2 col-form-label">Minggu Ke</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" value="{{ $count }}" name="priode" readonly />
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row mb-3">
-                        <label class="col-sm-2 col-form-label">Upload File Laporan</label>
-                        <div class="col-sm-10">
-                            <div class="input-group">
-                                <input type="file" class="form-control" id="file_laporan" name="file_laporan" required accept="application/pdf" />
+                        <div class="form-group row mb-3">
+                            <label class="col-sm-2 col-form-label">Upload File Laporan</label>
+                            <div class="col-sm-10">
+                                <div class="input-group">
+                                    <input type="file" class="form-control" id="file_laporan" name="file_laporan"
+                                        required accept="application/pdf" />
 
-                                <div class="invalid-feedback" id="invalid-file_laporan" style="display: block; color: red"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row align-items-start">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>Rencana</label>
-                                <input type="text" name="rencana" value="{{$dataUmum->detailWithJadual->jadualDetail}}" id="rencana" class="form-control" required readonly />
-                                @error('rencana')
-                                <div class="invalid-feedback" style="display: block; color: red">
-                                    {{ $message }}
+                                    <div class="invalid-feedback" id="invalid-file_laporan"
+                                        style="display: block; color: red"></div>
                                 </div>
-                                @enderror
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>Realisasi</label>
-                                <input type="number" name="realisasi" id="realisasi" class="form-control" required max="99.99" min="0" />
-                                @error('realisasi')
-                                <div class="invalid-feedback" style="display: block; color: red">
-                                    {{ $message }}
+                        <div class="row align-items-start">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Rencana</label>
+                                    <input type="text" name="rencana"
+                                        value="{{$dataUmum->detailWithJadual->jadualDetail}}" id="rencana"
+                                        class="form-control" required readonly />
+                                    @error('rencana')
+                                    <div class="invalid-feedback" style="display: block; color: red">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
                                 </div>
-                                @enderror
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>Deviasi</label>
-                                <input type="text" name="deviasi" id="deviasi" class="form-control" required readonly />
-                                @error('deviasi')
-                                <div class="invalid-feedback" style="display: block; color: red">
-                                    {{ $message }}
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Realisasi</label>
+                                    <input type="number" name="realisasi" id="realisasi" class="form-control" required
+                                        max="99.99" min="0" />
+                                    @error('realisasi')
+                                    <div class="invalid-feedback" style="display: block; color: red">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
                                 </div>
-                                @enderror
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Deviasi</label>
+                                    <input type="text" name="deviasi" id="deviasi" class="form-control" required
+                                        readonly />
+                                    @error('deviasi')
+                                    <div class="invalid-feedback" style="display: block; color: red">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <h4 class="text-center fw-bolder fs-3 mt-4 mb-4">Detail Nomor Mata Pembayaran</h4>
-                    @foreach($dataUmum->detail->jadual as $item)
-                    <div class="form-group row mb-3">
-                        <label class="text-wrap">{{$item->nmp}} - {{$item->uraian}}</label>
-                        <div class="input-group">
-                            <input type="hidden" name="nmp[]" value="{{$item->nmp}}" />
-                            <input type="hidden" name="uraian[]" value="{{$item->uraian}}" />
-                            <input type="text" name="volume[]" id="nmp" class="form-control" required autocomplete="off" />
+                        <h4 class="text-center fw-bolder fs-3 mt-4 mb-4">Detail Nomor Mata Pembayaran</h4>
+                        @foreach($dataUmum->detail->jadual as $item)
+                        <div class="form-group row mb-3">
+                            <label class="text-wrap">{{$item->nmp}} - {{$item->uraian}}</label>
+                            <div class="input-group">
+                                <input type="hidden" name="nmp[]" value="{{$item->nmp}}" />
+                                <input type="hidden" name="uraian[]" value="{{$item->uraian}}" />
+                                <input type="text" name="volume[]" id="nmp" class="form-control" required
+                                    autocomplete="off" />
+                            </div>
                         </div>
+                        @endforeach
+                        <p id="totalParent">Total : <span class="text-danger" id="total"></span></p>
                     </div>
-                    @endforeach
-                    <p id="totalParent">Total : <span class="text-danger" id="total"></span></p>
+
                 </div>
-
-            </div>
-            <button type="button" class="btn btn-primary mt-2 w-100" onclick="validate()">
-                Save
-            </button>
-        </form>
+                <button type="button" class="btn btn-primary mt-2 w-100" onclick="validate()">
+                    Save
+                </button>
+            </form>
     </div>
 </div>
 

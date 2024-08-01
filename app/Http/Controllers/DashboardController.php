@@ -16,24 +16,42 @@ class DashboardController extends Controller
     public function index()
     {
         $data = '';
-        if (Auth::user()->userDetail->uptd_id == 0) {
 
-            $ppk = UserDetail::count();
+        if (Auth::guard('external')->check()) {
+            if (Auth::guard('external')->user()->uptd_id == 0) {
+                $ppk = UserDetail::count();
+            } else {
+                $ppk = UserDetail::where('uptd_id', Auth::guard('external')->user()->uptd_id)->count();
+            }
+            if (Auth::guard('external')->user()->uptd_id == 0) {
+                $data = DataUmum::where('thn', date('Y'))->with('uptd')->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->orderBy('id', 'desc')->get();
+            } elseif (Auth::guard('external')->user()->role == 5) {
+                $data = DataUmum::where('thn', date('Y'))->with('uptd')->whereHas('detailWithJadual', function ($query) {
+                    $query->where('ppk_id', Auth::guard('external')->user()->user_id);
+                })->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->where('uptd_id', Auth::guard('external')->user()->uptd_id)->orderBy('id', 'desc')->get();
+            } else {
+                $data = DataUmum::where('thn', date('Y'))->with('uptd')->whereHas('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->where('uptd_id', Auth::guard('external')->user()->uptd_id)->orderBy('id', 'desc')->get();
+            }
         } else {
-
-
-            $ppk = UserDetail::where('uptd_id', Auth::user()->userDetail->uptd_id)->count();
+            if (Auth::user()->userDetail->uptd_id == 0) {
+                $ppk = UserDetail::count();
+            } else {
+                $ppk = UserDetail::where('uptd_id', Auth::user()->userDetail->uptd_id)->count();
+            }
+            if (Auth::user()->userDetail->uptd_id == 0) {
+                $data = DataUmum::where('thn', date('Y'))->with('uptd')->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->orderBy('id', 'desc')->get();
+            } elseif (Auth::user()->userDetail->role == 5) {
+                $data = DataUmum::where('thn', date('Y'))->with('uptd')->whereHas('detailWithJadual', function ($query) {
+                    $query->where('ppk_id', Auth::user()->userDetail->user_id);
+                })->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->where('uptd_id', Auth::user()->userDetail->uptd_id)->orderBy('id', 'desc')->get();
+            } else {
+                $data = DataUmum::where('thn', date('Y'))->with('uptd')->whereHas('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->where('uptd_id', Auth::user()->userDetail->uptd_id)->orderBy('id', 'desc')->get();
+            }
         }
 
-        if (Auth::user()->userDetail->uptd_id == 0) {
-            $data = DataUmum::where('thn', date('Y'))->with('uptd')->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->orderBy('id', 'desc')->get();
-        } elseif (Auth::user()->userDetail->role == 5) {
-            $data = DataUmum::where('thn', date('Y'))->with('uptd')->whereHas('detailWithJadual', function ($query) {
-                $query->where('ppk_id', Auth::user()->userDetail->user_id);
-            })->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->where('uptd_id', Auth::user()->userDetail->uptd_id)->orderBy('id', 'desc')->get();
-        } else {
-            $data = DataUmum::where('thn', date('Y'))->with('uptd')->whereHas('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->where('uptd_id', Auth::user()->userDetail->uptd_id)->orderBy('id', 'desc')->get();
-        }
+
+
+
         foreach ($data as $d) {
             if ($d->detailWithJadual == null) {
                 $d->detailWithJadual = (object) [
@@ -65,8 +83,14 @@ class DashboardController extends Controller
                     }
                 }
             }
-            foreach ($d->laporanUptdAproved as $laporan) {
-                $realisasi += floatval($laporan->realisasi);
+            if (!Auth::guard('external')->check())
+                foreach ($d->laporanUptdAproved as $laporan) {
+                    $realisasi += floatval($laporan->realisasi);
+                }
+            else {
+                foreach ($d->laporanKonsultan as $laporan) {
+                    $realisasi += floatval($laporan->realisasi);
+                }
             }
             $d->laporanUptdAproved->persen = $persen;
             $d->laporanUptdAproved->tersisa = $d->detailWithJadual->lama_waktu - $hari_terpakai;

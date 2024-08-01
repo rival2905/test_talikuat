@@ -31,7 +31,8 @@
         <div class="header_toggle">
             <i class="bx bx-menu" id="header-toggle"></i>
         </div>
-        <h3 class="text-center text-white">Selamat Datang, {{ Auth::user()->name }}</h3>
+        <h3 class="text-center text-white">Selamat Datang, {{ Auth::user()->name ??
+            Auth::guard('external')->user()->name }}</h3>
         <div class="header_img">
             <img src="{{ asset('assets/images/talikuat.png') }}" alt="" />
         </div>
@@ -43,6 +44,7 @@
                 <img src="{{ asset('assets/images/talikuat.png') }}" alt="Tali Kuat Bina Marga" height="80" />
                 <span class="nav_logo-name">Talikuat</span>
             </a>
+            @if(!Auth::guard('external')->check())
             <div class="nav_list">
                 <a href="{{ route('dashboard') }}" class="nav_link">
                     <i class="bx bx-grid-alt nav_icon"></i>
@@ -112,11 +114,31 @@
                         <i class="bx bx-bar-chart-alt-2 nav_icon"></i>
                         <span class="nav_name">Laporan Progress</span>
                     </a>
+                    @endif
                 </div>
-
-                @endif
-
             </div>
+            @endif
+            @if(Auth::guard('external')->check())
+            <div>
+                <a href="{{ route('dashboard-external') }}" class="nav_link">
+                    <i class="bx bx-grid-alt nav_icon"></i>
+                    <span class="nav_name">Dashboard</span>
+                </a>
+
+                @if (Auth::guard('external')->user()->role == 4)
+                <a href="{{route('laporan-mingguan-konsultan-external.index')}}" class="nav_link">
+                    <i class='bx bxs-report nav_icon'></i>
+                    <span class="nav_name">Laporan Mingguan Konsultan</span>
+                </a>
+                <a href="{{route('laporan-bulanan-konsultan-external.index')}}" class="nav_link">
+                    <i class='bx bxs-report nav_icon'></i>
+                    <span class="nav_name">Laporan Bulanan Konsultan</span>
+                </a>
+            </div>
+
+            @endif
+
+            @endif
 
             <a href="{{ route('logout') }}" class="nav_link">
                 <i class="bx bx-log-out nav_icon"></i>

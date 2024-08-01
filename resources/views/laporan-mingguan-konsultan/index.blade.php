@@ -4,9 +4,18 @@
     <div class="card mb-3" style="max-height: 100vh; overflow-y: auto;">
         <div class="card-body">
             <h5 class="card-title">{{$data->id}} - {{$data->nm_paket}} </h5>
-
+            @if(!Auth::guard('external')->check())
             @if(Auth::user()->userDetail->role != 6 && Auth::user()->userDetail->role != 4)
-            <a href="{{route('laporan-mingguan-uptd.create',$data->id)}}" class="btn btn-mat btn-dark waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Buat Laporan Mingguan">Buat Laporan<i class="bx bxs-file-doc"></i></a>
+            <a href="{{route('laporan-mingguan-konsultan.create',$data->id)}}"
+                class="btn btn-mat btn-dark waves-effect waves-light" data-bs-toggle="tooltip"
+                data-bs-placement="bottom" data-bs-title="Buat Laporan Mingguan">Buat Laporan<i
+                    class="bx bxs-file-doc"></i></a>
+            @endif
+            @else
+            <a href="{{route('laporan-mingguan-konsultan-external.create',$data->id)}}"
+                class="btn btn-mat btn-dark waves-effect waves-light" data-bs-toggle="tooltip"
+                data-bs-placement="bottom" data-bs-title="Buat Laporan Mingguan">Buat Laporan<i
+                    class="bx bxs-file-doc"></i></a>
             @endif
             <hr>
             <div class="container mt-2">
@@ -17,34 +26,21 @@
                             <th>Rencana</th>
                             <th>Realisasi</th>
                             <th>Deviasi</th>
-                            <th>Status</th>
                             <th style="width: 13%">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($data->laporanUptd as $laporan)
+                        @foreach($data->laporanKonsultan as $laporan)
                         <tr>
                             <td>{{$laporan->priode}}</td>
                             <td>{{$laporan->rencana}}</td>
                             <td>{{$laporan->realisasi}}</td>
                             <td>{{$laporan->deviasi}}</td>
                             <td>
-                                @if($laporan->status == 0)
-                                <span class="badge bg-warning">Belum Disetujui</span>
-                                @elseif($laporan->status == 1)
-                                <span class="badge bg-success">Disetujui</span>
-                                @else
-                                <span class="badge bg-danger">Ditolak</span>
-                                @endif
-                            </td>
-                            <td>
-                                <button class="btn btn-mat btn-info waves-effect waves-light" data-bs-target="#detailModal" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Detail Laporan" data-bs-data="{{$laporan}}" onclick="renderDetailModal(this)"><i class="bx bx-search-alt-2"></i></button>
-                                @if(Auth::user()->userDetail->role == 6 && $laporan->status == 0)
-                                <button class="btn btn-mat btn-warning waves-effect waves-light" data-bs-target="#approvalModal" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Approval Laporan" data-bs-priode="{{$laporan->priode}}" data-bs-id="{{$laporan->id}}" onclick="renderModal(this)"><i class="bx bxs-file-doc"></i></button>
-                                @endif
-                                @if($laporan->status == 2)
-                                <a href="{{route('laporan-mingguan-konsultan.edit',$laporan->id)}}" class="btn btn-mat btn-danger waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Edit Laporan"><i class='bx bxs-edit-alt'></i></a>
-                                @endif
+                                <button class="btn btn-mat btn-info waves-effect waves-light"
+                                    data-bs-target="#detailModal" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                    data-bs-title="Detail Laporan" data-bs-data="{{$laporan}}"
+                                    onclick="renderDetailModal(this)"><i class="bx bx-search-alt-2"></i></button>
                             </td>
                         </tr>
                         @endforeach
@@ -119,7 +115,8 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Rencana</label>
-                            <input type="text" name="rencana" value="" id="rencana" class="form-control" required readonly />
+                            <input type="text" name="rencana" value="" id="rencana" class="form-control" required
+                                readonly />
 
                         </div>
                     </div>
