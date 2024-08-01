@@ -42,11 +42,11 @@ class LaporanKonsultan extends Controller
      */
     public function create($id)
     {
-        $dataUmum = DataUmum::where('id', $id)->with('detail', 'laporanUptd', 'detailWithJadual')->first();
-        $count = $dataUmum->laporanUptd->count() + 1;
+        $dataUmum = DataUmum::where('id', $id)->with('detail', 'detailWithJadual')->first();
+        $count = $dataUmum->laporanKonsultan->count() + 1;
         $totalMinggu = $dataUmum->detail->lama_waktu / 7;
         $totalMinggu = (int)ceil($totalMinggu);
-        $tgl = $count == 1 ? $dataUmum->tgl_spmk : $dataUmum->laporanUptd->last()->tgl_end;
+        $tgl = $count == 1 ? $dataUmum->tgl_spmk : $dataUmum->laporanKonsultan->last()->tgl_end;
         $getTgl = $this->getTgl($tgl, $count);
         $count = $count . " / " . $totalMinggu . ' Tanggal ' . $getTgl[0] . ' s/d ' . $getTgl[1];
         $rencana = 0;
@@ -100,6 +100,10 @@ class LaporanKonsultan extends Controller
                 'nmp' => $request->nmp[$i] . ' - ' . $request->uraian[$i],
                 'volume' => $request->volume[$i],
             ]);
+        }
+
+        if (Auth::guard('external')->check()) {
+            return redirect()->route('laporan-mingguan-konsultan-external.index')->with('success', 'Data berhasil disimpan');
         }
 
         return redirect()->route('laporan-mingguan-konsultan.index')->with('success', 'Data berhasil disimpan');
