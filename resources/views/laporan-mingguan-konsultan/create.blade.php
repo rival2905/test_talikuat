@@ -10,7 +10,9 @@
 </style>
 @endsection
 @section('content')
-<div class="row">
+<a class="btn btn-success " href="{{route('laporan-mingguan-uptd.downloadTemplate',$dataUmum->id)}}"
+    rel="noopener noreferrer">Download Template Laporan</a>
+<div class="row mt-3">
     <div class="col-lg-12 grid-margin stretch-card">
         @if(!Auth::guard('external')->check())
         <form action="{{ route('laporan-mingguan-konsultan.store',$dataUmum->id) }}" method="POST"
