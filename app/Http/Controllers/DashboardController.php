@@ -84,12 +84,17 @@ class DashboardController extends Controller
                 }
             }
             if (!Auth::guard('external')->check())
-                foreach ($d->laporanUptdAproved as $laporan) {
-                    $realisasi += floatval($laporan->realisasi);
+
+                if ($d->laporanUptdAproved->count() == 0) {
+                    $realisasi = 0;
+                } else {
+                    $realisasi = $d->laporanUptdAproved[count($d->laporanUptdAproved) - 1]->realisasi;
                 }
             else {
-                foreach ($d->laporanKonsultan as $laporan) {
-                    $realisasi += floatval($laporan->realisasi);
+                if ($d->laporanKonsultan->count() == 0) {
+                    $realisasi = 0;
+                } else {
+                    $realisasi = $d->laporanKonsultan[count($d->laporanKonsultan) - 1]->realisasi;
                 }
             }
             $d->laporanUptdAproved->persen = $persen;

@@ -26,11 +26,7 @@
                 const datasets =[]
                 const rencana = response.data.rencana.map((item) => item.nilai);
                 const realisasi = response.data.realisasi.map((item) => parseFloat(item.nilai));
-                const cumulativeSum = (
-                    (sum) => (value) =>
-                    (sum += value)
-                )(0);
-                const realisasiSum = realisasi.map(cumulativeSum);
+                const realisasiSum = realisasi;
                 const labels = response.data.tanggal;
                 if(response.data.adendum){
                     const adendum = response.data.adendum.rencana.map((item) => parseFloat(item.nilai));
