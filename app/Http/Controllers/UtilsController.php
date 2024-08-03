@@ -118,8 +118,19 @@ class UtilsController extends Controller
                     }
                 }
             }
-            foreach ($d->laporanUptdAproved as $laporan) {
-                $realisasi += floatval($laporan->realisasi);
+            if (!Auth::guard('external')->check())
+
+                if ($d->laporanUptdAproved->count() == 0) {
+                    $realisasi = 0;
+                } else {
+                    $realisasi = $d->laporanUptdAproved[count($d->laporanUptdAproved) - 1]->realisasi;
+                }
+            else {
+                if ($d->laporanKonsultan->count() == 0) {
+                    $realisasi = 0;
+                } else {
+                    $realisasi = $d->laporanKonsultan[count($d->laporanKonsultan) - 1]->realisasi;
+                }
             }
             $d->laporanUptdAproved->reaming = $days;
             $d->laporanUptdAproved->enddate = $days2;
