@@ -64,7 +64,7 @@
                                 aria-label="Example with label" aria-valuenow="25" aria-valuemin="0"
                                 aria-valuemax="100">
                                 <div class="progress-bar bg-danger"
-                                    style="width: {{$item->laporanUptdAproved->deviasi < 0  ? 5 : $item->laporanUptdAproved->deviasi }}%">
+                                    style="width: {{$item->laporanUptdAproved->deviasi < 0  ? 5 : $item->laporanUptdAproved->deviasi +10 }}%">
                                     {{ $item->laporanUptdAproved->deviasi < 0 ?str_replace("-","+",$item->
                                         laporanUptdAproved->deviasi): "-".$item->laporanUptdAproved->deviasi }}%
                                 </div>
@@ -75,7 +75,8 @@
                                 <div class="progress-bar bg-warning"
                                     style="width: {{$item->laporanUptdAproved->paket_selesai == true ? 100 : $item->laporanUptdAproved->persen}}%">
                                     {{$item->laporanUptdAproved->paket_selesai == true ? "Paket Sudah Selesai" :
-                                    $item->laporanUptdAproved->hari_terpakai . " Hari"}}
+                                    $item->laporanUptdAproved->hari_terpakai . " Hari / " .$item->detail->lama_waktu . "
+                                    Hari"}}
                                 </div>
                             </div>
                         </div>

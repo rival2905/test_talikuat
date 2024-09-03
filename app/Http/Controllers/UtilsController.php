@@ -167,4 +167,14 @@ class UtilsController extends Controller
         }
         return response()->file($path);
     }
+
+    public function rekapDokumen($uptd)
+    {
+        $data = DataUmum::with('uptd')->where([['uptd_id', $uptd], ['thn', date('Y')]])->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('fileDkh', 'fileKontrak', 'fileSpmk', 'fileUmum', 'fileSyaratUmum', 'fileSyaratKhusus', 'fileJadual', 'fileGambarRencana', 'fileSppbj', 'fileSpl', 'fileSpeckUmum', 'fileJaminan', 'fileBapl')
+            ->orderBy('id', 'desc')->get();
+        return view('rekap-dokumen.index', [
+            'data' => $data,
+
+        ]);
+    }
 }
