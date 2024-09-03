@@ -116,6 +116,20 @@
                     </a>
                     @endif
                 </div>
+                @if (Auth::user()->userDetail->role == 1)
+                <a class="nav_link" id="rekapLink">
+                    <i class='bx bxs-report nav_icon'></i>
+                    <span class="nav_name">Rekap Laporan<i id="dropdownIconRekap" class="bx "></span>
+                </a>
+                <div id="rekapDropdown" class="nav_dropdown" style="display: none;">
+                    @for ($i = 1; $i <= 6; $i++) <a href="{{route('rekap-dokumen.index',$i)}}" class="nav_link"
+                        target="_blank">
+                        <i class='bx bxs-report nav_icon'></i>
+                        <span class="nav_name">Rekap Dukomen UPTD {{$i}}</span>
+                        </a>
+                        @endfor
+                </div>
+                @endif
             </div>
             @endif
             @if(Auth::guard('external')->check())
@@ -190,6 +204,11 @@
             $('#laporanLink').on('click', function() {
                 $('#laporanDropdown').slideToggle("slow");
                 $('#dropdownIconLaporan').toggleClass('bx-chevron-down');
+            });
+            $('#rekapLink').on('click', function() {
+                $('#rekapDropdown').slideToggle("slow");
+                $('#dropdownIconRekap').toggleClass('bx-chevron-down');
+
             });
         });
     </script>

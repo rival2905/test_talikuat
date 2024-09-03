@@ -172,9 +172,70 @@ class UtilsController extends Controller
     {
         $data = DataUmum::with('uptd')->where([['uptd_id', $uptd], ['thn', date('Y')]])->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('fileDkh', 'fileKontrak', 'fileSpmk', 'fileUmum', 'fileSyaratUmum', 'fileSyaratKhusus', 'fileJadual', 'fileGambarRencana', 'fileSppbj', 'fileSpl', 'fileSpeckUmum', 'fileJaminan', 'fileBapl')
             ->orderBy('id', 'desc')->get();
+        $this->getProgress($data);
+
         return view('rekap-dokumen.index', [
             'data' => $data,
-
+            'uptd' => Uptd::find($uptd)
         ]);
+    }
+
+
+    private function getProgress($data)
+    {
+        foreach ($data as $d) {
+            if ($d->detailWithJadual == null) {
+                $d->detailWithJadual = (object) [
+                    'lama_waktu' => 0,
+                    'jadualDetail' => []
+                ];
+            }
+            $rencana = 0;
+            $realisasi = 0;
+            $deviasi = 0;
+            $days = 0;
+            $now = date('Y-m-d');
+            $end_date = date('Y-m-d', strtotime($d->tgl_spmk . "+" . $d->detailWithJadual->lama_waktu . " days"));
+            $spmk = new DateTime($d->tgl_spmk);
+            $today = new DateTime($now);
+            $interval = $spmk->diff($today);
+            $hari_terpakai = $interval->days;
+            $persen = ($hari_terpakai / $d->detailWithJadual->lama_waktu) * 100;
+
+
+
+            if ($days < $d->tgl_spmk) {
+                $days = 0;
+            }
+            foreach ($d->detailWithJadual->jadualDetail as $jadual) {
+                foreach ($jadual->detail as $detail) {
+                    if (strtotime($detail->tanggal) <= strtotime(date('Y-m-d'))) {
+                        $rencana += floatval($detail->nilai);
+                    }
+                }
+            }
+            if (!Auth::guard('external')->check())
+
+                if ($d->laporanUptdAproved->count() == 0) {
+                    $realisasi = 0;
+                } else {
+                    $realisasi = $d->laporanUptdAproved[count($d->laporanUptdAproved) - 1]->realisasi;
+                }
+            else {
+                if ($d->laporanKonsultan->count() == 0) {
+                    $realisasi = 0;
+                } else {
+                    $realisasi = $d->laporanKonsultan[count($d->laporanKonsultan) - 1]->realisasi;
+                }
+            }
+            $d->laporanUptdAproved->persen = $persen;
+            $d->laporanUptdAproved->tersisa = $d->detailWithJadual->lama_waktu - $hari_terpakai;
+            $d->laporanUptdAproved->enddate = $end_date;
+            $d->laporanUptdAproved->hari_terpakai = $hari_terpakai;
+            $d->laporanUptdAproved->paket_selesai = $now > $end_date ? true : false;
+            $d->laporanUptdAproved->realisasi =  number_format($realisasi, 2, '.', '.');
+            $d->laporanUptdAproved->rencana = number_format($rencana, 2, '.', '.');
+            $d->laporanUptdAproved->deviasi = number_format($rencana - $realisasi, 2, '.', '.');
+        }
     }
 }

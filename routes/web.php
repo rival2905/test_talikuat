@@ -127,8 +127,8 @@ Route::middleware(['auth', 'userVerified'])->group(function () {
 
     Route::get('/progress-all', [UtilsController::class, 'progressAll'])->name('progress-all.index');
     Route::get('/progress/{uptd}', [UtilsController::class, 'progressUptd'])->name('progress-all.filter');
+    Route::get('/rekap-dokumen/{uptd}', [UtilsController::class, 'rekapDokumen'])->name('rekap-dokumen.index');
 });
 
 Route::get('/download-template-laporan-mingguan/{data_umum}', [LaporanMingguanController::class, 'downloadTemplate'])->name('laporan-mingguan-uptd.downloadTemplate');
 Route::get('/file-laporan/{path}', [UtilsController::class, 'fileLaporan'])->name('file-laporan.index');
-Route::get('/rekap-dokumen/{uptd}', [UtilsController::class, 'rekapDokumen'])->name('rekap-dokumen.index');
