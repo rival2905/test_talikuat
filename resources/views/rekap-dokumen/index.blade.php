@@ -48,7 +48,7 @@
                 @if ($item->fileDkh->last() != null)
                 <td class="text-center bg-success">
                     <a href="{{ route('show.file.dataumum',['id'=>$item->id,'file'=>$item->fileDkh->last()->file_name] ) }}"
-                        target="_blank" class="link-primary link-offset-2">{{
+                        target="_blank" class="link-light link-offset-2">{{
                         preg_replace('/[\d_]+/', '',
                         $item->fileDkh->last()->file_name)
                         }}</a>
@@ -59,7 +59,7 @@
                 @if ($item->fileKontrak->last() != null)
                 <td class="text-center bg-success">
                     <a href="{{ route('show.file.dataumum',['id'=>$item->id,'file'=>$item->fileKontrak->last()->file_name] ) }}"
-                        target="_blank" class="link-primary link-offset-2">{{
+                        target="_blank" class="link-light link-offset-2">{{
                         preg_replace('/[\d_]+/', '',
                         $item->fileKontrak->last()->file_name)
                         }}</a>
@@ -70,7 +70,7 @@
                 @if ($item->fileSpmk->last() != null)
                 <td class="text-center bg-success">
                     <a href="{{ route('show.file.dataumum',['id'=>$item->id,'file'=>$item->fileSpmk->last()->file_name] ) }}"
-                        target="_blank" class="link-primary link-offset-2">{{
+                        target="_blank" class="link-light link-offset-2">{{
                         preg_replace('/[\d_]+/', '',
                         $item->fileSpmk->last()->file_name)
                         }}</a>
@@ -81,7 +81,7 @@
                 @if ($item->fileUmum->last() != null)
                 <td class="text-center bg-success">
                     <a href="{{ route('show.file.dataumum',['id'=>$item->id,'file'=>$item->fileUmum->last()->file_name] ) }}"
-                        target="_blank" class="link-primary link-offset-2">{{
+                        target="_blank" class="link-light link-offset-2">{{
                         preg_replace('/[\d_]+/', '',
                         $item->fileUmum->last()->file_name)
                         }}</a>
@@ -92,7 +92,7 @@
                 @if ($item->fileSyaratKhusus->last() != null)
                 <td class="text-center bg-success">
                     <a href="{{ route('show.file.dataumum',['id'=>$item->id,'file'=>$item->fileSyaratKhusus->last()->file_name] ) }}"
-                        target="_blank" class="link-primary link-offset-2">{{
+                        target="_blank" class="link-light link-offset-2">{{
                         preg_replace('/[\d_]+/', '',
                         $item->fileSyaratKhusus->last()->file_name)
                         }}</a>
@@ -103,7 +103,7 @@
                 @if ($item->fileJadual->last() != null)
                 <td class="text-center bg-success">
                     <a href="{{ route('show.file.dataumum',['id'=>$item->id,'file'=>$item->fileJadual->last()->file_name] ) }}"
-                        target="_blank" class="link-primary link-offset-2">{{
+                        target="_blank" class="link-light link-offset-2">{{
                         preg_replace('/[\d_]+/', '',
                         $item->fileJadual->last()->file_name)
                         }}</a>
@@ -114,7 +114,7 @@
                 @if ($item->fileGambarRencana->last() != null)
                 <td class="text-center bg-success">
                     <a href="{{ route('show.file.dataumum',['id'=>$item->id,'file'=>$item->fileGambarRencana->last()->file_name] ) }}"
-                        target="_blank" class="link-primary link-offset-2">{{
+                        target="_blank" class="link-light link-offset-2">{{
                         preg_replace('/[\d_]+/', '',
                         $item->fileGambarRencana->last()->file_name)
                         }}</a>
@@ -125,7 +125,7 @@
                 @if ($item->fileSppbj->last() != null)
                 <td class="text-center bg-success">
                     <a href="{{ route('show.file.dataumum',['id'=>$item->id,'file'=>$item->fileSppbj->last()->file_name] ) }}"
-                        target="_blank" class="link-primary link-offset-2">{{
+                        target="_blank" class="link-light link-offset-2">{{
                         preg_replace('/[\d_]+/', '',
                         $item->fileSppbj->last()->file_name)
                         }}</a>
@@ -136,7 +136,7 @@
                 @if ($item->fileSpl->last() != null)
                 <td class="text-center bg-success">
                     <a href="{{ route('show.file.dataumum',['id'=>$item->id,'file'=>$item->fileSpl->last()->file_name] ) }}"
-                        target="_blank" class="link-primary link-offset-2">{{
+                        target="_blank" class="link-light link-offset-2">{{
                         preg_replace('/[\d_]+/', '',
                         $item->fileSpl->last()->file_name)
                         }}</a>
@@ -147,7 +147,7 @@
                 @if ($item->fileSpeckUmum->last() != null)
                 <td class="text-center bg-success">
                     <a href="{{ route('show.file.dataumum',['id'=>$item->id,'file'=>$item->fileSpeckUmum->last()->file_name] ) }}"
-                        target="_blank" class="link-primary link-offset-2">{{
+                        target="_blank" class="link-light link-offset-2">{{
                         preg_replace('/[\d_]+/', '',
                         $item->fileSpeckUmum->last()->file_name)
                         }}</a>
@@ -158,7 +158,7 @@
                 @if ($item->fileJaminan->last() != null)
                 <td class="text-center bg-success">
                     <a href="{{ route('show.file.dataumum',['id'=>$item->id,'file'=>$item->fileJaminan->last()->file_name] ) }}"
-                        target="_blank" class="link-primary link-offset-2">{{
+                        target="_blank" class="link-light link-offset-2">{{
                         preg_replace('/[\d_]+/', '',
                         $item->fileJaminan->last()->file_name)
                         }}</a>
@@ -169,7 +169,7 @@
                 @if ($item->fileBapl->last() != null)
                 <td class="text-center bg-success">
                     <a href="{{ route('show.file.dataumum',['id'=>$item->id,'file'=>$item->fileBapl->last()->file_name] ) }}"
-                        target="_blank" class="link-primary link-offset-2">{{
+                        target="_blank" class="link-light link-offset-2">{{
                         preg_replace('/[\d_]+/', '',
                         $item->fileBapl->last()->file_name)
                         }}</a>
