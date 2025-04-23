@@ -95,6 +95,9 @@
 <div class="container mt-5">
     <div class="card">
         <div class="card-body p-5">
+            <a class="btn btn-mat btn-warning mb-3" data-bs-toggle="modal" data-bs-target="#dataThn">
+                Pilih Tahun Database
+            </a>
             <div class="row mb-3 justify-content-center">
                 <div class="col">
                     <i class="fa-solid fa-circle" style="color: blue"></i>
@@ -180,4 +183,49 @@
     </div>
 </div>
 @endif
+@endsection
+
+<div class="modal fade" id="dataThn" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="dataThnLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="dataThnLabel">Pilih Tahun Database</h1>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Tahun</label>
+                    <select name="thn" id="thn" class="form-control" required>
+                        <option value="">-- Pilih Tahun --</option>
+                        @foreach ($thn as $item)
+                        <option value="{{$item}}">{{$item}}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="btn" id="submit" class="btn btn-success">Submit</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section('scripts')
+<script>
+    $(document).ready(function() {
+        const url = `{{ route('dashboard') }}`;
+        $('#submit').click(function() {
+            var thn = $('#thn').val();
+            if (thn != '') {
+                window.location.href = `${url}?y=${thn}`;
+            } else {
+                alert('Pilih Tahun Database');
+            }
+        });
+    });
+</script>
 @endsection

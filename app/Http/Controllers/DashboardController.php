@@ -13,9 +13,14 @@ use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = '';
+
+        $year = date('Y');
+
+        if ($request->has('y')) {
+            $year = $request->y;
+        }
 
         if (Auth::guard('external')->check()) {
             if (Auth::guard('external')->user()->uptd_id == 0) {
@@ -24,13 +29,13 @@ class DashboardController extends Controller
                 $ppk = UserDetail::where('uptd_id', Auth::guard('external')->user()->uptd_id)->count();
             }
             if (Auth::guard('external')->user()->uptd_id == 0) {
-                $data = DataUmum::where('thn', date('Y'))->with('uptd')->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->orderBy('id', 'desc')->get();
+                $data = DataUmum::where('thn', $year)->with('uptd')->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->orderBy('id', 'desc')->get();
             } elseif (Auth::guard('external')->user()->role == 5) {
-                $data = DataUmum::where('thn', date('Y'))->with('uptd')->whereHas('detailWithJadual', function ($query) {
+                $data = DataUmum::where('thn', $year)->with('uptd')->whereHas('detailWithJadual', function ($query) {
                     $query->where('ppk_id', Auth::guard('external')->user()->user_id);
                 })->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->where('uptd_id', Auth::guard('external')->user()->uptd_id)->orderBy('id', 'desc')->get();
             } else {
-                $data = DataUmum::where('thn', date('Y'))->with('uptd')->whereHas('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->where('uptd_id', Auth::guard('external')->user()->uptd_id)->orderBy('id', 'desc')->get();
+                $data = DataUmum::where('thn', $year)->with('uptd')->whereHas('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->where('uptd_id', Auth::guard('external')->user()->uptd_id)->orderBy('id', 'desc')->get();
             }
         } else {
             if (Auth::user()->userDetail->uptd_id == 0) {
@@ -39,13 +44,13 @@ class DashboardController extends Controller
                 $ppk = UserDetail::where('uptd_id', Auth::user()->userDetail->uptd_id)->count();
             }
             if (Auth::user()->userDetail->uptd_id == 0) {
-                $data = DataUmum::where('thn', date('Y'))->with('uptd')->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->orderBy('id', 'desc')->get();
+                $data = DataUmum::where('thn', $year)->with('uptd')->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->orderBy('id', 'desc')->get();
             } elseif (Auth::user()->userDetail->role == 5) {
-                $data = DataUmum::where('thn', date('Y'))->with('uptd')->whereHas('detailWithJadual', function ($query) {
+                $data = DataUmum::where('thn', $year)->with('uptd')->whereHas('detailWithJadual', function ($query) {
                     $query->where('ppk_id', Auth::user()->userDetail->user_id);
                 })->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->where('uptd_id', Auth::user()->userDetail->uptd_id)->orderBy('id', 'desc')->get();
             } else {
-                $data = DataUmum::where('thn', date('Y'))->with('uptd')->whereHas('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->where('uptd_id', Auth::user()->userDetail->uptd_id)->orderBy('id', 'desc')->get();
+                $data = DataUmum::where('thn', $year)->with('uptd')->whereHas('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->where('uptd_id', Auth::user()->userDetail->uptd_id)->orderBy('id', 'desc')->get();
             }
         }
 
@@ -113,7 +118,8 @@ class DashboardController extends Controller
             'paket' => count($data),
             'ppk' => $ppk,
             'konsultan' => Konsultan::count(),
-            'kontraktor' => Kontraktor::count()
+            'kontraktor' => Kontraktor::count(),
+            'thn' => DataUmum::pluck('thn')->unique()
         ]);
     }
 }
