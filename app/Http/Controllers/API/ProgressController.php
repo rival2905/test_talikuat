@@ -314,11 +314,11 @@ class ProgressController extends Controller
     public function mapsApi(Request $request)
     {
         if ($request->uptd == 'all') {
-            $data = DataUmum::with('uptd')->with('detail')->with('laporanKonsultan')->get();
+            $data = DataUmum::with('uptd')->with('detail')->with('laporanUptdAproved')->get();
         } else if (count($request->uptd) == 6) {
-            $data = DataUmum::with('uptd')->with('detail')->with('laporanKonsultan')->get();
+            $data = DataUmum::with('uptd')->with('detail')->with('laporanUptdAproved')->get();
         } else {
-            $data = DataUmum::with('uptd')->with('detail')->with('laporanKonsultan')->where('uptd_id', $request->uptd)->get();
+            $data = DataUmum::with('uptd')->with('detail')->with('laporanUptdAproved')->where('uptd_id', $request->uptd)->get();
         }
 
 

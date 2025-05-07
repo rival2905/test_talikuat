@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\DataUmum;
+use App\Models\FotoLaporanMingguanKonsultan;
 use App\Models\LaporanMingguanKonsultan;
 use App\Models\LaporanMingguanKonsultanDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DateTime;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class LaporanKonsultan extends Controller
 {
@@ -82,31 +85,45 @@ class LaporanKonsultan extends Controller
     public function store(Request $request, $id)
     {
 
-        $file = str_replace('/home/www/talikuat/storage/app/', '', $request->file_path);
-        $id = LaporanMingguanKonsultan::create([
-            'data_umum_id' => $id,
-            'tgl_start' => $request->tgl_start,
-            'tgl_end' => $request->tgl_end,
-            'priode' => $request->priode,
-            'rencana' => $request->rencana,
-            'realisasi' => $request->realisasi,
-            'deviasi' => $request->deviasi,
-            'file_path' => $file,
-        ])->id;
-        for ($i = 0; $i < count($request->nmp); $i++) {
-            LaporanMingguanKonsultanDetail::create([
-                'laporan_mingguan_konsultan_id' => $id,
-                'kd_jenis_pekerjaan' => $request->nmp[$i],
-                'nmp' => $request->nmp[$i] . ' - ' . $request->uraian[$i],
-                'volume' => $request->volume[$i],
-            ]);
-        }
+        try {
+            $file = str_replace('/home/www/Talikuat/storage/app/', '', $request->file_path);
+            DB::beginTransaction();
+            $id = LaporanMingguanKonsultan::create([
+                'data_umum_id' => $id,
+                'tgl_start' => $request->tgl_start,
+                'tgl_end' => $request->tgl_end,
+                'priode' => $request->priode,
+                'rencana' => $request->rencana,
+                'realisasi' => $request->realisasi,
+                'deviasi' => $request->deviasi,
+                'file_path' => $file,
+            ])->id;
+            $foto = $request->file('foto_laporan');
+            foreach ($foto as $key => $value) {
+                $path = Storage::putFileAs('public/lampiran/foto/laporan_konsultan', $value, 'laporan_mingguan_' . $id . '_' . $key . '.' . $value->getClientOriginalExtension());
+                FotoLaporanMingguanKonsultan::create([
+                    'laporan_id' => $id,
+                    'foto' => $path
+                ]);
+            }
+            for ($i = 0; $i < count($request->nmp); $i++) {
+                LaporanMingguanKonsultanDetail::create([
+                    'laporan_mingguan_konsultan_id' => $id,
+                    'kd_jenis_pekerjaan' => $request->nmp[$i],
+                    'nmp' => $request->nmp[$i] . ' - ' . $request->uraian[$i],
+                    'volume' => $request->volume[$i],
+                ]);
+            }
 
-        if (Auth::guard('external')->check()) {
-            return redirect()->route('laporan-mingguan-konsultan-external.index')->with('success', 'Data berhasil disimpan');
-        }
+            if (Auth::guard('external')->check()) {
+                return redirect()->route('laporan-mingguan-konsultan-external.index')->with('success', 'Data berhasil disimpan');
+            }
 
-        return redirect()->route('laporan-mingguan-konsultan.index')->with('success', 'Data berhasil disimpan');
+            return redirect()->route('laporan-mingguan-konsultan.index')->with('success', 'Data berhasil disimpan');
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return redirect()->back()->with('error', 'Data gagal disimpan, silahkan coba lagi!');
+        }
     }
 
     /**
@@ -126,9 +143,7 @@ class LaporanKonsultan extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-    }
+    public function edit($id) {}
 
     /**
      * Update the specified resource in storage.
@@ -137,9 +152,7 @@ class LaporanKonsultan extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-    }
+    public function update(Request $request, $id) {}
 
     /**
      * Remove the specified resource from storage.

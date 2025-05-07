@@ -12,7 +12,8 @@
 @section('content')
 <div class="row">
     <div class="col-lg-12 grid-margin stretch-card">
-        <form action="{{ route('laporan-mingguan-uptd.update',$data->id) }}" method="POST" id="form-laporan-mingguan-uptd">
+        <form action="{{ route('laporan-mingguan-uptd.update',$data->id) }}" method="POST"
+            id="form-laporan-mingguan-uptd">
             <div class="card">
                 @csrf
                 @method('PUT')
@@ -31,23 +32,39 @@
                         <label class="col-sm-2 col-form-label">ID Paket</label>
                         <div class="col-sm-10">
                             <div class="input-group">
-                                <input type="text" class="form-control" value="{{$data->data_umum_id}}" required readonly />
+                                <input type="text" class="form-control" value="{{$data->data_umum_id}}" required
+                                    readonly />
                             </div>
                         </div>
                     </div>
                     <div class="form-group row mb-3">
                         <label class="col-sm-2 col-form-label">Minggu Ke</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" value="{{ $data->priode }}" name="priode" readonly />
+                            <input type="text" class="form-control" value="{{ $data->priode }}" name="priode"
+                                readonly />
                         </div>
                     </div>
                     <div class="form-group row mb-3">
                         <label class="col-sm-2 col-form-label">Upload File Laporan</label>
                         <div class="col-sm-10">
                             <div class="input-group">
-                                <input type="file" class="form-control" id="file_laporan" name="file_laporan" required accept="application/pdf" />
+                                <input type="file" class="form-control" id="file_laporan" name="file_laporan" required
+                                    accept="application/pdf" />
 
-                                <div class="invalid-feedback" id="invalid-file_laporan" style="display: block; color: red"></div>
+                                <div class="invalid-feedback" id="invalid-file_laporan"
+                                    style="display: block; color: red"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label class="col-sm-2 col-form-label">Upload Foto Laporan</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <input type="file" class="form-control" id="foto_laporan" name="foto_laporan" required
+                                    accept="image/*" multiple />
+                                <div class="invalid-feedback" id="invalid-foto_laporan"
+                                    style="display: block; color: red">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -55,7 +72,8 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Rencana</label>
-                                <input type="text" name="rencana" value="{{$data->rencana}}" id="rencana" class="form-control" required readonly />
+                                <input type="text" name="rencana" value="{{$data->rencana}}" id="rencana"
+                                    class="form-control" required readonly />
                                 @error('rencana')
                                 <div class="invalid-feedback" style="display: block; color: red">
                                     {{ $message }}
@@ -66,7 +84,8 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Realisasi</label>
-                                <input type="text" name="realisasi" id="realisasi" value="{{$data->realisasi}}" class="form-control" required />
+                                <input type="text" name="realisasi" id="realisasi" value="{{$data->realisasi}}"
+                                    class="form-control" required />
                                 @error('realisasi')
                                 <div class="invalid-feedback" style="display: block; color: red">
                                     {{ $message }}
@@ -77,7 +96,8 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Deviasi</label>
-                                <input type="text" name="deviasi" id="deviasi" value="{{$data->deviasi}}" class="form-control" required readonly />
+                                <input type="text" name="deviasi" id="deviasi" value="{{$data->deviasi}}"
+                                    class="form-control" required readonly />
                                 @error('deviasi')
                                 <div class="invalid-feedback" style="display: block; color: red">
                                     {{ $message }}
@@ -92,7 +112,8 @@
                         <label class="text-wrap">{{$item->nmp}}</label>
                         <div class="input-group">
                             <input type="hidden" name="nmp[]" value="{{$item->nmp}}" />
-                            <input type="text" name="volume[]" id="nmp" value="{{$item->volume}}" class="form-control" required autocomplete="off" />
+                            <input type="text" name="volume[]" id="nmp" value="{{$item->volume}}" class="form-control"
+                                required autocomplete="off" />
                         </div>
                     </div>
                     @endforeach

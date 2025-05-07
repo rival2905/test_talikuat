@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\DataUmum;
+use App\Models\FotoLaporanMingguanUPTD;
 use App\Models\LaporanMingguan;
 use App\Models\LaporanMingguanDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DateTime;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class LaporanMingguanController extends Controller
 {
@@ -74,27 +77,44 @@ class LaporanMingguanController extends Controller
     public function store(Request $request, $id)
     {
 
-        $file = str_replace('/home/www/talikuat/storage/app/', '', $request->file_path);
-        $id = LaporanMingguan::create([
-            'data_umum_id' => $id,
-            'tgl_start' => $request->tgl_start,
-            'tgl_end' => $request->tgl_end,
-            'priode' => $request->priode,
-            'rencana' => $request->rencana,
-            'realisasi' => $request->realisasi,
-            'deviasi' => $request->deviasi,
-            'file_path' => $file,
-        ])->id;
-        for ($i = 0; $i < count($request->nmp); $i++) {
-            LaporanMingguanDetail::create([
-                'laporan_mingguan_id' => $id,
-                'kd_jenis_pekerjaan' => $request->nmp[$i],
-                'nmp' => $request->nmp[$i] . ' - ' . $request->uraian[$i],
-                'volume' => $request->volume[$i],
-            ]);
-        }
+        try {
+            $file = str_replace('/home/www/Talikuat/storage/app/', '', $request->file_path);
 
-        return redirect()->route('laporan-mingguan-uptd.index')->with('success', 'Data berhasil disimpan,Laporan Menunggu Persetujuan Kepala UPTD');
+            DB::beginTransaction();
+            $id = LaporanMingguan::create([
+                'data_umum_id' => $id,
+                'tgl_start' => $request->tgl_start,
+                'tgl_end' => $request->tgl_end,
+                'priode' => $request->priode,
+                'rencana' => $request->rencana,
+                'realisasi' => $request->realisasi,
+                'deviasi' => $request->deviasi,
+                'file_path' => $file,
+            ])->id;
+            $foto = $request->file('foto_laporan');
+            foreach ($foto as $key => $value) {
+                $path = Storage::putFileAs('public/lampiran/foto/laporan_uptd', $value, 'laporan_mingguan_' . $id . '_' . $key . '.' . $value->getClientOriginalExtension());
+                FotoLaporanMingguanUPTD::create([
+                    'laporan_mingguan_id' => $id,
+                    'foto' => $path
+                ]);
+            }
+            if ($request->nmp) {
+                for ($i = 0; $i < count($request->nmp); $i++) {
+                    LaporanMingguanDetail::create([
+                        'laporan_mingguan_id' => $id,
+                        'kd_jenis_pekerjaan' => $request->nmp[$i],
+                        'nmp' => $request->nmp[$i] . ' - ' . $request->uraian[$i],
+                        'volume' => $request->volume[$i],
+                    ]);
+                }
+            }
+            DB::commit();
+            return redirect()->route('laporan-mingguan-uptd.index')->with('success', 'Data berhasil disimpan,Laporan Menunggu Persetujuan Kepala UPTD');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Data gagal disimpan, silahkan coba lagi!');
+        }
     }
 
     /**

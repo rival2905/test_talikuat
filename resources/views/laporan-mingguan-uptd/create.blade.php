@@ -10,10 +10,12 @@
 </style>
 @endsection
 @section('content')
-<a class="btn btn-success " href="{{route('laporan-mingguan-uptd.downloadTemplate',$dataUmum->id)}}" rel="noopener noreferrer">Download Template Laporan</a>
+<a class="btn btn-success " href="{{route('laporan-mingguan-uptd.downloadTemplate',$dataUmum->id)}}"
+    rel="noopener noreferrer">Download Template Laporan</a>
 <div class="row mt-3">
     <div class="col-lg-12 grid-margin stretch-card">
-        <form action="{{ route('laporan-mingguan-uptd.store',$dataUmum->id) }}" method="POST" id="form-laporan-mingguan-uptd">
+        <form action="{{ route('laporan-mingguan-uptd.store',$dataUmum->id) }}" method="POST"
+            id="form-laporan-mingguan-uptd" enctype="multipart/form-data">
             <div class="card">
                 @csrf
                 <input type="hidden" name="file_path" id="file_path" />
@@ -24,7 +26,8 @@
                         <label class="col-sm-2 col-form-label">Nama Paket</label>
                         <div class="col-sm-10">
                             <div class="input-group">
-                                <input type="text" class="form-control" value="{{$dataUmum->nm_paket}}" required readonly />
+                                <input type="text" class="form-control" value="{{$dataUmum->nm_paket}}" required
+                                    readonly />
                             </div>
                         </div>
                     </div>
@@ -38,9 +41,23 @@
                         <label class="col-sm-2 col-form-label">Upload File Laporan</label>
                         <div class="col-sm-10">
                             <div class="input-group">
-                                <input type="file" class="form-control" id="file_laporan" name="file_laporan" required accept="application/pdf" />
+                                <input type="file" class="form-control" id="file_laporan" name="file_laporan" required
+                                    accept="application/pdf" />
 
-                                <div class="invalid-feedback" id="invalid-file_laporan" style="display: block; color: red"></div>
+                                <div class="invalid-feedback" id="invalid-file_laporan"
+                                    style="display: block; color: red"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label class="col-sm-2 col-form-label">Upload Foto Laporan</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <input type="file" class="form-control" id="foto_laporan" name="foto_laporan[]" required
+                                    accept="image/*" multiple />
+                                <div class="invalid-feedback" id="invalid-foto_laporan"
+                                    style="display: block; color: red">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -48,7 +65,8 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Rencana</label>
-                                <input type="text" name="rencana" value="{{$dataUmum->detailWithJadual->jadualDetail}}" id="rencana" class="form-control" required readonly />
+                                <input type="text" name="rencana" value="{{$dataUmum->detailWithJadual->jadualDetail}}"
+                                    id="rencana" class="form-control" required readonly />
                                 @error('rencana')
                                 <div class="invalid-feedback" style="display: block; color: red">
                                     {{ $message }}
@@ -86,7 +104,8 @@
                         <div class="input-group">
                             <input type="hidden" name="nmp[]" value="{{$item->nmp}}" />
                             <input type="hidden" name="uraian[]" value="{{$item->uraian}}" />
-                            <input type="text" name="volume[]" id="nmp" class="form-control" required autocomplete="off" onchange="this.value = this.value.replace(',', '.');" />
+                            <input type="text" name="volume[]" id="nmp" class="form-control" required autocomplete="off"
+                                onchange="this.value = this.value.replace(',', '.');" />
                         </div>
                     </div>
                     @endforeach
@@ -125,7 +144,9 @@
                     processData: false,
                 })
                 .done(function(res) {
+                    console.log(res);
                     $("body").removeClass("loading");
+                    $("#file_path").val(res.data.filePath);
                     var deviasi = res.data.realisasi - $('#rencana').val().replace(/,/g, '.');
                     if (deviasi < 0) {
                         $('#deviasi').val(deviasi.toFixed(3));
@@ -134,8 +155,10 @@
                         $('#deviasi').val(deviasi.toFixed(3));
                         $('#deviasi').css('color', 'green');
                     }
+
                     $("#realisasi").val(res.data.realisasi.toFixed(3));
-                    $("#file_path").val(res.data.filePath);
+        
+                 
                     $("body").removeClass("loading");
                 })
                 .fail(function(res) {
@@ -186,6 +209,10 @@
         var totalVolume = 0;
         for (var i = 0; i < volume.length; i++) {
             totalVolume += parseFloat(volume[i].replace(/,/g, '.'));
+        }
+        if($("#foto_laporan").val() == ''){
+            alert('Foto laporan harus diisi');
+            return false;
         }
         if (file_laporan == '') {
             alert('File laporan harus diisi');

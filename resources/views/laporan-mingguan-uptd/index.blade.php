@@ -6,7 +6,10 @@
             <h5 class="card-title">{{$data->id}} - {{$data->nm_paket}} </h5>
 
             @if(Auth::user()->userDetail->role != 6 && Auth::user()->userDetail->role != 4)
-            <a href="{{route('laporan-mingguan-uptd.create',$data->id)}}" class="btn btn-mat btn-dark waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Buat Laporan Mingguan">Buat Laporan<i class="bx bxs-file-doc"></i></a>
+            <a href="{{route('laporan-mingguan-uptd.create',$data->id)}}"
+                class="btn btn-mat btn-dark waves-effect waves-light" data-bs-toggle="tooltip"
+                data-bs-placement="bottom" data-bs-title="Buat Laporan Mingguan">Buat Laporan<i
+                    class="bx bxs-file-doc"></i></a>
             @endif
             <hr>
             <div class="container mt-2">
@@ -38,12 +41,23 @@
                                 @endif
                             </td>
                             <td>
-                                <button class="btn btn-mat btn-info waves-effect waves-light" data-bs-target="#detailModal" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Detail Laporan" data-bs-data="{{$laporan}}" onclick="renderDetailModal(this)"><i class="bx bx-search-alt-2"></i></button>
-                                @if(Auth::user()->userDetail->role == 6 || Auth::user()->userDetail->role == 1 && $laporan->status == 0)
-                                <button class="btn btn-mat btn-warning waves-effect waves-light" data-bs-target="#approvalModal" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Approval Laporan" data-bs-priode="{{$laporan->priode}}" data-bs-id="{{$laporan->id}}" onclick="renderModal(this)"><i class="bx bxs-file-doc"></i></button>
+                                <button class="btn btn-mat btn-info waves-effect waves-light"
+                                    data-bs-target="#detailModal" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                    data-bs-title="Detail Laporan" data-bs-data="{{$laporan}}"
+                                    onclick="renderDetailModal(this)"><i class="bx bx-search-alt-2"></i></button>
+                                @if(Auth::user()->userDetail->role == 6 || Auth::user()->userDetail->role == 1 &&
+                                $laporan->status == 0)
+                                <button class="btn btn-mat btn-warning waves-effect waves-light"
+                                    data-bs-target="#approvalModal" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                    data-bs-title="Approval Laporan" data-bs-priode="{{$laporan->priode}}"
+                                    data-bs-id="{{$laporan->id}}" onclick="renderModal(this)"><i
+                                        class="bx bxs-file-doc"></i></button>
                                 @endif
                                 @if($laporan->status == 2)
-                                <a href="{{route('laporan-mingguan-uptd.edit',$laporan->id)}}" class="btn btn-mat btn-danger waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Edit Laporan"><i class='bx bxs-edit-alt'></i></a>
+                                <a href="{{route('laporan-mingguan-uptd.edit',$laporan->id)}}"
+                                    class="btn btn-mat btn-danger waves-effect waves-light" data-bs-toggle="tooltip"
+                                    data-bs-placement="bottom" data-bs-title="Edit Laporan"><i
+                                        class='bx bxs-edit-alt'></i></a>
                                 @endif
                             </td>
                         </tr>
@@ -114,14 +128,19 @@
                 <div class="form-group row mb-3">
                     <label class="col-sm-2 col-form-label">File</label>
                     <div class="col-sm-10">
-                        <a href=""></a>
+                        <a href="" target="_blank"></a>
                     </div>
+                </div>
+                <div class="form-group row mb-3">
+                    <label class="col-sm-2 col-form-label" id="headerFoto">Foto Laporan</label>
+
                 </div>
                 <div class="row align-items-start">
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Rencana</label>
-                            <input type="text" name="rencana" value="" id="rencana" class="form-control" required readonly />
+                            <input type="text" name="rencana" value="" id="rencana" class="form-control" required
+                                readonly />
 
                         </div>
                     </div>
@@ -164,6 +183,13 @@
                 $('#keterangan').attr('required', false);
             }
         });
+
+        //modal event
+        $('#detailModal').on('hidden.bs.modal', function() {
+            $('#headerDetailNMP').nextAll('.nmp-data').remove();
+            $('#headerFoto').nextAll('.row').remove();
+            $('#deviasi').removeClass('text-danger text-success');
+        });
     });
 
     function renderDetailModal(el) {
@@ -173,7 +199,6 @@
         $('#detailModal').modal('show');
         $('#nmPaket').val(data.data_umum_id);
         $('#priode').val(data.priode);
-        console.log(data);
         $('#detailModal a').attr('href', urlFile + data.file_path.replace('public/lampiran/laporan_konsultan/', '')).html(data.file_path.replace('public/lampiran/laporan_konsultan/', ''));
         $('#rencana').val(data.rencana);
         $('#realisasi').val(data.realisasi);
@@ -188,6 +213,8 @@
             nmp += nmpBuilder(item.nmp, item.volume);
         });
         $('#headerDetailNMP').after(nmp);
+        var foto = data.foto_laporan;
+        $('#headerFoto').after(renderFotoLaporan(foto));
     }
 
     function renderModal(el) {
@@ -207,6 +234,19 @@
                         <input type="text" class="form-control" value="${volume}" required autocomplete="off" />
                     </div>
                 </div>`;
+    }
+
+    function renderFotoLaporan(foto) {
+        console.log(foto);
+        var html = '';
+        for (let i = 0; i < foto.length; i++) {
+            html += `
+                <div class="col-md-4 mb-3">
+                    <img src="{{asset('storage/')}}/${foto[i].foto.replace('public', '')}" class="img-fluid" alt="Foto Laporan ${i+1}">
+                </div>
+            `;
+        }
+        return `<div class="row">${html}</div>`;
     }
 </script>
 @endsection

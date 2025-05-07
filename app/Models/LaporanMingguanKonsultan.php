@@ -21,4 +21,9 @@ class LaporanMingguanKonsultan extends Model
     {
         return $this->hasMany(LaporanMingguanKonsultanDetail::class, 'laporan_mingguan_konsultan_id');
     }
+
+    public function fotoLaporan()
+    {
+        return $this->hasMany(FotoLaporanMingguanKonsultan::class, 'laporan_id', 'id');
+    }
 }
