@@ -154,6 +154,7 @@ class PenilaianPenyediaController extends Controller
             return redirect()->route('penilaian-penyedia.index', $id)
                 ->with('success', 'Penilaian penyedia berhasil disimpan.');
         } catch (\Throwable $th) {
+            dd($th);
             return redirect()->back()->with('error', 'Gagal menyimpan penilaian penyedia: ' . $th->getMessage());
         }
     }
