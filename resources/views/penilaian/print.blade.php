@@ -109,6 +109,13 @@
                         $data->dataUmum->detail->lama_waktu . ' days')); }}
                     </td>
                 </tr>
+                <tr>
+                    <td>Bulan Ke
+                    <td>:</td>
+                    <td>
+                        {{ $data->periode }}
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
