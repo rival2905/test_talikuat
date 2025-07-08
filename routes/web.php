@@ -12,6 +12,7 @@ use App\Http\Controllers\LaporanBulananUptdController;
 use App\Http\Controllers\LaporanKeuangan;
 use App\Http\Controllers\LaporanMingguanController;
 use App\Http\Controllers\LaporanKonsultan;
+use App\Http\Controllers\PenilaianPenyediaController;
 use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\UserManajemen;
 use App\Http\Controllers\UtilsController;
@@ -128,6 +129,8 @@ Route::middleware(['auth', 'userVerified'])->group(function () {
     Route::get('/progress-all', [UtilsController::class, 'progressAll'])->name('progress-all.index');
     Route::get('/progress/{uptd}', [UtilsController::class, 'progressUptd'])->name('progress-all.filter');
     Route::get('/rekap-dokumen/{uptd}', [UtilsController::class, 'rekapDokumen'])->name('rekap-dokumen.index');
+
+    Route::get('/penilaian-penyedia/{id}', [PenilaianPenyediaController::class, 'index'])->name('penilaian-penyedia.index');
 });
 
 Route::get('/download-template-laporan-mingguan/{data_umum}', [LaporanMingguanController::class, 'downloadTemplate'])->name('laporan-mingguan-uptd.downloadTemplate');

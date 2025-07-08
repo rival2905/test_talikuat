@@ -132,4 +132,9 @@ class DataUmum extends Model
     {
         return $this->fileDataUmum()->where('file_label', 'file_bapl')->orderBy('created_at', 'DESC');
     }
+
+    public function penilaianPenyedia()
+    {
+        return $this->hasMany(PenilaianPenyedia::class, 'data_umum_id')->orderBy('periode', 'desc');
+    }
 }

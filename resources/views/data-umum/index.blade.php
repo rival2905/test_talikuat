@@ -34,19 +34,29 @@
                             <td>{{$data->detail->konsultan->name}}</td>
                             <td>{{$data->detail->ppk->nama ?? ''}}</td>
                             <td>
-                                <a href="{{route('data-umum.show',$data->id) }}"
-                                    class="btn btn-mat btn-success waves-effect waves-light" data-bs-toggle="tooltip"
-                                    data-bs-placement="bottom" data-bs-title="Detail"><i
-                                        class="bx bx-search-alt-2"></i></a>
-                                @if (Auth::user()->userDetail->role != 7 && date('Y') == $data->thn)
-                                <a href="{{ route('data-umum.edit', $data->id) }}"
-                                    class="btn btn-mat btn-warning waves-effect waves-light" data-bs-toggle="tooltip"
-                                    data-bs-placement="bottom" data-bs-title="Edit"><i class="bx bx-edit-alt"></i></a>
-                                @endif
-                                <a href="{{route('upload.dataumum',$data->id)}}"
-                                    class="btn btn-mat btn-primary waves-effect waves-light" data-bs-toggle="tooltip"
-                                    data-bs-placement="bottom" data-bs-title="Data Kontrak"><i
-                                        class="bx bxs-file-doc"></i></a>
+                                <div class="flex space-x-2 space-y-2 justify-center">
+                                    <a href="{{route('data-umum.show',$data->id) }}"
+                                        class="btn btn-mat btn-success waves-effect waves-light"
+                                        data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Detail"><i
+                                            class="bx bx-search-alt-2"></i></a>
+                                    @if (Auth::user()->userDetail->role != 7 && date('Y') == $data->thn)
+                                    <a href="{{ route('data-umum.edit', $data->id) }}"
+                                        class="btn btn-mat btn-warning waves-effect waves-light"
+                                        data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Edit"><i
+                                            class="bx bx-edit-alt"></i></a>
+                                    @endif
+                                    <a href="{{route('upload.dataumum',$data->id)}}"
+                                        class="btn btn-mat btn-primary waves-effect waves-light"
+                                        data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                        data-bs-title="Data Kontrak"><i class="bx bxs-file-doc"></i></a>
+                                    @if (Auth::user()->userDetail->role != 7)
+                                    <a href="{{ route('penilaian-penyedia.index', $data->id) }}"
+                                        class="btn btn-mat btn-warning waves-effect waves-light"
+                                        data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                        data-bs-title="Penilaian Penyedia"><i class='bx bxs-file-doc'></i>
+                                    </a>
+                                    @endif
+                                </div>
 
                             </td>
                         </tr>
