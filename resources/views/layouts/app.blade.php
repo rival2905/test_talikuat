@@ -29,7 +29,7 @@
 <body id="body-pd">
     <header class="header" id="header">
         <div class="header_toggle">
-            <i class="bx bx-menu" id="header-toggle"></i>
+            {{-- <i class="bx bx-menu" id="header-toggle"></i> --}}
         </div>
         <h3 class="text-center text-white">Selamat Datang, {{ Auth::user()->name ??
             Auth::guard('external')->user()->name }}</h3>
@@ -162,8 +162,9 @@
     </div>
 
     <!--Container Main start-->
-    <div class="height-100 bg-light">
-        <main>
+    <div class="height-100 bg-light w-100">
+
+        <main class="container-fluid">
             @if ($message = Session::get('success'))
             <div class="container">
                 <div class="alert alert-success" role="alert">
@@ -176,7 +177,8 @@
                     <strong>{{ $message }}</strong>
                 </div>
             </div>
-            @endif @yield('content')
+            @endif
+            @yield('content')
         </main>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>

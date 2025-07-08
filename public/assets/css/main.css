@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
 :root {
     --header-height: 3rem;
-    --nav-width: 100px;
+    --nav-width: 250px;
     --first-color: #ffd026;
     --first-color-light: #000000;
     --white-color: #16a75c;
@@ -26,8 +26,8 @@ a {
     text-decoration: none;
 }
 .header {
-    width: 100%;
-    height: var(--header-height);
+    width: calc(100% - var(--nav-width));
+    margin-left: var(--nav-width);
     position: fixed;
     top: 0;
     left: 0;
@@ -56,11 +56,11 @@ a {
 .l-navbar {
     position: fixed;
     top: 0;
-    left: -30%;
+    left: 0;
     width: var(--nav-width);
     height: 100vh;
     background-color: var(--first-color);
-    padding: 0.5rem 1rem 0 0;
+    padding: 1rem 1rem 0 0;
     transition: 0.5s;
     z-index: var(--z-fixed);
 }
@@ -128,7 +128,11 @@ a {
     background-color: var(--white-color);
 }
 .height-100 {
-    height: 100vh;
+    margin-left: var(--nav-width);
+    padding: 1rem;
+    min-height: 100vh;
+    transition: 0.5s;
+    background-color: #f8f9fa;
 }
 /* main {
     width: 100%;
@@ -140,8 +144,7 @@ a {
 } */
 main {
     width: 100%;
-    height: 100%;
-    margin-top: 100px;
+    margin-top: calc(var(--header-height) + 1rem);
 }
 @media screen and (min-width: 768px) {
     body {
@@ -169,8 +172,4 @@ main {
     .body-pd {
         padding-left: calc(var(--nav-width) + 188px);
     }
-}
-
-.nav_dropdown {
-    background-color: #dbb323;
 }

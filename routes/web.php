@@ -131,6 +131,9 @@ Route::middleware(['auth', 'userVerified'])->group(function () {
     Route::get('/rekap-dokumen/{uptd}', [UtilsController::class, 'rekapDokumen'])->name('rekap-dokumen.index');
 
     Route::get('/penilaian-penyedia/{id}', [PenilaianPenyediaController::class, 'index'])->name('penilaian-penyedia.index');
+    Route::get('/penilaian-penyedia/create/{id}', [PenilaianPenyediaController::class, 'create'])->name('penilaian-penyedia.create');
+    Route::post('/penilaian-penyedia/store/{id}', [PenilaianPenyediaController::class, 'store'])->name('penilaian-penyedia.store');
+    Route::get('/penilaian-penyedia/show/{id}', [PenilaianPenyediaController::class, 'show'])->name('penilaian-penyedia.show');
 });
 
 Route::get('/download-template-laporan-mingguan/{data_umum}', [LaporanMingguanController::class, 'downloadTemplate'])->name('laporan-mingguan-uptd.downloadTemplate');
