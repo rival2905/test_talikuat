@@ -235,7 +235,7 @@ function getValue(el, table) {
                 $.each(element, (i, v) => {
                     const parent = $(v).parent().parent().parent().parent();
                     const value =
-                        $(v).val() == "ya" ? getNilai("A", tableA) : 0;
+                        $(v).val() == "ya" ? getNilai("B", tableB) : 0;
                     if (parent.find("input[type=checkbox]").is(":checked")) {
                         parent.find("input[type=text]").val(value.toFixed(2));
                         parent
@@ -253,11 +253,12 @@ function getValue(el, table) {
             } else {
                 const element = $(el).parent().parent().parent().parent();
                 if (element.find("input[type=checkbox]").is(":checked")) {
-                    const value = el.value == "ya" ? getNilai("A", tableA) : 0;
+                    const value = el.value == "ya" ? getNilai("B", tableB) : 0;
                     element.find("input[type=text]").val(value.toFixed(2));
                     element
                         .find("input[type='hidden'][class='temp']")
                         .val(value);
+
                     totalNilaiTable(element);
                 }
             }
@@ -269,7 +270,7 @@ function getValue(el, table) {
                 $.each(element, (i, v) => {
                     const parent = $(v).parent().parent().parent().parent();
                     const value =
-                        $(v).val() == "ya" ? getNilai("A", tableA) : 0;
+                        $(v).val() == "ya" ? getNilai("C", tableC) : 0;
                     if (parent.find("input[type=checkbox]").is(":checked")) {
                         parent.find("input[type=text]").val(value.toFixed(2));
                         parent
@@ -287,7 +288,7 @@ function getValue(el, table) {
             } else {
                 const element = $(el).parent().parent().parent().parent();
                 if (element.find("input[type=checkbox]").is(":checked")) {
-                    const value = el.value == "ya" ? getNilai("A", tableA) : 0;
+                    const value = el.value == "ya" ? getNilai("C", tableC) : 0;
                     element.find("input[type=text]").val(value.toFixed(2));
                     element
                         .find("input[type='hidden'][class='temp']")
@@ -303,7 +304,7 @@ function getValue(el, table) {
                 $.each(element, (i, v) => {
                     const parent = $(v).parent().parent().parent().parent();
                     const value =
-                        $(v).val() == "ya" ? getNilai("A", tableA) : 0;
+                        $(v).val() == "ya" ? getNilai("D", tableD) : 0;
                     if (parent.find("input[type=checkbox]").is(":checked")) {
                         parent.find("input[type=text]").val(value.toFixed(2));
                         parent
@@ -321,7 +322,7 @@ function getValue(el, table) {
             } else {
                 const element = $(el).parent().parent().parent().parent();
                 if (element.find("input[type=checkbox]").is(":checked")) {
-                    const value = el.value == "ya" ? getNilai("A", tableA) : 0;
+                    const value = el.value == "ya" ? getNilai("D", tableD) : 0;
                     element.find("input[type=text]").val(value.toFixed(2));
                     element
                         .find("input[type='hidden'][class='temp']")
