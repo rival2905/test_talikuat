@@ -1080,7 +1080,7 @@
                                                 onchange="getValue(this,'D')"> Ya
                                         </label>
                                         <label class="btn bg-danger text-white">
-                                            <input type="radio" name="nilai_c2" value="tidak"
+                                            <input type="radio" name="nilai_d2" value="tidak"
                                                 onchange="getValue(this,'D')"> Tidak
                                         </label>
                                     </div>
