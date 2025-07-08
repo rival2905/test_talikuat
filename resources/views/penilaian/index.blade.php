@@ -3,7 +3,7 @@
     <div class="card">
         <div class="card-body">
             <div class="container">
-                @if (Auth::user()->userDetail->role != 7)
+                @if (Auth::user()->userDetail->role = 1 || Auth::user()->userDetail->role = 5)
                 <a href="{{ route('penilaian-penyedia.create',$data_umum->id) }}" class="btn btn-mat btn-primary mb-3">
                     <i class="mdi mdi-account-plus menu-icon"></i>
                     Tambah Penilaian Penyedia

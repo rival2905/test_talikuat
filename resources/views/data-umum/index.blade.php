@@ -49,7 +49,8 @@
                                         class="btn btn-mat btn-primary waves-effect waves-light"
                                         data-bs-toggle="tooltip" data-bs-placement="bottom"
                                         data-bs-title="Data Kontrak"><i class="bx bxs-file-doc"></i></a>
-                                    @if (Auth::user()->userDetail->role != 7)
+                                    @if (Auth::user()->userDetail->role = 1 || Auth::user()->userDetail->role = 2 ||
+                                    Auth::user()->userDetail->role = 5)
                                     <a href="{{ route('penilaian-penyedia.index', $data->id) }}"
                                         class="btn btn-mat btn-warning waves-effect waves-light mt-1"
                                         data-bs-toggle="tooltip" data-bs-placement="bottom"
