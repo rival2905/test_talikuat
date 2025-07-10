@@ -5,7 +5,7 @@
 
 @section('content')
 <div class="container">
-    <div class="card p-4" style="min-width: 50vw; max-width: 50vw;">
+    <div class="card p-2">
         <form action="{{ route('penilaian-penyedia.store', $data->id) }}" method="POST" id="form-laporan-mingguan-uptd"
             enctype="multipart/form-data">
             @csrf

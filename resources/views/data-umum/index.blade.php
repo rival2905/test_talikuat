@@ -36,25 +36,21 @@
                             <td>
                                 <div class="flex space-x-1 space-y-2 justify-center">
                                     <a href="{{route('data-umum.show',$data->id) }}"
-                                        class="btn btn-mat btn-success waves-effect waves-light"
-                                        data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Detail"><i
+                                        class="btn btn-mat btn-success waves-effect waves-light"><i
                                             class="bx bx-search-alt-2"></i></a>
                                     @if (Auth::user()->userDetail->role != 7 && date('Y') == $data->thn)
                                     <a href="{{ route('data-umum.edit', $data->id) }}"
-                                        class="btn btn-mat btn-warning waves-effect waves-light"
-                                        data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Edit"><i
+                                        class="btn btn-mat btn-warning waves-effect waves-light"><i
                                             class="bx bx-edit-alt"></i></a>
                                     @endif
                                     <a href="{{route('upload.dataumum',$data->id)}}"
-                                        class="btn btn-mat btn-primary waves-effect waves-light"
-                                        data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                        data-bs-title="Data Kontrak"><i class="bx bxs-file-doc"></i></a>
+                                        class="btn btn-mat btn-primary waves-effect waves-light"><i
+                                            class="bx bxs-file-doc"></i></a>
                                     @if (Auth::user()->userDetail->role == 1 || Auth::user()->userDetail->role == 2 ||
                                     Auth::user()->userDetail->role ==5)
                                     <a href="{{ route('penilaian-penyedia.index', $data->id) }}"
-                                        class="btn btn-mat btn-warning waves-effect waves-light mt-1"
-                                        data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                        data-bs-title="Penilaian Penyedia"><i class='bx bxs-file-doc'></i>
+                                        class="btn btn-mat btn-warning waves-effect waves-light mt-1"><i
+                                            class='bx bxs-file-doc'></i>
                                     </a>
                                     @endif
                                 </div>

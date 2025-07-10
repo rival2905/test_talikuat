@@ -9,11 +9,11 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
     <title>@yield('title') | Tali Kuat Bina Marga</title>
-
+    <link rel="stylesheet" href="{{ asset('assets/css/bug.css') }}" />
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com" />
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet" />
-    <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}" />
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
     <script src="https://kit.fontawesome.com/b9e0244bcc.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" />
@@ -29,7 +29,7 @@
 <body id="body-pd">
     <header class="header" id="header">
         <div class="header_toggle">
-            {{-- <i class="bx bx-menu" id="header-toggle"></i> --}}
+            <i class="bx bx-menu" id="header-toggle"></i>
         </div>
         <h3 class="text-center text-white">Selamat Datang, {{ Auth::user()->name ??
             Auth::guard('external')->user()->name }}</h3>
@@ -39,11 +39,11 @@
     </header>
     <div class="l-navbar" id="nav-bar">
         <nav class="nav">
-
-            <a href="" class="nav_logo">
+            <div class="nav_logo">
                 <img src="{{ asset('assets/images/talikuat.png') }}" alt="Tali Kuat Bina Marga" height="80" />
-                <span class="nav_logo-name">Talikuat</span>
-            </a>
+            </div>
+
+
             @if(!Auth::guard('external')->check())
             <div class="nav_list">
                 <a href="{{ route('dashboard') }}" class="nav_link">
@@ -154,6 +154,13 @@
 
             @endif
 
+            <button class="nav_link text-center btn btn-danger w-100 mt-3" id="closeMenuButton"
+                style="border-radius: 0; background-color: #ff0000; color: #fff; font-weight: bold;" onclick=" document.getElementById('nav-bar').classList.remove('show');
+                document.getElementById('nav-bar').style.display='none' ;">
+                Close Menu
+            </button>
+
+
             <a href="{{ route('logout') }}" class="nav_link">
                 <i class="bx bx-log-out nav_icon"></i>
                 <span class="nav_name">Sign Out</span>
@@ -163,7 +170,6 @@
 
     <!--Container Main start-->
     <div class="height-100 bg-light w-100">
-
         <main class="container-fluid">
             @if ($message = Session::get('success'))
             <div class="container">
@@ -212,7 +218,50 @@
                 $('#dropdownIconRekap').toggleClass('bx-chevron-down');
 
             });
+
+            $('#header-toggle').on('click', function() {
+                const body = document.getElementById('body-pd');
+                const header = document.getElementById('header');
+                const navBar = document.getElementById('nav-bar');
+                body.classList.toggle('body-pd');
+                header.classList.toggle('body-pd');
+                navBar.classList.toggle('show');
+                if (navBar.classList.contains('show')) {
+                    navBar.style.display = 'block';
+                } else {
+                    navBar.style.display = 'none';
+                }
+
+
+            });           
+            const navBar = document.getElementById('nav-bar');
+            const headerToggle = document.getElementById('header-toggle');
+      
+            if (window.innerWidth > 768) {
+                navBar.classList.remove('show');
+                navBar.style.display = 'block';
+                headerToggle.style.display = 'none';
+            } else {
+                navBar.style.display = 'none';
+                headerToggle.style.display = 'block';
+            }
         });
+             //watch width
+        window.addEventListener('resize', function() {
+            const navBar = document.getElementById('nav-bar');
+            const headerToggle = document.getElementById('header-toggle');
+            if (window.innerWidth > 768) {
+                navBar.classList.remove('show');
+                navBar.style.display = 'block';
+                headerToggle.style.display = 'none';
+            } else {
+                navBar.style.display = 'none';
+                headerToggle.style.display = 'block';
+            }
+        });
+        
+
+       
     </script>
     @yield('scripts')
 </body>
