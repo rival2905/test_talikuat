@@ -27,7 +27,7 @@ class ProgressController extends Controller
     function getDataPembangunanByUser($user)
     {
         if ($user == 1) {
-            $data = DataUmum::with('uptd')
+            $data = DataUmum::where('thn', date('Y'))
                 ->with('detail')
                 ->get();
 
