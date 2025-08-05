@@ -24,6 +24,32 @@ class ProgressController extends Controller
         ]);
     }
 
+    function getDataPembangunanByUser($user)
+    {
+        if ($user == 1) {
+            $data = DataUmum::with('uptd')
+                ->with('detail')
+                ->get();
+
+
+            return response()->json([
+                'status' => 'success',
+                'data' => $data
+            ]);
+        }
+
+        $data = DataUmum::where('thn', date('Y'))
+            ->with('detail')
+            ->whereHas('detail', function ($query) use ($user) {
+                $query->where('ppk_id', $user);
+            })->get();
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $data
+        ]);
+    }
+
     public function getDataPembangunanbyUptd(Request $request)
     {
         if ($request->year == '2022') {

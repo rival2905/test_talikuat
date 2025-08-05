@@ -29,6 +29,7 @@ Route::get('get-data-pembangunan22', [ProgressController::class, 'getDataPembang
 Route::get('get-data-curva/{id}', [ProgressController::class, 'getDataPembangunanbyId'])->name('get-data-curva');
 Route::get('get-data-progress/{id}', [ProgressController::class, 'getProgressDataById'])->name('get-data-progress');
 
+Route::get('get-data-pembangunan-by-user/{id}', [ProgressController::class, 'getDataPembangunanByUser'])->name('get-data-pembangunan-by-uptd-id');
 
 Route::get('penilaian-penyedia/{id}', [PenilaianPenyediaController::class, 'index'])->name('penilaian-penyedia.index');
 Route::post('penilaian-penyedia/store/{id}', [PenilaianPenyediaController::class, 'store'])->name('penilaian-penyedia.store');
