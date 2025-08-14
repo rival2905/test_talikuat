@@ -26,14 +26,14 @@ class UserManajemen extends Controller
     {
         if (Auth::user()->userDetail->role == 1) {
             $adminUPTD = UserDetail::where('role', 2)->with('user')->get();
-            $ppk = UserDetail::where('role', 5)->with('user')->get();
+            $ppk = UserDetail::where([['role', 5], ['is_active', 1]])->with('user')->get();
             $kontraktor = UserExternal::where('role', 3)->get();
             $konsultan = UserExternal::where('role', 4)->get();
             $dataKontraktor = Kontraktor::all();
             $dataKonsultan = Konsultan::all();
         } else {
             $adminUPTD = UserDetail::where([['role', 2], ['uptd_id', Auth::user()->userDetail->uptd_id]])->with('user')->get();
-            $ppk = UserDetail::where([['role', 5], ['uptd_id', Auth::user()->userDetail->uptd_id]])->with('user')->get();
+            $ppk = UserDetail::where([['role', 5], ['is_active', 1], ['uptd_id', Auth::user()->userDetail->uptd_id]])->with('user')->get();
             $kontraktor = UserExternal::where([['role', 3], ['uptd_id', Auth::user()->userDetail->uptd_id]])->get();
             $konsultan = UserExternal::where([['role', 4], ['uptd_id', Auth::user()->userDetail->uptd_id]])->get();
             $dataKontraktor = Kontraktor::all();
@@ -448,6 +448,20 @@ class UserManajemen extends Controller
 
         $ppk = UserDetail::where('role', 5)->with('user')->get();
         return view('user.role', ['uptd' => Uptd::all(), 'ppk' => $ppk]);
+    }
+
+
+
+    public function deleteUserPpk($id)
+    {
+
+        $ppk = UserDetail::where('user_id', $id)->first();
+        if ($ppk) {
+            $ppk->is_active = 0;
+            $ppk->save();
+        }
+
+        return redirect()->back()->with('success', 'Berhasil menghapus user PPK');
     }
 
     /**

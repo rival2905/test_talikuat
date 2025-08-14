@@ -123,7 +123,9 @@
                                 <a class="btn btn-mat btn-warning" data-bs-toggle="modal" data-bs-target="#editUserPPK" data-id="{{ $item->user->id }}" data-name="{{ $item->user->name }}" data-email="{{ $item->user->email }}" data-nip=" {{ $item->user->profile->no_pegawai ?? ''}}" data-uptd="{{ $item->user->internal_role_id}}" data-no_telp="{{ $item->user->profile->no_tlp ?? ''}}" onclick="updateUserPPK(this)">
                                     <i class="bx bx-edit-alt"></i></a>
 
-
+  <a class="btn btn-mat btn-danger" data-bs-toggle="modal" data-bs-target="#deletePPK" data-id="{{  $item->user->id }}" data-name="{{ $item->user->name }}" onclick="deletePPK(this)">
+                                    <i class="bx bx-trash"></i>
+                                </a>
                             </td>
                             @endforeach
                         </tr>
@@ -428,6 +430,31 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Delete User PPK -->
+<div class="modal fade" id="deletePPK" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deletePPKLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deletePPKLabel">
+                    Delete User
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Apakah anda yakin ingin menghapus data ini?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <a class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <!-- Modal Delete User Konsultan -->
 <div class="modal fade" id="deleteUserKonsultan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteUserKonsultanLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -664,6 +691,20 @@
         $("#editDataKonsultan #uptd")
             .find("option[value=" + uptd + "]")
             .attr("selected", true);
+    }
+
+
+
+        function deletePPK(el) {
+        const url = "{{ route('user-manajement.delete-admin-ppk', 0) }}";
+        var id = $(el).data("id");
+        var name = $(el).data("name");
+        console.log(name);
+        $("#deletePPKLabel").text("Delete User " + name);
+        $("#deletePPK .modal-footer a").attr(
+            "href",
+            url.replace("0", id)
+        );
     }
 
     function deleteUserKonsultan(el) {

@@ -63,6 +63,7 @@ Route::middleware(['auth', 'userVerified'])->group(function () {
     Route::get('/user-manajement/delete-admin-konsultan/{id}', [UserManajemen::class, 'deleteUserKonsultan'])->name('user-manajement.delete-admin-konsultan');
     Route::post('/user-manajement/create-admin-ppk', [UserManajemen::class, 'createUserPpk'])->name('user-manajement.create-admin-ppk');
     Route::post('/user-manajement/update-admin-ppk/{id}', [UserManajemen::class, 'updateUserPpk'])->name('user-manajement.update-admin-ppk');
+    Route::get('/user-manajement/delete-admin-ppk/{id}', [UserManajemen::class, 'deleteUserPpk'])->name('user-manajement.delete-admin-ppk');
 
 
 
