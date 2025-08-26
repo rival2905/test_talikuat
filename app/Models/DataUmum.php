@@ -137,4 +137,9 @@ class DataUmum extends Model
     {
         return $this->hasMany(PenilaianPenyedia::class, 'data_umum_id')->orderBy('periode', 'desc');
     }
+
+    public function duDc()
+    {
+        return $this->hasMany(\App\Models\DataUmumDocumentCategory::class, 'data_umum_id', 'id');
+    }
 }

@@ -1,6 +1,6 @@
 @extends('layouts.app') @section('content')
 <div class="container">
-    <div class="card">
+    <div class="card ">
         <div class="card-body">
             <div class="container">
                 @if (Auth::user()->userDetail->role != 7)
@@ -19,6 +19,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Nama Kegiatan</th>
+                            <th>KKK</th>
                             <th>kontraktor</th>
                             <th>Konsultan</th>
                             <th>PPK</th>
@@ -30,6 +31,7 @@
                         <tr>
                             <td>{{$data->id}}</td>
                             <td class="text-uppercase">{{$data->nm_paket}}</td>
+                            <td class="text-uppercase">undefined</td>
                             <td>{{$data->detail->kontraktor->nama}}</td>
                             <td>{{$data->detail->konsultan->name}}</td>
                             <td>{{$data->detail->ppk->nama ?? ''}}</td>
@@ -53,6 +55,8 @@
                                             class='bx bxs-file-doc'></i>
                                     </a>
                                     @endif
+                                    <a href="{{route('admin.data-umum.document-category.show',$data->id) }}"
+                                        class="btn btn-mat btn-sm btn-success waves-effect waves-light">KKK</a>
                                 </div>
 
                             </td>

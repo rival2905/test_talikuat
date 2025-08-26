@@ -16,6 +16,9 @@ use App\Http\Controllers\PenilaianPenyediaController;
 use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\UserManajemen;
 use App\Http\Controllers\UtilsController;
+use App\Http\Controllers\DocumentCategoryController;
+use App\Http\Controllers\DataUmumDocumentCategoryController;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -135,6 +138,32 @@ Route::middleware(['auth', 'userVerified'])->group(function () {
     Route::get('/penilaian-penyedia/create/{id}', [PenilaianPenyediaController::class, 'create'])->name('penilaian-penyedia.create');
     Route::post('/penilaian-penyedia/store/{id}', [PenilaianPenyediaController::class, 'store'])->name('penilaian-penyedia.store');
     Route::get('/penilaian-penyedia/show/{id}', [PenilaianPenyediaController::class, 'show'])->name('penilaian-penyedia.show');
+
+    // Document Category
+    Route::prefix('document-category')->group(function () {
+        Route::get('/', [DocumentCategoryController::class, 'index'])->name('admin.category.index');
+        Route::get('/create', [DocumentCategoryController::class, 'create'])->name('admin.category.create');
+        Route::post('/store', [DocumentCategoryController::class, 'store'])->name('admin.category.store');
+        Route::get('/edit/{id}', [DocumentCategoryController::class, 'edit'])->name('admin.category.edit');
+        Route::put('/update/{id}', [DocumentCategoryController::class, 'update'])->name('admin.category.update');
+        Route::delete('/destroy/{id}', [DocumentCategoryController::class, 'destroy'])->name('admin.category.destroy');
+    });
+    Route::prefix('data-umum')->group(function () {
+        Route::get('document-category/{id}', [DataUmumDocumentCategoryController::class, 'show'])->name('admin.data-umum.document-category.show');
+        Route::post('/document-category/{id}/store', [DataUmumDocumentCategoryController::class, 'store'])->name('admin.data-umum.document-category.store');
+        Route::put('/document-category/{id}/update', [DataUmumDocumentCategoryController::class, 'update'])->name('admin.data-umum.document-category.update');
+        Route::delete('/document-category/{id}/destroy', [DataUmumDocumentCategoryController::class, 'destroy'])->name('admin.data-umum.document-category.destroy');
+        // DuDcDetail
+        Route::prefix('du-dc')->group(function () {
+            Route::get('/{id}', [DataUmumDocumentCategoryController::class, 'detailFiles'])->name('admin.du-dc.index');
+            Route::get('updateStatus/{id}', [DataUmumDocumentCategoryController::class, 'updateStatus'])->name('admin.du-dc.index.updateStatus');
+    
+            Route::post('/{id}/store', [DataUmumDocumentCategoryController::class, 'storeFile'])->name('admin.du-dc-detail.store');
+            Route::delete('/{id}/destroy', [DataUmumDocumentCategoryController::class, 'destroyFile'])->name('admin.du-dc-detail.destroy');
+            Route::get('downloadFile/{filename}', [DataUmumDocumentCategoryController::class, 'downloadFile'])->name('admin.du-dc.downloadFile');
+            
+        });
+    });
 });
 
 Route::get('/download-template-laporan-mingguan/{data_umum}', [LaporanMingguanController::class, 'downloadTemplate'])->name('laporan-mingguan-uptd.downloadTemplate');

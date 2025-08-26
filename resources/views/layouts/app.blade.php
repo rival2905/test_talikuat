@@ -69,6 +69,8 @@
                         kontraktor</a>
                     <a href="{{ route('data-utama.index','konsultan') }}" class="nav_link"><i
                             class="bx bx-circle"></i>Data Konsultan</a>
+                    <a href="{{ route('admin.category.index') }}" class="nav_link"><i
+                            class="bx bx-circle"></i>Kategori Dokumen</a>
                 </div>
                 @endif
                 <a href="{{ route('data-umum.index',date('Y')) }}" class="nav_link">
