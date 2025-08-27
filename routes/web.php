@@ -157,6 +157,7 @@ Route::middleware(['auth', 'userVerified'])->group(function () {
         Route::prefix('du-dc')->group(function () {
             Route::get('/{id}', [DataUmumDocumentCategoryController::class, 'detailFiles'])->name('admin.du-dc.index');
             Route::get('updateStatus/{id}', [DataUmumDocumentCategoryController::class, 'updateStatus'])->name('admin.du-dc.index.updateStatus');
+            Route::patch('updateFileScore/{du_dc_id}', [DataUmumDocumentCategoryController::class, 'updateFileScore'])->name('admin.du-dc.updateFileScore');
     
             Route::post('/{id}/store', [DataUmumDocumentCategoryController::class, 'storeFile'])->name('admin.du-dc-detail.store');
             Route::delete('/{id}/destroy', [DataUmumDocumentCategoryController::class, 'destroyFile'])->name('admin.du-dc-detail.destroy');
