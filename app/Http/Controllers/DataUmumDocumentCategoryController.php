@@ -29,6 +29,7 @@ class DataUmumDocumentCategoryController extends Controller
                 $temp_data = [
                     'data_umum_id' => $data_umum_id,
                     'document_category_id' => $dc->id,
+                    'parent_document_category_id' => $dc->parent_id,
                     'score' => 0,
                     'deskripsi' => $dc->deskripsi ?? null,
                     'is_active' => 1,
@@ -184,6 +185,13 @@ class DataUmumDocumentCategoryController extends Controller
         return redirect()
             ->route('admin.du-dc.index', $du_dc_id)
             ->with('success', 'File berhasil dihapus!');
+    }
+
+    private function updateFileScore($du_dc_id)
+    {
+        $du_dc = DuDcDetail::findOrFail($du_dc_id);
+        $avgScore = $du_dc->details()->avg('score') ?? 0;
+        $du_dc->update(['score' => round($avgScore)]);
     }
 
     private function updateAverageScore($du_dc_id)

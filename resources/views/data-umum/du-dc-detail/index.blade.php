@@ -1,5 +1,13 @@
 @extends('layouts.app')
 
+@section('links')
+<style>
+    /* Sedikit style tambahan */
+    .editable-score { cursor: pointer; position: relative; }
+    .feedback-icon { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); }
+</style>
+
+@endsection
 @section('content')
 <div class="container py-4">
 
@@ -33,7 +41,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-hover align-middle">
+                <table class="table table-hover align-middle" id="score-table">
                     <thead class="table-light">
                         <tr>
                             <th style="width: 50px;">No</th>
@@ -47,8 +55,12 @@
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $file->name }}</td>
-                                <td>
+                                {{-- <td>
                                     <span class="badge bg-info">{{ $file->score }} / 100</span>
+                                </td> --}}
+                                <td class="editable-score" style="background-color: rgb(233, 176, 176); border-radius: 10px;" data-id="{{ $file->id }}">
+                                    <span class="score-value" >{{ $file->score }}</span>
+                                    <span class="feedback-icon"></span>
                                 </td>
                                 <td class="d-flex gap-1">
                                    
@@ -111,4 +123,100 @@
     </div>
 
 </div>
+@endsection
+
+@section('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const table = document.getElementById('score-table');
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    table.addEventListener('click', function(e) {
+        const cell = e.target.closest('.editable-score');
+        if (cell) {
+            makeCellEditable(cell);
+        }
+    });
+
+    function makeCellEditable(cell) {
+        if (cell.querySelector('input')) return;
+
+        const scoreSpan = cell.querySelector('.score-value');
+        const originalValue = scoreSpan.textContent.trim();
+        const recordId = cell.dataset.id;
+        
+        scoreSpan.style.display = 'none'; // Sembunyikan teks skor
+        
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.className = 'form-control'; // Gunakan kelas Bootstrap
+        input.value = originalValue;
+        input.min = 0;
+        input.max = 100;
+        
+        cell.prepend(input); // Tambahkan input ke awal sel
+        input.focus();
+
+        const onFinishEditing = () => {
+            const newValue = input.value;
+            // Hapus input field dan tampilkan kembali teks skor
+            input.remove();
+            scoreSpan.style.display = 'inline';
+            // Hanya simpan jika nilainya berubah
+            if (newValue !== originalValue) {
+                saveScore(cell, recordId, newValue, originalValue);
+            }
+        };
+
+        input.addEventListener('blur', onFinishEditing);
+        input.addEventListener('keydown', e => {
+            if (e.key === 'Enter') input.blur(); // Trigger blur saat enter
+            if (e.key === 'Escape') {
+                input.value = originalValue;
+                input.blur();
+            }
+        });
+    }
+
+    function saveScore(cell, id, newValue, originalValue) {
+        const url = `/scores/${id}`;
+        const feedbackIcon = cell.querySelector('.feedback-icon');
+        const scoreSpan = cell.querySelector('.score-value');
+        
+        // Tampilkan spinner loading
+        feedbackIcon.innerHTML = '<i class="fas fa-spinner fa-spin text-primary"></i>';
+
+        fetch(url, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken
+            },
+            body: JSON.stringify({ score: newValue })
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Update failed');
+            return response.json();
+        })
+        .then(data => {
+            scoreSpan.textContent = data.new_score; // Update nilai di span
+            // Tampilkan ikon sukses
+            feedbackIcon.innerHTML = '<i class="fas fa-check-circle text-success"></i>';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            scoreSpan.textContent = originalValue; // Kembalikan ke nilai asli jika gagal
+            // Tampilkan ikon error
+            feedbackIcon.innerHTML = '<i class="fas fa-times-circle text-danger"></i>';
+            alert('Gagal memperbarui skor! Pastikan nilai antara 0-100.');
+        })
+        .finally(() => {
+            // Hilangkan ikon setelah 2 detik
+            setTimeout(() => {
+                feedbackIcon.innerHTML = '';
+            }, 2000);
+        });
+    }
+});
+</script>
 @endsection

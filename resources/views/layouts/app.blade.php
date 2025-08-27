@@ -24,6 +24,9 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
+    @yield('links')
+
 </head>
 
 <body id="body-pd">
