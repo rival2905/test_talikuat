@@ -187,11 +187,33 @@ class DataUmumDocumentCategoryController extends Controller
             ->with('success', 'File berhasil dihapus!');
     }
 
-    private function updateFileScore($du_dc_id)
+    public function updateFileScore(Request $request, $du_dc_id)
     {
+        // Validasi tetap sama, ini sudah bagus
+        $validated = $request->validate([
+            'score' => 'sometimes|required|integer|min:0|max:100',
+            'description' => 'sometimes|nullable|string|max:255',
+        ]);
+        
         $du_dc = DuDcDetail::findOrFail($du_dc_id);
-        $avgScore = $du_dc->details()->avg('score') ?? 0;
-        $du_dc->update(['score' => round($avgScore)]);
+
+        // Hanya update 'score' jika ada di dalam request
+        if ($request->has('score')) {
+            // UBAH BAGIAN INI
+            $du_dc->score = $request->score; // Gunakan nama kolom yang benar dari database
+        }
+
+        if ($request->has('description')) {
+            $du_dc->deskripsi = $request->description;
+        }
+
+        $du_dc->save();
+        
+        return response()->json([
+            'status' => 'success',
+            // Samakan juga di sini untuk konsistensi
+            'updated_data' => $du_dc->only(['score', 'deskripsi']) 
+        ]);
     }
 
     private function updateAverageScore($du_dc_id)

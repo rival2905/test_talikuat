@@ -9,14 +9,15 @@ class DataUmumDocumentCategory extends Model
 {
     use HasFactory;
     protected $table = 'data_umum_document_categories';
+    protected $guarded = [];
 
-    protected $fillable = [
-        'data_umum_id',
-        'document_category_id',
-        'score',
-        'is_active',
-        'deskripsi',
-    ];
+    // protected $fillable = [
+    //     'data_umum_id',
+    //     'document_category_id',
+    //     'score',
+    //     'is_active',
+    //     'deskripsi',
+    // ];
 
     protected $casts = [
         'is_active' => 'boolean',

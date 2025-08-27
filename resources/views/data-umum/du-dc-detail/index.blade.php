@@ -41,13 +41,16 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-hover align-middle" id="score-table">
+                <table class="table table-hover align-middle" id="data-table" 
+       data-update-url-template="{{ route('admin.du-dc.updateFileScore', ['du_dc_id' => 'PLACEHOLDER']) }}">
                     <thead class="table-light">
                         <tr>
                             <th style="width: 50px;">No</th>
                             <th>Nama File</th>
                             <th style="width: 120px;">Score</th>
-                            <th style="width: 180px;">Aksi</th>
+                            <th>Deskripsi</th>
+
+                            <th style="width: 100px;">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -58,8 +61,12 @@
                                 {{-- <td>
                                     <span class="badge bg-info">{{ $file->score }} / 100</span>
                                 </td> --}}
-                                <td class="editable-score" style="background-color: rgb(233, 176, 176); border-radius: 10px;" data-id="{{ $file->id }}">
-                                    <span class="score-value" >{{ $file->score }}</span>
+                                <td class="editable-cell" style="background-color: rgb(233, 176, 176); border-radius: 10px;" data-id="{{ $file->id }}" data-field="score">
+                                    <span class="cell-value">{{ $file->score }}</span>
+                                    <span class="feedback-icon"></span>
+                                </td>
+                                <td class="editable-cell" data-id="{{ $file->id }}" data-field="description">
+                                    <span class="cell-value">{{ $file->deskripsi }}</span>
                                     <span class="feedback-icon"></span>
                                 </td>
                                 <td class="d-flex gap-1">
@@ -128,11 +135,12 @@
 @section('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const table = document.getElementById('score-table');
+    const table = document.getElementById('data-table');
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
     table.addEventListener('click', function(e) {
-        const cell = e.target.closest('.editable-score');
+        // Gunakan .editable-cell yang lebih generik
+        const cell = e.target.closest('.editable-cell');
         if (cell) {
             makeCellEditable(cell);
         }
@@ -141,49 +149,55 @@ document.addEventListener('DOMContentLoaded', function () {
     function makeCellEditable(cell) {
         if (cell.querySelector('input')) return;
 
-        const scoreSpan = cell.querySelector('.score-value');
-        const originalValue = scoreSpan.textContent.trim();
+        const valueSpan = cell.querySelector('.cell-value');
+        const originalValue = valueSpan.textContent.trim();
         const recordId = cell.dataset.id;
-        
-        scoreSpan.style.display = 'none'; // Sembunyikan teks skor
+        const fieldName = cell.dataset.field; // Ambil nama field dari data-field
+
+        valueSpan.style.display = 'none';
         
         const input = document.createElement('input');
-        input.type = 'number';
-        input.className = 'form-control'; // Gunakan kelas Bootstrap
+        // Tipe input disesuaikan dengan field
+        input.type = (fieldName === 'score') ? 'number' : 'text'; 
+        input.className = 'form-control';
         input.value = originalValue;
-        input.min = 0;
-        input.max = 100;
         
-        cell.prepend(input); // Tambahkan input ke awal sel
+        cell.prepend(input);
         input.focus();
 
         const onFinishEditing = () => {
             const newValue = input.value;
-            // Hapus input field dan tampilkan kembali teks skor
             input.remove();
-            scoreSpan.style.display = 'inline';
-            // Hanya simpan jika nilainya berubah
+            valueSpan.style.display = 'inline';
             if (newValue !== originalValue) {
-                saveScore(cell, recordId, newValue, originalValue);
+                // Kirim nama field ke fungsi save
+                saveData(cell, recordId, fieldName, newValue, originalValue);
             }
         };
 
         input.addEventListener('blur', onFinishEditing);
         input.addEventListener('keydown', e => {
-            if (e.key === 'Enter') input.blur(); // Trigger blur saat enter
+            if (e.key === 'Enter') input.blur();
             if (e.key === 'Escape') {
                 input.value = originalValue;
                 input.blur();
             }
         });
     }
+    
+    // Ganti nama fungsi menjadi lebih generik
+    function saveData(cell, id, fieldName, newValue, originalValue) {
+        // --- PERBAIKAN DI SINI ---
+        // 1. Ambil template URL dari atribut data di tabel
+        const urlTemplate = table.dataset.updateUrlTemplate;
 
-    function saveScore(cell, id, newValue, originalValue) {
-        const url = `/scores/${id}`;
-        const feedbackIcon = cell.querySelector('.feedback-icon');
-        const scoreSpan = cell.querySelector('.score-value');
+        // 2. Ganti 'PLACEHOLDER' dengan ID yang sebenarnya untuk membuat URL yang valid
+        const url = urlTemplate.replace('PLACEHOLDER', id);
+        // --- AKHIR PERBAIKAN ---
         
-        // Tampilkan spinner loading
+        const feedbackIcon = cell.querySelector('.feedback-icon');
+        const valueSpan = cell.querySelector('.cell-value');
+        
         feedbackIcon.innerHTML = '<i class="fas fa-spinner fa-spin text-primary"></i>';
 
         fetch(url, {
@@ -192,29 +206,26 @@ document.addEventListener('DOMContentLoaded', function () {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': csrfToken
             },
-            body: JSON.stringify({ score: newValue })
+            body: JSON.stringify({
+                [fieldName]: newValue
+            })
         })
         .then(response => {
             if (!response.ok) throw new Error('Update failed');
             return response.json();
         })
         .then(data => {
-            scoreSpan.textContent = data.new_score; // Update nilai di span
-            // Tampilkan ikon sukses
+            valueSpan.textContent = newValue;
             feedbackIcon.innerHTML = '<i class="fas fa-check-circle text-success"></i>';
         })
         .catch(error => {
             console.error('Error:', error);
-            scoreSpan.textContent = originalValue; // Kembalikan ke nilai asli jika gagal
-            // Tampilkan ikon error
+            valueSpan.textContent = originalValue;
             feedbackIcon.innerHTML = '<i class="fas fa-times-circle text-danger"></i>';
-            alert('Gagal memperbarui skor! Pastikan nilai antara 0-100.');
+            alert('Gagal memperbarui data!');
         })
         .finally(() => {
-            // Hilangkan ikon setelah 2 detik
-            setTimeout(() => {
-                feedbackIcon.innerHTML = '';
-            }, 2000);
+            setTimeout(() => { feedbackIcon.innerHTML = ''; }, 2000);
         });
     }
 });
