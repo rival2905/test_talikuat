@@ -121,10 +121,10 @@
                                    accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png">
                             <small class="text-muted">Format: PDF, Word, Excel. Max 10MB</small>
                         </div>
-                        <div class="mb-3">
+                        {{-- <div class="mb-3">
                             <label class="form-label">Score (0 - 100)</label>
                             <input type="number" name="score" class="form-control" value="0" min="0" max="100" required>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>

@@ -149,7 +149,7 @@ class DataUmumDocumentCategoryController extends Controller
     {
         $request->validate([
             'files' => 'required|file|mimes:pdf,doc,docx,xls,xlsx|max:5120', // max 5MB misalnya
-            'score' => 'required|integer|min:0|max:100',
+            'score' => 'integer|min:0|max:100',
         ]);
 
         $file = $request->file('files');
