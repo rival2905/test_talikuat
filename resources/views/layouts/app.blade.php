@@ -9,7 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
     <title>@yield('title') | Tali Kuat Bina Marga</title>
-    <link rel="stylesheet" href="{{ asset('assets/css/bug.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}" />
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com" />
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet" />
