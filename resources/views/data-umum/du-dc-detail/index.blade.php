@@ -6,7 +6,7 @@
     .editable-score { cursor: pointer; position: relative; }
     .feedback-icon { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); }
 </style>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endsection
 @section('content')
 <div class="container py-4">
@@ -61,7 +61,13 @@
                                 {{-- <td>
                                     <span class="badge bg-info">{{ $file->score }} / 100</span>
                                 </td> --}}
-                                <td class="editable-cell" style="background-color: rgb(233, 176, 176); border-radius: 10px;" data-id="{{ $file->id }}" data-field="score">
+                                @php
+                                    $badgeClass = 'background-color: rgb(233, 176, 176); border-radius: 10px;';
+                                    if ($file->score >= 80) $badgeClass = 'background-color: rgb(119, 230, 91); border-radius: 10px;';
+                                    elseif ($file->score >= 60) $badgeClass = 'background-color: rgb(233, 218, 176); border-radius: 10px;';
+                                    elseif ($file->score > 0) $badgeClass = 'background-color: rgb(233, 176, 176); border-radius: 10px;';
+                                @endphp
+                                <td class="editable-cell" style="{{ $badgeClass }}" data-id="{{ $file->id }}" data-field="score">
                                     <span class="cell-value">{{ $file->score }}</span>
                                     <span class="feedback-icon"></span>
                                 </td>
@@ -185,15 +191,10 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
     
-    // Ganti nama fungsi menjadi lebih generik
+    // Ganti fungsi saveData Anda dengan yang ini
     function saveData(cell, id, fieldName, newValue, originalValue) {
-        // --- PERBAIKAN DI SINI ---
-        // 1. Ambil template URL dari atribut data di tabel
         const urlTemplate = table.dataset.updateUrlTemplate;
-
-        // 2. Ganti 'PLACEHOLDER' dengan ID yang sebenarnya untuk membuat URL yang valid
         const url = urlTemplate.replace('PLACEHOLDER', id);
-        // --- AKHIR PERBAIKAN ---
         
         const feedbackIcon = cell.querySelector('.feedback-icon');
         const valueSpan = cell.querySelector('.cell-value');
@@ -217,12 +218,34 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(data => {
             valueSpan.textContent = newValue;
             feedbackIcon.innerHTML = '<i class="fas fa-check-circle text-success"></i>';
+
+            // --- NOTIFIKASI SWEETALERT DIMULAI DI SINI ---
+            // Cek apakah field yang diupdate adalah 'score'
+            if (fieldName === 'score') {
+                // Tampilkan notifikasi toast yang akan hilang otomatis
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end', // Muncul di pojok kanan atas
+                    icon: 'success',
+                    title: `Skor berhasil diupdate menjadi ${newValue}!`,
+                    showConfirmButton: false,
+                    timer: 3000, // Hilang setelah 3 detik
+                    timerProgressBar: true
+                });
+            }
+            // --- AKHIR NOTIFIKASI ---
         })
         .catch(error => {
             console.error('Error:', error);
             valueSpan.textContent = originalValue;
             feedbackIcon.innerHTML = '<i class="fas fa-times-circle text-danger"></i>';
-            alert('Gagal memperbarui data!');
+            
+            // Ganti alert standar dengan SweetAlert error
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Gagal memperbarui data!'
+            });
         })
         .finally(() => {
             setTimeout(() => { feedbackIcon.innerHTML = ''; }, 2000);
