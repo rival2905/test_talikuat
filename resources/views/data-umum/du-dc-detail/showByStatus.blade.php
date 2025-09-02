@@ -28,10 +28,10 @@
 
     {{-- Header --}}
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h3>File Kategori: {{ $du_dc->documentCategory->name ?? '-' }}</h3>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addFileModal">
+       
+        {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addFileModal">
             + Tambah File
-        </button>
+        </button> --}}
     </div>
     
     {{-- Tabel File --}}
@@ -45,7 +45,8 @@
                     <thead class="table-light">
                         <tr>
                             <th style="width: 50px;">No</th>
-                            <th>Nama File</th>
+                            <th>Kategori</th>
+                            <th>File</th>
                             <th>Status</th>
                             <th style="width: 120px;">Score</th>
                             <th>Deskripsi</th>
@@ -54,9 +55,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($du_dc->details as $index => $file)
+                        @forelse($du_dc as $index => $file)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
+                                <td>{{ $file->duDc->documentCategory->name }}</td>
+
                                 <td>{{ $file->name }}</td>
                                 <td class="text-uppercase">{{ $file->status }}</td>
 
@@ -118,9 +121,7 @@
                     <h5 class="modal-title" id="addFileLabel">Tambah File</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <form action="{{ route('admin.du-dc-detail.store', $du_dc->id) }}" 
-                      method="POST" 
-                      enctype="multipart/form-data">
+                {{-- <form action="{{ route('admin.du-dc-detail.store', $du_dc->du_dc_id) }}" method="POST" enctype="multipart/form-data"> --}}
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">
@@ -129,10 +130,6 @@
                                    accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png">
                             <small class="text-muted">Format: PDF, Word, Excel. Max 10MB</small>
                         </div>
-                        {{-- <div class="mb-3">
-                            <label class="form-label">Score (0 - 100)</label>
-                            <input type="number" name="score" class="form-control" value="0" min="0" max="100" required>
-                        </div> --}}
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>

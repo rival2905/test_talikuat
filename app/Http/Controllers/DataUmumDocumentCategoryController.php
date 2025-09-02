@@ -117,9 +117,10 @@ class DataUmumDocumentCategoryController extends Controller
 
     public function detailFiles($id)
     {
+        $status =null;
         $du_dc = DataUmumDocumentCategory::with('details', 'documentCategory')->findOrFail($id);
 
-        return view('data-umum.du-dc-detail.index', compact('du_dc'));
+        return view('data-umum.du-dc-detail.index', compact('du_dc','status'));
     }
 
     
@@ -181,10 +182,9 @@ class DataUmumDocumentCategoryController extends Controller
         $file->delete();
 
         $this->updateAverageScore($du_dc_id);
+        return redirect()->back()->with(['success' => 'File berhasil dihapus!']);
 
-        return redirect()
-            ->route('admin.du-dc.index', $du_dc_id)
-            ->with('success', 'File berhasil dihapus!');
+       
     }
 
     public function updateFileScore(Request $request, $du_dc_id)
@@ -232,5 +232,24 @@ class DataUmumDocumentCategoryController extends Controller
         }
         
         return Storage::disk('public')->download($file->files);
+    }
+
+    public function detailFilesbyStatus($id,$status)
+    {
+        $data_umum = DataUmum::findOrFail($id);
+        
+        if($status =='pending'){
+            $du_dc = $data_umum->duDc_details_total_pending;
+        }else if($status =='review'){
+            $du_dc = $data_umum->duDc_details_total_review;
+        }else if($status =='revision'){
+            $du_dc = $data_umum->duDc_details_total_revision;
+        }else if($status =='complete'){
+            $du_dc = $data_umum->duDc_details_total_complete;
+        }else{
+            $du_dc = $data_umum->duDc_details_total_doc;
+        }
+        // dd($du_dc);
+        return view('data-umum.du-dc-detail.showByStatus', compact('du_dc','status'));
     }
 }

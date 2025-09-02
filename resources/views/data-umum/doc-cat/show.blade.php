@@ -11,61 +11,76 @@
     <div class="row">
         
         <div class="col-xl col-md mb-4">
-            <div class="card shadow-sm h-100">
-                <div class="card-body d-flex align-items-center">
-                    
-                    <div>
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Dokumen</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{-- $totalDokumen --}} {{ $data_umum->du_dc_details_total_doc_count }}</div>
+            <a href="{{ route('admin.du-dc.status',[$data_umum->id,'all']) }}">
+
+                <div class="card shadow-sm h-100">
+                    <div class="card-body d-flex align-items-center">
+                        
+                        <div>
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Dokumen</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{-- $totalDokumen --}} {{ $data_umum->du_dc_details_total_doc_count }}</div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="col-xl col-md mb-4">
-            <div class="card shadow-sm h-100">
-                <div class="card-body d-flex align-items-center">
-                    
-                    <div>
-                        <div class="text-xs font-weight-bold text-default text-uppercase mb-1">Pending</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{-- $sedangDireview --}} {{ $data_umum->du_dc_details_total_review_count }}</div>
+            
+            <a href="{{ route('admin.du-dc.status',[$data_umum->id,'pending']) }}" class="stretched-link">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body d-flex align-items-center">
+                        
+                        <div>
+                            <div class="text-xs font-weight-bold text-default text-uppercase mb-1">Pending</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{-- $sedangDireview --}} {{ $data_umum->du_dc_details_total_pending_count }}</div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="col-xl col-md mb-4">
-            <div class="card shadow-sm h-100">
-                <div class="card-body d-flex align-items-center">
-                    
-                    <div>
-                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Sedang di Review</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{-- $sedangDireview --}} {{ $data_umum->du_dc_details_total_review_count }}</div>
+            <a href="{{ route('admin.du-dc.status',[$data_umum->id,'review']) }}">
+
+                <div class="card shadow-sm h-100">
+                    <div class="card-body d-flex align-items-center">
+                        
+                        <div>
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Sedang di Review</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{-- $sedangDireview --}} {{ $data_umum->du_dc_details_total_review_count }}</div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
 
         <div class="col-xl col-md mb-4">
-            <div class="card shadow-sm h-100">
-                <div class="card-body d-flex align-items-center">
-                    
-                    <div>
-                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Revisi</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{-- $jumlahRevisi --}} {{ $data_umum->du_dc_details_total_revision_count }}</div>
+            <a href="{{ route('admin.du-dc.status',[$data_umum->id,'revision']) }}">
+
+                <div class="card shadow-sm h-100">
+                    <div class="card-body d-flex align-items-center">
+                        
+                        <div>
+                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Revisi</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{-- $jumlahRevisi --}} {{ $data_umum->du_dc_details_total_revision_count }}</div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
 
         <div class="col-xl col-md mb-4">
-            <div class="card shadow-sm h-100">
-                <div class="card-body d-flex align-items-center">
-                    
-                    <div>
-                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Lengkap</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{-- $dokumenLengkap --}} {{ $data_umum->du_dc_details_total_complete_count }}</div>
+            <a href="{{ route('admin.du-dc.status',[$data_umum->id,'complete']) }}">
+
+                <div class="card shadow-sm h-100">
+                    <div class="card-body d-flex align-items-center">
+                        
+                        <div>
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Lengkap</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{-- $dokumenLengkap --}} {{ $data_umum->du_dc_details_total_complete_count }}</div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
 
     </div>
