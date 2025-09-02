@@ -19,7 +19,6 @@
                         <tr>
                             <th>ID</th>
                             <th>Nama Kegiatan</th>
-                            <th>KKK</th>
                             <th>kontraktor</th>
                             <th>Konsultan</th>
                             <th>PPK</th>
@@ -31,7 +30,7 @@
                         <tr>
                             <td>{{$data->id}}</td>
                             <td class="text-uppercase">{{$data->nm_paket}}</td>
-                            <td class="text-uppercase">undefined</td>
+                           
                             <td>{{$data->detail->kontraktor->nama}}</td>
                             <td>{{$data->detail->konsultan->name}}</td>
                             <td>{{$data->detail->ppk->nama ?? ''}}</td>
@@ -48,15 +47,16 @@
                                     <a href="{{route('upload.dataumum',$data->id)}}"
                                         class="btn btn-mat btn-primary waves-effect waves-light"><i
                                             class="bx bxs-file-doc"></i></a>
-                                    @if (Auth::user()->userDetail->role == 1 || Auth::user()->userDetail->role == 2 ||
-                                    Auth::user()->userDetail->role ==5)
+                                    @if (Auth::user()->userDetail->role == 1 || Auth::user()->userDetail->role == 2 || Auth::user()->userDetail->role ==5)
                                     <a href="{{ route('penilaian-penyedia.index', $data->id) }}"
                                         class="btn btn-mat btn-warning waves-effect waves-light mt-1"><i
                                             class='bx bxs-file-doc'></i>
                                     </a>
                                     @endif
+                                    @if (Auth::user()->userDetail->role == 1 || Auth::user()->userDetail->role == 2 || Auth::user()->userDetail->role ==5)
                                     <a href="{{route('admin.data-umum.document-category.show',$data->id) }}"
                                         class="btn btn-mat btn-sm btn-success waves-effect waves-light">KKK</a>
+                                    @endif
                                 </div>
 
                             </td>

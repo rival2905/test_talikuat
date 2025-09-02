@@ -17,8 +17,8 @@ class DataUmumDocumentCategoryController extends Controller
         $data_umum = DataUmum::with([
             'duDc.documentCategory',
             'duDc.details'
-        ])->findOrFail($data_umum_id);
-
+        ])->withCount('duDc_details_total_doc','duDc_details_total_pending','duDc_details_total_review','duDc_details_total_revision','duDc_details_total_complete')->findOrFail($data_umum_id);
+    //    dd($data_umum);
         $document_categories = DocumentCategory::all();
         $parent_document_categories = DocumentCategory::whereNull('parent_id')->get();
 
@@ -226,7 +226,11 @@ class DataUmumDocumentCategoryController extends Controller
     public function downloadFile($filename)
     {
         $file = DuDcDetail::findOrFail($filename);
-
+        if (Auth::user()->userDetail->role == 1 &&  $file->status =='pending'){
+            $file->status = 'review';
+            $file->save();
+        }
+        
         return Storage::disk('public')->download($file->files);
     }
 }

@@ -26,7 +26,7 @@ class DataUmumController extends Controller
      */
     public function index($thn)
     {
-
+        // dd(Auth::user()->userDetail);
         $data = '';
         if (Auth::user()->userDetail->uptd_id == 0) {
             $data = DataUmum::where('thn', $thn)->with('uptd')->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->orderBy('id', 'desc')->get();

@@ -33,7 +33,7 @@
             + Tambah File
         </button>
     </div>
-
+    
     {{-- Tabel File --}}
     <div class="card shadow-sm mb-4">
         <div class="card-header">
@@ -47,6 +47,8 @@
                         <tr>
                             <th style="width: 50px;">No</th>
                             <th>Nama File</th>
+                            <th>Status</th>
+
                             <th style="width: 120px;">Score</th>
                             <th>Deskripsi</th>
 
@@ -58,15 +60,19 @@
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $file->name }}</td>
+                                <td class="text-uppercase">{{ $file->status }}</td>
+
                                 {{-- <td>
                                     <span class="badge bg-info">{{ $file->score }} / 100</span>
                                 </td> --}}
+
                                 @php
                                     $badgeClass = 'background-color: rgb(233, 176, 176); border-radius: 10px;';
                                     if ($file->score >= 80) $badgeClass = 'background-color: rgb(119, 230, 91); border-radius: 10px;';
                                     elseif ($file->score >= 60) $badgeClass = 'background-color: rgb(233, 218, 176); border-radius: 10px;';
                                     elseif ($file->score > 0) $badgeClass = 'background-color: rgb(233, 176, 176); border-radius: 10px;';
                                 @endphp
+                                @if (Auth::user()->userDetail->role == 1)
                                 <td class="editable-cell" style="{{ $badgeClass }}" data-id="{{ $file->id }}" data-field="score">
                                     <span class="cell-value">{{ $file->score }}</span>
                                     <span class="feedback-icon"></span>
@@ -75,6 +81,10 @@
                                     <span class="cell-value">{{ $file->deskripsi }}</span>
                                     <span class="feedback-icon"></span>
                                 </td>
+                                @else
+                                <td style="{{ $badgeClass }}">{{ $file->score }}</td>
+                                <td>{{ $file->deskripsi }}</td>
+                                @endif
                                 <td class="d-flex gap-1">
                                    
                                     @if($file->files)

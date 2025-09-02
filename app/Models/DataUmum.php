@@ -142,4 +142,60 @@ class DataUmum extends Model
     {
         return $this->hasMany(\App\Models\DataUmumDocumentCategory::class, 'data_umum_id', 'id');
     }
+
+    public function duDc_details_total_doc()
+    {
+        return $this->hasManyThrough(
+            DuDcDetail::class, // Model tujuan akhir
+            DataUmumDocumentCategory::class,        // Model perantara
+            'data_umum_id',
+            'du_dc_id',
+            'id',
+            'id'
+        );
+    }
+    public function duDc_details_total_pending()
+    {
+        return $this->hasManyThrough(
+            DuDcDetail::class, // Model tujuan akhir
+            DataUmumDocumentCategory::class,        // Model perantara
+            'data_umum_id',
+            'du_dc_id',
+            'id',
+            'id'
+        )->where('du_dc_details.status', 'pending');
+    }
+    public function duDc_details_total_review()
+    {
+        return $this->hasManyThrough(
+            DuDcDetail::class, // Model tujuan akhir
+            DataUmumDocumentCategory::class,        // Model perantara
+            'data_umum_id',
+            'du_dc_id',
+            'id',
+            'id'
+        )->where('du_dc_details.status', 'review');
+    }
+    public function duDc_details_total_revision()
+    {
+        return $this->hasManyThrough(
+            DuDcDetail::class, // Model tujuan akhir
+            DataUmumDocumentCategory::class,        // Model perantara
+            'data_umum_id',
+            'du_dc_id',
+            'id',
+            'id'
+        )->where('du_dc_details.status', 'revision');
+    }
+    public function duDc_details_total_complete()
+    {
+        return $this->hasManyThrough(
+            DuDcDetail::class, // Model tujuan akhir
+            DataUmumDocumentCategory::class,        // Model perantara
+            'data_umum_id',
+            'du_dc_id',
+            'id',
+            'id'
+        )->where('du_dc_details.status', 'complete');
+    }
 }

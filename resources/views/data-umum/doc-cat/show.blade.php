@@ -8,7 +8,67 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h3>Detail Data Umum: {{ $data_umum->nm_paket ?? $data_umum->name ?? '-' }}</h3>
     </div>
+    <div class="row">
+        
+        <div class="col-xl col-md mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body d-flex align-items-center">
+                    
+                    <div>
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Dokumen</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{-- $totalDokumen --}} {{ $data_umum->du_dc_details_total_doc_count }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl col-md mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body d-flex align-items-center">
+                    
+                    <div>
+                        <div class="text-xs font-weight-bold text-default text-uppercase mb-1">Pending</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{-- $sedangDireview --}} {{ $data_umum->du_dc_details_total_review_count }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl col-md mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body d-flex align-items-center">
+                    
+                    <div>
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Sedang di Review</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{-- $sedangDireview --}} {{ $data_umum->du_dc_details_total_review_count }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <div class="col-xl col-md mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body d-flex align-items-center">
+                    
+                    <div>
+                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Revisi</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{-- $jumlahRevisi --}} {{ $data_umum->du_dc_details_total_revision_count }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl col-md mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body d-flex align-items-center">
+                    
+                    <div>
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Lengkap</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{-- $dokumenLengkap --}} {{ $data_umum->du_dc_details_total_complete_count }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
     {{-- Tabel Relasi Kategori --}}
     <div class="card mb-4 shadow-sm">
         <div class="card-header">
@@ -21,7 +81,7 @@
                         <tr>
                             <th>Code</th>
                             <th style="width: 50%">Nama</th>
-                            <th>Total File</th>
+                            <th>Total Dokumen</th>
                             <th>Total Score</th>
 
                             <th style="width: 5%">Aksi</th>
@@ -56,12 +116,14 @@
                                     <div class="d-flex gap-1">
                                         <a href="{{ route('admin.du-dc.index', $du_dc->id) }}" class="btn btn-sm btn-info">Detail</a>
                                         {{-- <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editRelasiModal{{ $du_dc->id }}">Edit</button> --}}
-                                        @if ($du_dc->is_active)
-                                        <a href="{{ route('admin.du-dc.index.updateStatus', $du_dc->id) }}" class="btn btn-sm btn-success">Active</a>
-                                        
-                                        @else
-                                        <a href="{{ route('admin.du-dc.index.updateStatus', $du_dc->id) }}" class="btn btn-sm btn-danger">Non-Active</a>
+                                        @if (Auth::user()->userDetail->role == 1)
+                                            @if ($du_dc->is_active)
+                                            <a href="{{ route('admin.du-dc.index.updateStatus', $du_dc->id) }}" class="btn btn-sm btn-success">Active</a>
+                                            
+                                            @else
+                                            <a href="{{ route('admin.du-dc.index.updateStatus', $du_dc->id) }}" class="btn btn-sm btn-danger">Non-Active</a>
 
+                                            @endif
                                         @endif
                                         
                                     </div>
