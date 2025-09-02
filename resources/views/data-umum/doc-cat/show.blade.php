@@ -26,8 +26,8 @@
         </div>
         <div class="col-xl col-md mb-4">
             
-            <a href="{{ route('admin.du-dc.status',[$data_umum->id,'pending']) }}" class="stretched-link">
-                <div class="card shadow-sm h-100">
+            <div class="card shadow-sm h-100">
+                    <a href="{{ route('admin.du-dc.status',[$data_umum->id,'pending']) }}" class="stretched-link">
                     <div class="card-body d-flex align-items-center">
                         
                         <div>
@@ -35,8 +35,8 @@
                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{-- $sedangDireview --}} {{ $data_umum->du_dc_details_total_pending_count }}</div>
                         </div>
                     </div>
+                </a>
                 </div>
-            </a>
         </div>
         <div class="col-xl col-md mb-4">
             <a href="{{ route('admin.du-dc.status',[$data_umum->id,'review']) }}">

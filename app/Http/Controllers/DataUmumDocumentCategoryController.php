@@ -201,6 +201,14 @@ class DataUmumDocumentCategoryController extends Controller
         if ($request->has('score')) {
             // UBAH BAGIAN INI
             $du_dc->score = $request->score; // Gunakan nama kolom yang benar dari database
+            if($request->score >99){
+                $du_dc->status = 'complete';
+            }else if($request->score <1){
+                $du_dc->status = 'pending';
+            }else{
+                $du_dc->status = 'revision';
+
+            }
         }
 
         if ($request->has('description')) {
