@@ -120,7 +120,7 @@ class DataUmumDocumentCategoryController extends Controller
         $status =null;
         $du_dc = DataUmumDocumentCategory::with('details', 'documentCategory')->findOrFail($id);
 
-        return view('data-umum.du-dc-detail.index', compact('du_dc','status'));
+        return view('data-umum.du-dc-detail.index_f', compact('du_dc','status'));
     }
 
     
@@ -189,37 +189,47 @@ class DataUmumDocumentCategoryController extends Controller
 
     public function updateFileScore(Request $request, $du_dc_id)
     {
-        // Validasi tetap sama, ini sudah bagus
+        // Validasi dengan aturan kondisional yang baru
         $validated = $request->validate([
             'score' => 'sometimes|required|integer|min:0|max:100',
-            'description' => 'sometimes|nullable|string|max:255',
+            'description' => [
+                'sometimes',
+                'nullable',
+                'string',
+                'max:255',
+                'required_unless:score,100' // Wajib diisi kecuali score = 100
+            ],
         ]);
         
+        // Cari data
         $du_dc = DuDcDetail::findOrFail($du_dc_id);
 
-        // Hanya update 'score' jika ada di dalam request
-        if ($request->has('score')) {
-            // UBAH BAGIAN INI
-            $du_dc->score = $request->score; // Gunakan nama kolom yang benar dari database
-            if($request->score >99){
-                $du_dc->status = 'complete';
-            }else if($request->score <1){
-                $du_dc->status = 'pending';
-            }else{
-                $du_dc->status = 'revision';
+        // Update data menggunakan hasil validasi ($validated)
+        // Ini lebih aman dan ringkas
+        
+        // isset() untuk memeriksa apakah field ada di dalam request yang tervalidasi
+        if (isset($validated['score'])) {
+            $du_dc->score = $validated['score'];
 
+            // Logika status Anda tetap di sini
+            if($validated['score'] >= 100){ // >= 100 untuk mencakup nilai 100
+                $du_dc->status = 'complete';
+            } else if($validated['score'] < 1){
+                $du_dc->status = 'pending';
+            } else {
+                $du_dc->status = 'revision';
             }
         }
 
-        if ($request->has('description')) {
-            $du_dc->deskripsi = $request->description;
-        }
+        $du_dc->deskripsi = $request->description;
 
+
+        //Simpan ke database
         $du_dc->save();
         
+        //Kirim respons
         return response()->json([
             'status' => 'success',
-            // Samakan juga di sini untuk konsistensi
             'updated_data' => $du_dc->only(['score', 'deskripsi']) 
         ]);
     }

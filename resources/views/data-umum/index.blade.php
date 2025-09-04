@@ -110,24 +110,24 @@
             <div class="modal-body d-flex justify-content-center align-items-center">
         
                 <div class="d-flex  justify-center flex-wrap gap-1 ">
-                                       <a href="{{route('data-umum.show',0) }}"
-                                        class="btn btn-mat btn-success waves-effect waves-light fs-6" >Detail</a>
-                                    @if (Auth::user()->userDetail->role != 7 && date('Y') == $data->thn)
-                                    <a href="{{ route('data-umum.edit', 0) }}"
-                                        class="btn btn-mat btn-warning waves-effect waves-light ">Edit</a>
-                                    @endif
-                                    <a href="{{route('upload.dataumum',0)}}"
-                                        class="btn btn-mat btn-primary waves-effect waves-light ">Dokumen Kontrak</a>
-                                    @if (Auth::user()->userDetail->role == 1 || Auth::user()->userDetail->role == 2 || Auth::user()->userDetail->role ==5)
-                                    <a href="{{ route('penilaian-penyedia.index', 0) }}"
-                                        class="btn btn-mat btn-danger waves-effect waves-light ">Penilaian Penyedia
-                                    </a>
-                                    @endif
-                                    @if (Auth::user()->userDetail->role == 1 || Auth::user()->userDetail->role == 2 || Auth::user()->userDetail->role ==5)
-                                    <a href="{{route('admin.data-umum.document-category.show',0) }}"
-                                        class="btn btn-mat  btn-info waves-effect waves-light ">Kendali Kontrak</a>
-                                    @endif
-                                </div>
+                    <a href="{{route('data-umum.show',0) }}"
+                     class="btn btn-mat btn-success waves-effect waves-light fs-6" >Detail</a>
+                 @if (Auth::user()->userDetail->role != 7 && date('Y') == $data->thn)
+                 <a href="{{ route('data-umum.edit', 0) }}"
+                     class="btn btn-mat btn-warning waves-effect waves-light ">Edit</a>
+                 @endif
+                 <a href="{{route('upload.dataumum',0)}}"
+                     class="btn btn-mat btn-primary waves-effect waves-light ">Dokumen Kontrak</a>
+                 @if (Auth::user()->userDetail->role == 1 || Auth::user()->userDetail->role == 2 || Auth::user()->userDetail->role ==5)
+                 <a href="{{ route('penilaian-penyedia.index', 0) }}"
+                     class="btn btn-mat btn-danger waves-effect waves-light ">Penilaian Penyedia
+                 </a>
+                 @endif
+                 @if (Auth::user()->userDetail->role == 1 || Auth::user()->userDetail->role == 2 || Auth::user()->userDetail->role ==5)
+                 <a href="{{route('admin.data-umum.document-category.show',0) }}"
+                     class="btn btn-mat  btn-info waves-effect waves-light ">Kendali Kontrak</a>
+                 @endif
+             </div>
             </div>
             
         </div>

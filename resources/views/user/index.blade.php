@@ -26,14 +26,14 @@
                         @foreach ($adminUPTD as $item)
                         <tr>
                             <td>{{$loop->index +1}}</td>
-                            <td>{{$item->user->name}}</td>
-                            <td>{{$item->user->email}}</td>
+                            <td>{{@$item->user->name}}</td>
+                            <td>{{@$item->user->email}}</td>
                             <td>
                                 {{ $item->user->profile->no_pegawai ?? ''}}
                             </td>
                             <td>{{$item->uptd->nama_uptd}}</td>
                             <td>
-                                <a class="btn btn-mat btn-warning" data-bs-toggle="modal" data-bs-target="#editDataAdminUptd" data-id="{{ $item->user->id }}" data-name="{{ $item->user->name }}" data-email="{{ $item->user->email }}" data-no_pegawai="{{ @$item->user->profile->no_pegawai}}" data-no_telp="{{ @$item->user->profile->no_tlp}}" data-uptd="{{ $item->user->internal_role_id}}" onclick="updateAdminUptd(this)">
+                                <a class="btn btn-mat btn-warning" data-bs-toggle="modal" data-bs-target="#editDataAdminUptd" data-id="{{ @$item->user->id }}" data-name="{{ @$item->user->name }}" data-email="{{ @$item->user->email }}" data-no_pegawai="{{ @$item->user->profile->no_pegawai}}" data-no_telp="{{ @$item->user->profile->no_tlp}}" data-uptd="{{ @$item->user->internal_role_id}}" onclick="updateAdminUptd(this)">
                                     <i class="bx bx-edit-alt"></i></a>
 
 
@@ -115,15 +115,15 @@
                         @foreach ($ppk as $item)
                         <tr>
                             <td>{{$loop->index +1 }}</td>
-                            <td>{{$item->user->name}}</td>
-                            <td>{{$item->user->email}}</td>
+                            <td>{{@$item->user->name}}</td>
+                            <td>{{@$item->user->email}}</td>
                             <td>{{ $item->user->profile->no_pegawai ?? ''}}</td>
                             <td>{{$item->uptd->nama_uptd}}</td>
                             <td>
-                                <a class="btn btn-mat btn-warning" data-bs-toggle="modal" data-bs-target="#editUserPPK" data-id="{{ $item->user->id }}" data-name="{{ $item->user->name }}" data-email="{{ $item->user->email }}" data-nip=" {{ $item->user->profile->no_pegawai ?? ''}}" data-uptd="{{ $item->user->internal_role_id}}" data-no_telp="{{ $item->user->profile->no_tlp ?? ''}}" onclick="updateUserPPK(this)">
+                                <a class="btn btn-mat btn-warning" data-bs-toggle="modal" data-bs-target="#editUserPPK" data-id="{{ @$item->user->id }}" data-name="{{ @$item->user->name }}" data-email="{{ @$item->user->email }}" data-nip=" {{ $item->user->profile->no_pegawai ?? ''}}" data-uptd="{{ @$item->user->internal_role_id}}" data-no_telp="{{ $item->user->profile->no_tlp ?? ''}}" onclick="updateUserPPK(this)">
                                     <i class="bx bx-edit-alt"></i></a>
 
-  <a class="btn btn-mat btn-danger" data-bs-toggle="modal" data-bs-target="#deletePPK" data-id="{{  $item->user->id }}" data-name="{{ $item->user->name }}" onclick="deletePPK(this)">
+  <a class="btn btn-mat btn-danger" data-bs-toggle="modal" data-bs-target="#deletePPK" data-id="{{  @$item->user->id }}" data-name="{{ @$item->user->name }}" onclick="deletePPK(this)">
                                     <i class="bx bx-trash"></i>
                                 </a>
                             </td>
