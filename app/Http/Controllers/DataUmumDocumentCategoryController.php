@@ -161,7 +161,7 @@ class DataUmumDocumentCategoryController extends Controller
             'du_dc_id' => $du_dc_id,
             'name'     => $file->getClientOriginalName(),
             'files'    => $path,
-            'score'    => $request->score,
+            'score'    => 0,
         ]);
 
         $this->updateAverageScore($du_dc_id);
@@ -221,9 +221,7 @@ class DataUmumDocumentCategoryController extends Controller
             }
         }
 
-        if (isset($validated['description'])) {
-        $du_dc->deskripsi = $validated['description'];
-        }
+        $du_dc->deskripsi = $request->description;
 
 
         //Simpan ke database

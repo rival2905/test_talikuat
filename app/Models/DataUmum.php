@@ -185,7 +185,7 @@ class DataUmum extends Model
             'du_dc_id',
             'id',
             'id'
-        )->where('du_dc_details.status', 'revision');
+        )->whereIn('du_dc_details.status', ['revision', 'submit revision']);
     }
     public function duDc_details_total_complete()
     {

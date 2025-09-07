@@ -44,19 +44,19 @@
                 <table class="table table-hover align-middle" id="data-table" data-update-url-template="{{ route('admin.du-dc.updateFileScore', ['du_dc_id' => 'PLACEHOLDER']) }}">
                     <thead class="table-light">
                         <tr>
-                            <th style="width: 50px;">No</th>
+                            <th style="width: 5%;">No</th>
                             <th>Kategori</th>
                             <th>File</th>
                             <th>Status</th>
-                            <th style="width: 120px;">Score</th>
+                            <th style="width: 15%;">Score</th>
                             <th>Deskripsi</th>
 
-                            <th style="width: 100px;">Aksi</th>
+                            <th style="width: 18%;">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($du_dc as $index => $file)
-                            <tr>
+                            <tr data-id="{{ $file->id }}">
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $file->duDc->documentCategory->name }}</td>
 
@@ -74,32 +74,80 @@
                                     elseif ($file->score > 0) $badgeClass = 'background-color: rgb(233, 176, 176); border-radius: 10px;';
                                 @endphp
                                 @if (Auth::user()->userDetail->role == 1)
-                                <td class="editable-cell" style="{{ $badgeClass }}" data-id="{{ $file->id }}" data-field="score">
-                                    <span class="cell-value">{{ $file->score }}</span>
-                                    <span class="feedback-icon"></span>
+                                {{-- Pastikan td memiliki data-field --}}
+                                <td data-field="score" style="{{ $badgeClass }}">
+
+                                    {{-- Pastikan span ini memiliki kelas "view-mode" --}}
+                                    <span class="view-mode">{{ $file->score }}</span>
+                                    
+                                    {{-- Input untuk mode edit --}}
+                                    <input type="number" class="form-control edit-mode" value="{{ $file->score }}" style="display: none;">
                                 </td>
-                                <td class="editable-cell" data-id="{{ $file->id }}" data-field="description">
-                                    <span class="cell-value">{{ $file->deskripsi }}</span>
-                                    <span class="feedback-icon"></span>
+                                
+
+                                {{-- Kolom Deskripsi --}}
+                                <td data-field="description">
+                                    {{-- Mode Tampilan --}}
+                                    <span class="view-mode">{{ $file->deskripsi }}</span>
+                                    {{-- Mode Edit (disembunyikan) --}}
+                                    <input type="text" class="form-control edit-mode" value="{{ $file->deskripsi }}" style="display: none;">
                                 </td>
                                 @else
                                 <td style="{{ $badgeClass }}">{{ $file->score }}</td>
                                 <td>{{ $file->deskripsi }}</td>
                                 @endif
+
                                 <td class="d-flex gap-1">
-                                   
-                                    @if($file->files)
-                                        <a href="{{ route('admin.du-dc.downloadFile',$file->id) }}" 
-                                           class="btn btn-sm btn-success" target="_blank">Download</a>
-                                    @endif
-                            
-                                    <form action="{{ route('admin.du-dc-detail.destroy', $file->id) }}" 
-                                          method="POST" 
-                                          onsubmit="return confirm('Yakin ingin hapus file ini?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-sm btn-danger">Hapus</button>
-                                    </form>
+                                    {{-- Tombol untuk Mode Tampilan --}}
+                                    @php
+                                        $is_delete = false;
+                                        if(Auth::user()->userDetail->role == 1){
+                                            $is_delete = true;
+                                        }else if ($file->status == 'pending' && Auth::user()->userDetail->role == 5) {
+                                            $is_delete = true;
+                                        }
+    
+                                        $is_revision = false;
+                                        if($file->status == 'revision' && Auth::user()->userDetail->role == 1){
+                                            $is_revision = true;
+                                        }else if ($file->status == 'submit revision' && Auth::user()->userDetail->role == 5) {
+                                            $is_revision = true;
+                                        }else if ($file->status == 'revision' && Auth::user()->userDetail->role == 5) {
+                                            $is_revision = true;
+                                        }else if ($file->status == 'submit revision' && Auth::user()->userDetail->role == 1) {
+                                            $is_revision = true;
+                                        }
+                                    @endphp
+                                    <div class="view-mode">
+                                        
+                                        @if ($is_revision)
+                                        <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#EditFileModal" data-filename="{{ $file->name }}" data-idd="{{ $file->id }}">
+                                            <i class="bx bx-transfer"></i>
+                                        </button>
+                                        @endif
+                                        @if ($is_delete)
+                                        <form action="{{ route('admin.du-dc-detail.destroy', $file->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin hapus file ini?')" data-toggle="tooltip" data-placement="top" title="Hapus Dokumen">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-sm btn-danger"><i class="bx bx-trash"></i></button>
+                                        </form>  
+                                        @endif
+                                        
+                                        @if($file->files)
+                                            <a href="{{ route('admin.du-dc.downloadFile',$file->id) }}" class="btn btn-sm btn-success" target="_blank" data-toggle="tooltip" data-placement="top" title="Download Dokumen">
+                                                <i class='bx bx-download'></i>  
+                                            </a>
+                                        @endif
+                                        @if (Auth::user()->userDetail->role == 1)
+                                        <button class="btn btn-sm btn-primary btn-edit" data-toggle="tooltip" data-placement="top" title="Update Score"><i class="bx bx-edit-alt btn-edit"></i></button>
+                                        @endif
+                                        
+                                    </div>
+                                    {{-- Tombol untuk Mode Edit (disembunyikan) --}}
+                                    <div class="edit-mode" style="display: none;">
+                                        <button class="btn btn-sm btn-success btn-save" data-toggle="tooltip" data-placement="top" title="Update Score"><i class="bx bx-save btn-save"></i></button>
+                                        <button class="btn btn-sm btn-secondary btn-cancel" data-toggle="tooltip" data-placement="top" title="Cancel Update Score"><i class="bx bx-undo btn-cancel"></i></button>
+                                    </div>
                                 </td>
                             </tr>
                         @empty
@@ -140,122 +188,196 @@
         </div>
     </div>
 
+    <div class="modal fade" id="EditFileModal" tabindex="-1" aria-labelledby="EditFileLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="EditFileLabel">Edit File</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                {{-- PERHATIKAN PERUBAHAN DI SINI --}}
+                <form id="editFileForm" action="{{ route('admin.du-dc.file.update', 0) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Upload File Baru </label>
+                            <input type="file" name="files" class="form-control" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png">
+                            <small class="text-danger">Score dibawah 100 wajib Revisi.</small>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+        
 </div>
 @endsection
 
 @section('scripts')
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const table = document.getElementById('data-table');
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    $('#EditFileModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var filename = button.data('filename');
+        var id = button.data('idd');
+        
+        var modal = $(this);
+        modal.find('.modal-title').text('Edit Dokumen: ' + filename);
 
-    table.addEventListener('click', function(e) {
-        // Gunakan .editable-cell yang lebih generik
-        const cell = e.target.closest('.editable-cell');
-        if (cell) {
-            makeCellEditable(cell);
-        }
+        var form = modal.find('#editFileForm');
+        var actionUrl = "{{ route('admin.du-dc.file.update', 0) }}"; // Ambil template URL dari Blade
+        var newActionUrl = actionUrl.substring(0, actionUrl.lastIndexOf('/') + 1) + id;
+        
+        form.attr('action', newActionUrl);
     });
+</script>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+    document.addEventListener('DOMContentLoaded', function () {
+        const table = document.getElementById('data-table');
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-    function makeCellEditable(cell) {
-        if (cell.querySelector('input')) return;
+        // Event listener utama pada tabel
+        table.addEventListener('click', function(e) {
+            const target = e.target;
+            const row = target.closest('tr');
 
-        const valueSpan = cell.querySelector('.cell-value');
-        const originalValue = valueSpan.textContent.trim();
-        const recordId = cell.dataset.id;
-        const fieldName = cell.dataset.field; // Ambil nama field dari data-field
-
-        valueSpan.style.display = 'none';
-        
-        const input = document.createElement('input');
-        // Tipe input disesuaikan dengan field
-        input.type = (fieldName === 'score') ? 'number' : 'text'; 
-        input.className = 'form-control';
-        input.value = originalValue;
-        
-        cell.prepend(input);
-        input.focus();
-
-        const onFinishEditing = () => {
-            const newValue = input.value;
-            input.remove();
-            valueSpan.style.display = 'inline';
-            if (newValue !== originalValue) {
-                // Kirim nama field ke fungsi save
-                saveData(cell, recordId, fieldName, newValue, originalValue);
+            // Jika tombol 'Edit' diklik
+            if (target.classList.contains('btn-edit')) {
+                toggleRowEditMode(row, true);
             }
-        };
 
-        input.addEventListener('blur', onFinishEditing);
-        input.addEventListener('keydown', e => {
-            if (e.key === 'Enter') input.blur();
-            if (e.key === 'Escape') {
-                input.value = originalValue;
-                input.blur();
+            // Jika tombol 'Batal' diklik
+            if (target.classList.contains('btn-cancel')) {
+                toggleRowEditMode(row, false);
+            }
+
+            // Jika tombol 'Simpan' diklik
+            if (target.classList.contains('btn-save')) {
+                const id = row.dataset.id;
+                const scoreInput = row.querySelector('input[type="number"]');
+                const descriptionInput = row.querySelector('input[type="text"]');
+
+                const dataToSave = {
+                    score: scoreInput.value,
+                    description: descriptionInput.value
+                };
+
+                saveData(id, dataToSave, row);
             }
         });
-    }
-    
-    // Ganti fungsi saveData Anda dengan yang ini
-    function saveData(cell, id, fieldName, newValue, originalValue) {
-        const urlTemplate = table.dataset.updateUrlTemplate;
-        const url = urlTemplate.replace('PLACEHOLDER', id);
-        
-        const feedbackIcon = cell.querySelector('.feedback-icon');
-        const valueSpan = cell.querySelector('.cell-value');
-        
-        feedbackIcon.innerHTML = '<i class="fas fa-spinner fa-spin text-primary"></i>';
 
-        fetch(url, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken
-            },
-            body: JSON.stringify({
-                [fieldName]: newValue
+        /**
+         * Fungsi untuk mengubah antara mode tampilan dan mode edit
+         * @param {HTMLElement} row - Elemen <tr> yang akan diubah
+         * @param {boolean} isEditing - True untuk masuk mode edit, false untuk keluar
+         */
+        function toggleRowEditMode(row, isEditing) {
+            const viewElements = row.querySelectorAll('.view-mode');
+            const editElements = row.querySelectorAll('.edit-mode');
+
+            if (isEditing) {
+                viewElements.forEach(el => el.style.display = 'none');
+                editElements.forEach(el => el.style.display = ''); // Tampilkan input dan tombol simpan/batal
+            } else {
+                // Reset nilai input ke nilai asli sebelum kembali ke view mode
+                editElements.forEach(el => {
+                    if (el.tagName === 'INPUT') {
+                        const viewValue = el.previousElementSibling.textContent.trim();
+                        el.value = viewValue;
+                    }
+                    el.style.display = 'none';
+                });
+                viewElements.forEach(el => el.style.display = '');
+            }
+        }
+
+        /**
+         * Fungsi untuk mengirim data ke server via AJAX
+         * @param {string} id - ID record yang akan diupdate
+         * @param {object} data - Data yang akan dikirim {score, description}
+         * @param {HTMLElement} row - Elemen <tr> untuk update UI
+         */
+        function saveData(id, data, row) {
+            const urlTemplate = table.dataset.updateUrlTemplate;
+            const url = urlTemplate.replace('PLACEHOLDER', id);
+            
+            // Tampilkan notifikasi loading
+            const saveButton = row.querySelector('.btn-save');
+            saveButton.disabled = true;
+            saveButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
+
+            fetch(url, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                body: JSON.stringify(data)
             })
-        })
-        .then(response => {
-            if (!response.ok) throw new Error('Update failed');
-            return response.json();
-        })
-        .then(data => {
-            valueSpan.textContent = newValue;
-            feedbackIcon.innerHTML = '<i class="fas fa-check-circle text-success"></i>';
+            .then(response => {
+                if (!response.ok) {
+                    // Coba baca error dari server jika ada
+                    return response.json().then(err => { throw err; });
+                }
+                return response.json();
+            })
+            .then(res => {
+                // Menggunakan data-field untuk menargetkan sel, bukan urutan kolom
+                const scoreCellView = row.querySelector('td[data-field="score"] .view-mode');
+                const descriptionCellView = row.querySelector('td[data-field="description"] .view-mode');
+                
+                // Cek dulu apakah elemennya ditemukan sebelum mengubah isinya
+                if (scoreCellView) {
+                    scoreCellView.textContent = data.score;
+                }
+                if (descriptionCellView) {
+                    descriptionCellView.textContent = data.description;
+                }
+                
+                // Kembali ke mode tampilan
+                toggleRowEditMode(row, false);
 
-            // --- NOTIFIKASI SWEETALERT DIMULAI DI SINI ---
-            // Cek apakah field yang diupdate adalah 'score'
-            if (fieldName === 'score') {
-                // Tampilkan notifikasi toast yang akan hilang otomatis
                 Swal.fire({
                     toast: true,
-                    position: 'top-end', // Muncul di pojok kanan atas
+                    position: 'top-end',
                     icon: 'success',
-                    title: `Skor berhasil diupdate menjadi ${newValue}!`,
+                    title: 'Data berhasil disimpan!',
                     showConfirmButton: false,
-                    timer: 3000, // Hilang setelah 3 detik
+                    timer: 1500,
                     timerProgressBar: true
                 });
-            }
-            // --- AKHIR NOTIFIKASI ---
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            valueSpan.textContent = originalValue;
-            feedbackIcon.innerHTML = '<i class="fas fa-times-circle text-danger"></i>';
-            
-            // Ganti alert standar dengan SweetAlert error
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Gagal memperbarui data!'
+            })
+            .catch(error => {
+                console.error('Error Response:', error); // Untuk debugging, lihat seluruh error di console
+
+                let serverMessage = 'Gagal memperbarui data!'; // Pesan default
+
+                // Cek apakah ada pesan error spesifik dari validasi Laravel
+                if (error && error.errors) {
+                    // Ambil pesan error pertama dari daftar error yang dikirim server
+                    serverMessage = Object.values(error.errors)[0][0];
+                }
+
+                // Tampilkan pesan error dari server menggunakan SweetAlert
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops... Terjadi Kesalahan!',
+                    text: serverMessage // Menampilkan pesan yang relevan dari backend
+                });
+            })
+            .finally(() => {
+                // Kembalikan tombol simpan ke kondisi normal
+                saveButton.disabled = false;
+                saveButton.textContent = 'Simpan';
             });
-        })
-        .finally(() => {
-            setTimeout(() => { feedbackIcon.innerHTML = ''; }, 2000);
-        });
-    }
-});
+        }
+    });
 </script>
 @endsection
