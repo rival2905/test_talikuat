@@ -165,6 +165,8 @@ Route::middleware(['auth', 'userVerified'])->group(function () {
             Route::delete('/{id}/destroy', [DataUmumDocumentCategoryController::class, 'destroyFile'])->name('admin.du-dc-detail.destroy');
             Route::get('downloadFile/{filename}', [DataUmumDocumentCategoryController::class, 'downloadFile'])->name('admin.du-dc.downloadFile');
             
+            Route::put('/file/0/{id}', [DataUmumDocumentCategoryController::class, 'updateFile'])->name('admin.du-dc.file.update');
+
         });
     });
 });

@@ -221,7 +221,9 @@ class DataUmumDocumentCategoryController extends Controller
             }
         }
 
-        $du_dc->deskripsi = $request->description;
+        if (isset($validated['description'])) {
+        $du_dc->deskripsi = $validated['description'];
+        }
 
 
         //Simpan ke database
@@ -240,7 +242,33 @@ class DataUmumDocumentCategoryController extends Controller
         $avgScore = $du_dc->details()->avg('score') ?? 0;
         $du_dc->update(['score' => round($avgScore)]);
     }
+    public function updateFile(Request $request, $du_dc_id)
+    {
+        // Validasi dengan aturan kondisional yang baru
+        $validated = $request->validate([
+            'files' => 'required|file|mimes:pdf,doc,docx,xls,xlsx|max:5120',
+        ]);
+        
+        // Cari data
+        $du_dc = DuDcDetail::findOrFail($du_dc_id);
 
+        if ($du_dc->files && Storage::disk('public')->exists($du_dc->files)) {
+            Storage::disk('public')->delete($du_dc->files);
+        }
+
+        $file = $request->file('files');
+        $filename = time().'_'.$file->getClientOriginalName();
+        $path = $file->storeAs('uploads/du_dc_details', $filename, 'public');
+
+        $du_dc->name = $file->getClientOriginalName();
+        $du_dc->files    = $path;
+        $du_dc->status    = 'submit revision';
+
+        $du_dc->save();
+
+        return redirect()->back()->with('success', 'File berhasil diperbaharui.');
+       
+    }
     public function downloadFile($filename)
     {
         $file = DuDcDetail::findOrFail($filename);

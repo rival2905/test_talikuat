@@ -48,13 +48,13 @@
                         <table class="table table-hover align-middle" id="data-table" data-update-url-template="{{ route('admin.du-dc.updateFileScore', ['du_dc_id' => 'PLACEHOLDER']) }}">
                             <thead class="table-light">
                                 <tr>
-                                    <th style="width: 50px;">No</th>
+                                    <th style="width: 5%;">No</th>
                                     <th>Nama File</th>
                                     <th>Status</th>
-                                    <th style="width: 120px;">Score</th>
+                                    <th style="width: 15%;">Score</th>
                                     <th>Deskripsi</th>
         
-                                    <th style="width: 150px;">Aksi</th>
+                                    <th style="width: 18%;">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -72,6 +72,8 @@
                                             elseif ($file->score >= 60) $badgeClass = 'background-color: rgb(233, 218, 176); border-radius: 10px;';
                                             elseif ($file->score > 0) $badgeClass = 'background-color: rgb(233, 176, 176); border-radius: 10px;';
                                         @endphp
+                                        @if (Auth::user()->userDetail->role == 1)
+
                                         <td style="{{ $badgeClass }}">
                                             {{-- Mode Tampilan --}}
                                             <span class="view-mode">{{ $file->score }}</span>
@@ -86,24 +88,57 @@
                                             {{-- Mode Edit (disembunyikan) --}}
                                             <input type="text" class="form-control edit-mode" value="{{ $file->deskripsi }}" style="display: none;">
                                         </td>
-        
+                                        @else
+                                        <td style="{{ $badgeClass }}">{{ $file->score }}</td>
+                                        <td>{{ $file->deskripsi }}</td>
+                                        @endif
                                         {{-- Kolom Aksi --}}
-                                        @if (Auth::user()->userDetail->role == 1)
 
                                         <td class="d-flex gap-1">
                                             {{-- Tombol untuk Mode Tampilan --}}
+                                            @php
+                                                $is_delete = false;
+                                                if(Auth::user()->userDetail->role == 1){
+                                                    $is_delete = true;
+                                                }else if ($file->status == 'pending' && Auth::user()->userDetail->role == 5) {
+                                                    $is_delete = true;
+                                                }
+
+                                                $is_revision = false;
+                                                if($file->status == 'revision' && Auth::user()->userDetail->role == 1){
+                                                    $is_revision = true;
+                                                }else if ($file->status == 'submit revision' && Auth::user()->userDetail->role == 5) {
+                                                    $is_revision = true;
+                                                }else if ($file->status == 'revision' && Auth::user()->userDetail->role == 5) {
+                                                    $is_revision = true;
+                                                }else if ($file->status == 'submit revision' && Auth::user()->userDetail->role == 1) {
+                                                    $is_revision = true;
+                                                }
+                                            @endphp
                                             <div class="view-mode">
-                                                <button class="btn btn-sm btn-primary btn-edit" data-toggle="tooltip" data-placement="top" title="Update Score"><i class="bx bx-edit-alt btn-edit"></i></button>
+                                                
+                                                @if ($is_revision)
+                                                <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#EditFileModal" data-filename="{{ $file->name }}" data-idd="{{ $file->id }}">
+                                                    <i class="bx bx-transfer"></i>
+                                                </button>
+                                                @endif
+                                                @if ($is_delete)
+                                                <form action="{{ route('admin.du-dc-detail.destroy', $file->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin hapus file ini?')" data-toggle="tooltip" data-placement="top" title="Hapus Dokumen">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-sm btn-danger"><i class="bx bx-trash"></i></button>
+                                                </form>  
+                                                @endif
+                                                
                                                 @if($file->files)
                                                     <a href="{{ route('admin.du-dc.downloadFile',$file->id) }}" class="btn btn-sm btn-success" target="_blank" data-toggle="tooltip" data-placement="top" title="Download Dokumen">
                                                         <i class='bx  bx-download'></i>  
                                                     </a>
                                                 @endif
-                                                <form action="{{ route('admin.du-dc-detail.destroy', $file->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin hapus file ini?')" data-toggle="tooltip" data-placement="top" title="Hapus Dokumen">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button class="btn btn-sm btn-danger"><i class="bx bx-trash"></i></button>
-                                                </form>
+                                                @if (Auth::user()->userDetail->role == 1)
+                                                <button class="btn btn-sm btn-primary btn-edit" data-toggle="tooltip" data-placement="top" title="Update Score"><i class="bx bx-edit-alt btn-edit"></i></button>
+                                                @endif
+                                                
                                             </div>
                                             {{-- Tombol untuk Mode Edit (disembunyikan) --}}
                                             <div class="edit-mode" style="display: none;">
@@ -111,10 +146,7 @@
                                                 <button class="btn btn-sm btn-secondary btn-cancel" data-toggle="tooltip" data-placement="top" title="Cancel Update Score"><i class="bx bx-undo btn-cancel"></i></button>
                                             </div>
                                         </td>
-                                        @else
-                                        <td style="{{ $badgeClass }}">{{ $file->score }}</td>
-                                        <td>{{ $file->deskripsi }}</td>
-                                        @endif
+                                        
                                     </tr>
                                 @empty
                                     <tr>
@@ -160,12 +192,57 @@
                 </div>
             </div>
         
+            <div class="modal fade" id="EditFileModal" tabindex="-1" aria-labelledby="EditFileLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="EditFileLabel">Edit File</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        {{-- PERHATIKAN PERUBAHAN DI SINI --}}
+                        <form id="editFileForm" action="{{ route('admin.du-dc.file.update', 0) }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Upload File Baru </label>
+                                    <input type="file" name="files" class="form-control" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png">
+                                    <small class="text-danger">Score dibawah 100 wajib Revisi.</small>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
     </div>
 </div>
+
 @endsection
 
 @section('scripts')
+<script>
+$('#EditFileModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    var filename = button.data('filename');
+    var id = button.data('idd');
+    
+    var modal = $(this);
+    modal.find('.modal-title').text('Edit Dokumen: ' + filename);
+
+    var form = modal.find('#editFileForm');
+    var actionUrl = "{{ route('admin.du-dc.file.update', 0) }}"; // Ambil template URL dari Blade
+    var newActionUrl = actionUrl.substring(0, actionUrl.lastIndexOf('/') + 1) + id;
+    
+    form.attr('action', newActionUrl);
+});
+</script>
 <script>
 $(function () {
     $('[data-toggle="tooltip"]').tooltip()
