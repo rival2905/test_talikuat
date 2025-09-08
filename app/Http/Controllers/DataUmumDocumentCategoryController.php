@@ -9,6 +9,8 @@ use App\Models\DataUmumDocumentCategory;
 use App\Models\DocumentCategory;
 use App\Models\DuDcDetail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+
 class DataUmumDocumentCategoryController extends Controller
 {
     //
