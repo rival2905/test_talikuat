@@ -37,10 +37,10 @@ class PenilaianPenyediaController extends Controller
 
         $tgl_pho =  date('d-m-Y', strtotime($data->tgl_spmk . ' + ' . $data->detail->lama_waktu . ' days'));
 
-        $mobilisasi = $data->detailWithJadual->jadualDetail->where('uraian', 'Mobilisasi')->first()->detail;
+        //$mobilisasi = $data->detailWithJadual->jadualDetail->where('uraian', 'Mobilisasi')->first()->detail;
 
-        $tgl_start = $mobilisasi->first()->tanggal;
-        $tgl_end = $mobilisasi->last()->tanggal;
+        $tgl_start = $data->tgl_spmk;
+        $tgl_end = $tgl_pho;
 
         $kontraktor = Kontraktor::where('id', $data->detail->kontraktor_id)->first();
 
