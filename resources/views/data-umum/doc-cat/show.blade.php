@@ -215,15 +215,15 @@
                 </tr>
                 <tr>
                     <th>Kontraktor:</th>
-                    <td></td>
+                    <td>{{$data_umum->detail->kontraktor->nama ?? '-'}}</td>
                 </tr>
                 <tr>
                     <th>Konsultan:</th>
-                    <td></td>
+                    <td>{{$data_umum->detail->konsultan->name ?? '-'}}</td>
                 </tr>
                 <tr>
                     <th>PPK:</th>
-                    <td></td>
+                    <td>{{$data_umum->detail->ppk->nama ?? ''}}</td>
                 </tr>
             </table>
         </div>

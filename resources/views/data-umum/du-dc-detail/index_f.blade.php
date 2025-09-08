@@ -179,7 +179,7 @@
                                 <div class="mb-3">
                                     <label class="form-label">Upload File</label>
                                     <input type="file" name="files" class="form-control" required
-                                           accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png">
+                                           accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, text/plain, application/pdf,.xlsx,.doc,.docx,.xls">
                                     <small class="text-muted">Format: PDF, Word, Excel. Max 10MB</small>
                                 </div>
                                 {{-- <div class="mb-3">
@@ -210,7 +210,7 @@
                             <div class="modal-body">
                                 <div class="mb-3">
                                     <label class="form-label">Upload File Baru </label>
-                                    <input type="file" name="files" class="form-control" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png">
+                                    <input type="file" name="files" class="form-control" accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, text/plain, application/pdf,.xlsx,.doc,.docx,.xls">
                                     <small class="text-danger">Score dibawah 100 wajib Revisi.</small>
                                 </div>
                             </div>

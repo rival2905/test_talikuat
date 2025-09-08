@@ -174,7 +174,7 @@ class DataUmum extends Model
             'du_dc_id',
             'id',
             'id'
-        )->where('du_dc_details.status', 'review')->where('data_umum_document_categories.is_active', 1);
+        )->whereIn('du_dc_details.status', ['review', 're-review'])->where('data_umum_document_categories.is_active', 1);
     }
     public function duDc_details_total_revision()
     {

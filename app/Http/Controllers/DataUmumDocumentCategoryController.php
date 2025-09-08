@@ -275,6 +275,9 @@ class DataUmumDocumentCategoryController extends Controller
         if (Auth::user()->userDetail->role == 1 &&  $file->status =='pending'){
             $file->status = 'review';
             $file->save();
+        }else if(Auth::user()->userDetail->role == 1 &&  $file->status =='submit revision'){
+            $file->status = 're-review';
+            $file->save();
         }
         
         return Storage::disk('public')->download($file->files);
