@@ -33,9 +33,12 @@
             {{-- Header --}}
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h3>File Kategori: {{ $du_dc->documentCategory->name ?? '-' }}</h3>
+                
+                @if ($du_dc->is_active == 1)
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addFileModal">
                     + Tambah File
                 </button>
+                @endif
             </div>
             
             {{-- Tabel File --}}
@@ -114,6 +117,7 @@
                                                 }else if ($file->status == 'submit revision' && Auth::user()->userDetail->role == 1) {
                                                     $is_revision = true;
                                                 }
+                                                
                                             @endphp
                                             <div class="view-mode">
                                                 

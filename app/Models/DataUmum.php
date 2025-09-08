@@ -152,7 +152,7 @@ class DataUmum extends Model
             'du_dc_id',
             'id',
             'id'
-        );
+        )->where('data_umum_document_categories.is_active', 1);
     }
     public function duDc_details_total_pending()
     {
@@ -163,7 +163,7 @@ class DataUmum extends Model
             'du_dc_id',
             'id',
             'id'
-        )->where('du_dc_details.status', 'pending');
+        )->where('du_dc_details.status', 'pending')->where('data_umum_document_categories.is_active', 1);
     }
     public function duDc_details_total_review()
     {
@@ -174,7 +174,7 @@ class DataUmum extends Model
             'du_dc_id',
             'id',
             'id'
-        )->where('du_dc_details.status', 'review');
+        )->where('du_dc_details.status', 'review')->where('data_umum_document_categories.is_active', 1);
     }
     public function duDc_details_total_revision()
     {
@@ -185,7 +185,7 @@ class DataUmum extends Model
             'du_dc_id',
             'id',
             'id'
-        )->whereIn('du_dc_details.status', ['revision', 'submit revision']);
+        )->whereIn('du_dc_details.status', ['revision', 'submit revision'])->where('data_umum_document_categories.is_active', 1);
     }
     public function duDc_details_total_complete()
     {
@@ -196,6 +196,6 @@ class DataUmum extends Model
             'du_dc_id',
             'id',
             'id'
-        )->where('du_dc_details.status', 'complete');
+        )->where('du_dc_details.status', 'complete')->where('data_umum_document_categories.is_active', 1);
     }
 }
