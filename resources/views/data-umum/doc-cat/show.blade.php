@@ -1,9 +1,26 @@
 @extends('layouts.app')
 
+@section('links')
+
+@if ($point)
+    <style>
+        body {
+            background-color: #f0f2f5;
+        }
+        /* Membuat teks di dalam progress bar terlihat jelas */
+        .progress-bar {
+            color: #fff;
+            font-weight: bold;
+        }
+    </style>
+@endif
+
+@endsection
 @section('content')
+
 <div class="container py-4">
 
-
+    @if (!$point)
     {{-- Page Header --}}
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h3>Detail Data Umum: {{ $data_umum->nm_paket ?? $data_umum->name ?? '-' }}</h3>
@@ -228,6 +245,8 @@
             </table>
         </div>
     </div>
+        
+    @endif
 </div>
 
 {{-- Modal Tambah Relasi --}}
@@ -274,4 +293,97 @@
         </div>
     </div>
 </div>
+@if ($point)
+<div class="modal fade" id="progressModal" tabindex="-1" role="dialog" aria-labelledby="progressModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="progressModalLabel">Generating Data...</h5>
+                {{-- Tombol close disembunyikan selama proses --}}
+            </div>
+            <div class="modal-body">
+                <p id="modal-info-text">Please wait a moment, we are preparing your data...</p>
+                <p id="modal-info-text" class="text-danger fw-5">We only do this once for each data item.</p>
+
+                
+                <div class="progress" style="height: 25px;">
+                    <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                {{-- Tombol Refresh awalnya disembunyikan --}}
+                <button id="refresh-btn" type="button" class="btn btn-success" style="display: none;">
+                    Finish & Refresh
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
+@endsection
+
+@section('scripts')
+@if ($point)
+<script>
+    $(document).ready(function() {
+        
+        // --- KONFIGURASI ---
+        const DURATION_IN_SECONDS = 3; // Atur durasi total animasi dalam detik
+    
+        // --- ELEMEN HTML ---
+        const modal = $('#progressModal');
+        const modalLabel = $('#progressModalLabel');
+        const modalInfoText = $('#modal-info-text');
+        const progressBar = $('#progressBar');
+        const refreshBtn = $('#refresh-btn');
+    
+        // Variabel untuk animasi
+        let progressValue = 0;
+        const intervalTime = (DURATION_IN_SECONDS * 1000) / 100;
+        let animationInterval;
+    
+        // Fungsi untuk menjalankan animasi
+        function startAnimation() {
+            animationInterval = setInterval(updateProgress, intervalTime);
+        }
+    
+        // Fungsi yang dipanggil berulang kali untuk update progress
+        function updateProgress() {
+            progressValue++;
+            
+            // Update progress bar Bootstrap
+            progressBar.css('width', progressValue + '%');
+            progressBar.text(progressValue + '%');
+            progressBar.attr('aria-valuenow', progressValue);
+    
+            // Jika sudah 100%
+            if (progressValue >= 100) {
+                clearInterval(animationInterval); // Hentikan animasi
+                
+                // Update tampilan modal
+                modalLabel.text('Process Complete!');
+                modalInfoText.text('The data has been processed successfully.');
+                progressBar.removeClass('progress-bar-animated').addClass('bg-success');
+                progressBar.text('Selesai!');
+                
+                // Tampilkan tombol refresh
+                refreshBtn.show();
+            }
+        }
+    
+        // Event listener untuk tombol refresh
+        refreshBtn.on('click', function() {
+            location.reload();
+        });
+    
+        // Memicu modal saat halaman siap
+        modal.modal('show');
+    
+        // Memicu animasi setelah modal sepenuhnya tampil
+        modal.on('shown.bs.modal', function () {
+            startAnimation();
+        });
+    });
+</script>
+@endif
 @endsection

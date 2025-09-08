@@ -147,6 +147,8 @@ Route::middleware(['auth', 'userVerified'])->group(function () {
         Route::get('/edit/{id}', [DocumentCategoryController::class, 'edit'])->name('admin.category.edit');
         Route::put('/update/{id}', [DocumentCategoryController::class, 'update'])->name('admin.category.update');
         Route::delete('/destroy/{id}', [DocumentCategoryController::class, 'destroy'])->name('admin.category.destroy');
+        Route::get('updateStatus/{id}', [DocumentCategoryController::class, 'updateStatus'])->name('admin.category.updateStatus');
+
     });
     Route::prefix('data-umum')->group(function () {
         Route::get('document-category/{id}', [DataUmumDocumentCategoryController::class, 'show'])->name('admin.data-umum.document-category.show');

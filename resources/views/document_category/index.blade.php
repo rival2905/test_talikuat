@@ -16,7 +16,7 @@
                                     <th>Code</th>
                                     <th>Nama</th>
                                     <th>Slug</th>
-                                    <th style="width: 13%">Aksi</th>
+                                    <th style="width: 15%">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -27,10 +27,20 @@
                                     <td class="text-uppercase">{{$data->name}}</td>
                                     <td>{{$data->slug}}</td>
                                     <td>
+                                        
+
                                         <div class="flex space-x-1 space-y-2 justify-center">
                                             <a href="{{ Route('admin.category.edit',$data->id) }}" class="btn btn-mat btn-success waves-effect waves-light">
                                                 <i class="bx bx-edit"></i>
                                             </a>    
+                                            @if (Auth::user()->userDetail->role == 1)
+                                                @if ($data->is_active)
+                                                <a href="{{ route('admin.category.updateStatus', $data->id) }}" class="btn btn-mat btn-success">Active</a>
+                                                @else
+                                                <a href="{{ route('admin.category.updateStatus', $data->id) }}" class="btn btn-mat btn-danger">Non-Active</a>
+    
+                                                @endif
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>

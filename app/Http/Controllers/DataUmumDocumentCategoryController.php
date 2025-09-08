@@ -16,6 +16,7 @@ class DataUmumDocumentCategoryController extends Controller
     //
     public function show($data_umum_id)
     {
+        $point = false;
         $data_umum = DataUmum::with([
             'duDc.documentCategory',
             'duDc.details'
@@ -25,7 +26,7 @@ class DataUmumDocumentCategoryController extends Controller
         $parent_document_categories = DocumentCategory::whereNull('parent_id')->get();
 
         if($data_umum->duDc->count() == 0){
-            $document_categoriess = DocumentCategory::whereNotNull('parent_id')->get();
+            $document_categoriess = DocumentCategory::whereNotNull('parent_id')->where('is_active',1)->get();
             foreach($document_categoriess as $dc){
                
                 $temp_data = [
@@ -39,8 +40,10 @@ class DataUmumDocumentCategoryController extends Controller
                 DataUmumDocumentCategory::create($temp_data);
 
             }
+            $point = true;
+            
         }
-        return view('data-umum.doc-cat.show', compact('data_umum', 'document_categories','parent_document_categories'));
+        return view('data-umum.doc-cat.show', compact('data_umum', 'document_categories','parent_document_categories','point'));
     }
 
     public function store(Request $request, $data_umum_id)

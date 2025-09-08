@@ -104,4 +104,20 @@ class DocumentCategoryController extends Controller
     {
         
     }
+
+    public function updateStatus($id)
+    {
+        $temp = DocumentCategory::findOrFail($id);
+        if($temp->is_active){
+            $temp->is_active = 0;
+        }else{
+            $temp->is_active = 1;
+        }
+        $save = $temp->save();
+        if ($save) {
+            return redirect()->back()->with(['success' => 'Status berhasil diperbarui!']);
+        } else {
+            return redirect()->back()->with(['error' => 'Gagal memperbarui Status!']);
+        }
+    }
 }
