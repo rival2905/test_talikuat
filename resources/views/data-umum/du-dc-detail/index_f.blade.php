@@ -194,7 +194,7 @@
                                     <label class="form-label">Upload File</label>
                                     <input type="file" name="files" class="form-control" required
                                            accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, text/plain, application/pdf,.xlsx,.doc,.docx,.xls">
-                                    <small class="text-muted">Format: PDF, Word, Excel. Max 10MB</small>
+                                    {{-- <small class="text-muted">Format: PDF, Word, Excel. Max 10MB</small> --}}
                                 </div>
                                 {{-- <div class="mb-3">
                                     <label class="form-label">Score (0 - 100)</label>

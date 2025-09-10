@@ -176,7 +176,7 @@
                             <label class="form-label">Upload File</label>
                             <input type="file" name="files" class="form-control" required
                                    accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png">
-                            <small class="text-muted">Format: PDF, Word, Excel. Max 10MB</small>
+                            {{-- <small class="text-muted">Format: PDF, Word, Excel. Max 10MB</small> --}}
                         </div>
                     </div>
                     <div class="modal-footer">

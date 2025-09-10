@@ -82,7 +82,7 @@ class DataUmumController extends Controller
             return back()->with('error', 'Data Ruas Jalan Belum diisi')->withInput();
         }
         $get_id = DataUmum::count();
-        $get_id = $get_id  == 0 ? 1 : $get_id + 3;
+        $get_id = $get_id  == 0 ? 1 : $get_id + 5;
         $uptd = str_replace('UPTD ', '', $request->uptd_id);
         $id = 'PK-' . $uptd . '-' . $request->id_ruas_jalan[0] . '-' . $get_id;
 

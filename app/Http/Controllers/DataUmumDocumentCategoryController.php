@@ -20,17 +20,17 @@ class DataUmumDocumentCategoryController extends Controller
         $data_umum = DataUmum::with([
             'duDc.documentCategory',
             'duDc.details'
-        ])->withCount('duDc_details_total_doc','duDc_details_total_pending','duDc_details_total_review','duDc_details_total_revision','duDc_details_total_complete')->findOrFail($data_umum_id);
-    //    dd($data_umum);
+        ])->withCount('duDc_details_total_doc', 'duDc_details_total_pending', 'duDc_details_total_review', 'duDc_details_total_revision', 'duDc_details_total_complete')->findOrFail($data_umum_id);
+        //    dd($data_umum);
         // dd(Auth::user());
-       
+
         $document_categories = DocumentCategory::all();
         $parent_document_categories = DocumentCategory::whereNull('parent_id')->get();
 
-        if($data_umum->duDc->count() == 0){
-            $document_categoriess = DocumentCategory::whereNotNull('parent_id')->where('is_active',1)->get();
-            foreach($document_categoriess as $dc){
-               
+        if ($data_umum->duDc->count() == 0) {
+            $document_categoriess = DocumentCategory::whereNotNull('parent_id')->where('is_active', 1)->get();
+            foreach ($document_categoriess as $dc) {
+
                 $temp_data = [
                     'data_umum_id' => $data_umum_id,
                     'document_category_id' => $dc->id,
@@ -40,12 +40,10 @@ class DataUmumDocumentCategoryController extends Controller
                     'is_active' => 1,
                 ];
                 DataUmumDocumentCategory::create($temp_data);
-
             }
             $point = true;
-            
         }
-        return view('data-umum.doc-cat.show', compact('data_umum', 'document_categories','parent_document_categories','point'));
+        return view('data-umum.doc-cat.show', compact('data_umum', 'document_categories', 'parent_document_categories', 'point'));
     }
 
     public function store(Request $request, $data_umum_id)
@@ -62,7 +60,7 @@ class DataUmumDocumentCategoryController extends Controller
             'document_category_id' => $request->document_category_id,
             'score' => $request->score ?? 0,
             'deskripsi' => $request->deskripsi ?? null,
-             'is_active' => $request->is_active == '1' ? 1 : 0,
+            'is_active' => $request->is_active == '1' ? 1 : 0,
         ];
 
         $save = DataUmumDocumentCategory::create($data);
@@ -124,19 +122,19 @@ class DataUmumDocumentCategoryController extends Controller
 
     public function detailFiles($id)
     {
-        $status =null;
+        $status = null;
         $du_dc = DataUmumDocumentCategory::with('details', 'documentCategory')->findOrFail($id);
 
-        return view('data-umum.du-dc-detail.index_f', compact('du_dc','status'));
+        return view('data-umum.du-dc-detail.index_f', compact('du_dc', 'status'));
     }
 
-    
+
     public function updateStatus($id)
     {
         $temp = DataUmumDocumentCategory::findOrFail($id);
-        if($temp->is_active){
+        if ($temp->is_active) {
             $temp->is_active = 0;
-        }else{
+        } else {
             $temp->is_active = 1;
         }
         $save = $temp->save();
@@ -156,12 +154,12 @@ class DataUmumDocumentCategoryController extends Controller
     public function storeFile(Request $request, $du_dc_id)
     {
         $request->validate([
-            'files' => 'required|file|mimes:pdf,doc,docx,xls,xlsx|max:5120', // max 5MB misalnya
+            'files' => 'required|file|mimes:pdf,doc,docx,xls,xlsx|max:100120',
             'score' => 'integer|min:0|max:100',
         ]);
 
         $file = $request->file('files');
-        $filename = time().'_'.$file->getClientOriginalName();
+        $filename = time() . '_' . $file->getClientOriginalName();
         $path = $file->storeAs('uploads/du_dc_details', $filename, 'public');
 
         DuDcDetail::create([
@@ -190,8 +188,6 @@ class DataUmumDocumentCategoryController extends Controller
 
         $this->updateAverageScore($du_dc_id);
         return redirect()->back()->with(['success' => 'File berhasil dihapus!']);
-
-       
     }
 
     public function updateFileScore(Request $request, $du_dc_id)
@@ -207,22 +203,22 @@ class DataUmumDocumentCategoryController extends Controller
                 'required_unless:score,100' // Wajib diisi kecuali score = 100
             ],
         ]);
-        
+
         // Cari data
         $du_dc = DuDcDetail::findOrFail($du_dc_id);
         $data_umum_category = DataUmumDocumentCategory::findOrFail($du_dc->du_dc_id);
 
         // Update data menggunakan hasil validasi ($validated)
         // Ini lebih aman dan ringkas
-        
+
         // isset() untuk memeriksa apakah field ada di dalam request yang tervalidasi
         if (isset($validated['score'])) {
             $du_dc->score = $validated['score'];
 
             // Logika status Anda tetap di sini
-            if($validated['score'] >= 100){ // >= 100 untuk mencakup nilai 100
+            if ($validated['score'] >= 100) { // >= 100 untuk mencakup nilai 100
                 $du_dc->status = 'complete';
-            } else if($validated['score'] < 1){
+            } else if ($validated['score'] < 1) {
                 $du_dc->status = 'pending';
             } else {
                 $du_dc->status = 'revision';
@@ -240,7 +236,7 @@ class DataUmumDocumentCategoryController extends Controller
         //Kirim respons
         return response()->json([
             'status' => 'success',
-            'updated_data' => $du_dc->only(['score', 'deskripsi']) 
+            'updated_data' => $du_dc->only(['score', 'deskripsi'])
         ]);
     }
 
@@ -254,9 +250,9 @@ class DataUmumDocumentCategoryController extends Controller
     {
         // Validasi dengan aturan kondisional yang baru
         $validated = $request->validate([
-            'files' => 'required|file|mimes:pdf,doc,docx,xls,xlsx|max:5120',
+            'files' => 'required|file|mimes:pdf,doc,docx,xls,xlsx|max:100120',
         ]);
-        
+
         // Cari data
         $du_dc = DuDcDetail::findOrFail($du_dc_id);
 
@@ -265,7 +261,7 @@ class DataUmumDocumentCategoryController extends Controller
         }
 
         $file = $request->file('files');
-        $filename = time().'_'.$file->getClientOriginalName();
+        $filename = time() . '_' . $file->getClientOriginalName();
         $path = $file->storeAs('uploads/du_dc_details', $filename, 'public');
 
         $du_dc->name = $file->getClientOriginalName();
@@ -275,42 +271,41 @@ class DataUmumDocumentCategoryController extends Controller
         $du_dc->save();
 
         return redirect()->back()->with('success', 'File berhasil diperbaharui.');
-       
     }
     public function downloadFile($filename)
     {
         $file = DuDcDetail::findOrFail($filename);
-        if (Auth::user()->userDetail->role == 1 &&  $file->status =='pending'){
+        if (Auth::user()->userDetail->role == 1 &&  $file->status == 'pending') {
             $file->status = 'review';
             $file->pemeriksa_id = Auth::user()->id;
-        
+
             $file->save();
-        }else if(Auth::user()->userDetail->role == 1 &&  $file->status =='submit revision'){
+        } else if (Auth::user()->userDetail->role == 1 &&  $file->status == 'submit revision') {
             $file->status = 're-review';
             $file->pemeriksa_id = Auth::user()->id;
 
             $file->save();
         }
-        
+
         return Storage::disk('public')->download($file->files);
     }
 
-    public function detailFilesbyStatus($id,$status)
+    public function detailFilesbyStatus($id, $status)
     {
         $data_umum = DataUmum::findOrFail($id);
-        
-        if($status =='pending'){
+
+        if ($status == 'pending') {
             $du_dc = $data_umum->duDc_details_total_pending;
-        }else if($status =='review'){
+        } else if ($status == 'review') {
             $du_dc = $data_umum->duDc_details_total_review;
-        }else if($status =='revision'){
+        } else if ($status == 'revision') {
             $du_dc = $data_umum->duDc_details_total_revision;
-        }else if($status =='complete'){
+        } else if ($status == 'complete') {
             $du_dc = $data_umum->duDc_details_total_complete;
-        }else{
+        } else {
             $du_dc = $data_umum->duDc_details_total_doc;
         }
         // dd($du_dc);
-        return view('data-umum.du-dc-detail.showByStatus', compact('du_dc','status'));
+        return view('data-umum.du-dc-detail.showByStatus', compact('du_dc', 'status'));
     }
 }
