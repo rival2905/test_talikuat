@@ -31,8 +31,8 @@
                             <td>{{$data->id}}</td>
                             <td class="text-uppercase">{{$data->nm_paket}}</td>
                            
-                            <td>{{$data->detail->kontraktor->nama}}</td>
-                            <td>{{$data->detail->konsultan->name}}</td>
+                            <td>{{$data->detail->kontraktor->nama ?? ""}}</td>
+                            <td>{{$data->detail->konsultan->name ?? ""}}</td>
                             <td>{{$data->detail->ppk->nama ?? ''}}</td>
                             <td>
                         <a class="btn btn-mat btn-warning mb-3" data-bs-toggle="modal" data-bs-target="#modalAction"
