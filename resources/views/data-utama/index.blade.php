@@ -34,13 +34,14 @@
                                     data-jenis_pekerjaan="{{ $item->jenis_pekerjaan }}"
                                     data-satuan="{{ $item->satuan }}" onclick="updateJenisPekerjaan(this)">
                                     <i class="bx bx-edit-alt"></i></a>
-
+                                @if(Auth::user()->userDetail->role == 1)
                                 <a class="btn btn-mat btn-danger" data-bs-toggle="modal"
                                     data-bs-target="#deleteJenisPekerjaan" data-id="{{ $item->id }}"
                                     data-kd_jenis_pekerjaan="{{ $item->kd_jenis_pekerjaan }}"
                                     onclick="deleteJenisPekerjaan(this)">
                                     <i class="bx bx-trash"></i>
                                 </a>
+                                @endif
                             </td>
                         </tr>
                         @endforeach
@@ -86,12 +87,13 @@
                                     data-bank="{{ $item->bank }}" data-no_rek="{{ $item->no_rek }}"
                                     data-email="{{ $item->email }}" onclick="updateKontraktor(this)">
                                     <i class="bx bx-edit-alt"></i></a>
-
+                                @if(Auth::user()->userDetail->role == 1)
                                 <a class="btn btn-mat btn-danger" data-bs-toggle="modal"
                                     data-bs-target="#deleteKontraktor" data-id="{{ $item->id }}"
                                     data-nama="{{ $item->nama }}" onclick="deleteKontraktor(this)">
                                     <i class="bx bx-trash"></i>
                                 </a>
+                                @endif
                             </td>
                         </tr>
                         @endforeach
@@ -135,12 +137,13 @@
                                     data-se="{{ $item->se }}" data-npwp="{{ $item->npwp }}"
                                     data-email="{{ $item->email }}" onclick="updateKonsultan(this)">
                                     <i class="bx bx-edit-alt"></i></a>
-
+                                @if(Auth::user()->userDetail->role == 1)
                                 <a class="btn btn-mat btn-danger" data-bs-toggle="modal"
                                     data-bs-target="#deleteKonsultan" data-id="{{ $item->id }}"
                                     data-nama="{{ $item->name }}" onclick="deleteKonsultan(this)">
                                     <i class="bx bx-trash"></i>
                                 </a>
+                                @endif
                             </td>
                         </tr>
                         @endforeach
