@@ -22,6 +22,8 @@ class DataUmumDocumentCategoryController extends Controller
             'duDc.details'
         ])->withCount('duDc_details_total_doc','duDc_details_total_pending','duDc_details_total_review','duDc_details_total_revision','duDc_details_total_complete')->findOrFail($data_umum_id);
     //    dd($data_umum);
+        // dd(Auth::user());
+       
         $document_categories = DocumentCategory::all();
         $parent_document_categories = DocumentCategory::whereNull('parent_id')->get();
 
@@ -208,6 +210,7 @@ class DataUmumDocumentCategoryController extends Controller
         
         // Cari data
         $du_dc = DuDcDetail::findOrFail($du_dc_id);
+        $data_umum_category = DataUmumDocumentCategory::findOrFail($du_dc->du_dc_id);
 
         // Update data menggunakan hasil validasi ($validated)
         // Ini lebih aman dan ringkas
@@ -228,10 +231,12 @@ class DataUmumDocumentCategoryController extends Controller
 
         $du_dc->deskripsi = $request->description;
 
-
+        $du_dc->pemeriksa_id = Auth::user()->id;
         //Simpan ke database
         $du_dc->save();
-        
+        $data_umum_category->pemeriksa_id = Auth::user()->id;
+        $data_umum_category->save();
+
         //Kirim respons
         return response()->json([
             'status' => 'success',
@@ -277,9 +282,13 @@ class DataUmumDocumentCategoryController extends Controller
         $file = DuDcDetail::findOrFail($filename);
         if (Auth::user()->userDetail->role == 1 &&  $file->status =='pending'){
             $file->status = 'review';
+            $file->pemeriksa_id = Auth::user()->id;
+        
             $file->save();
         }else if(Auth::user()->userDetail->role == 1 &&  $file->status =='submit revision'){
             $file->status = 're-review';
+            $file->pemeriksa_id = Auth::user()->id;
+
             $file->save();
         }
         

@@ -37,4 +37,10 @@ class DataUmumDocumentCategory extends Model
     {
         return $this->hasMany(DuDcDetail::class, 'du_dc_id', 'id');
     }
+
+    public function userPemeriksa()
+    {
+        return $this->belongsTo(User::class, 'pemeriksa_id', 'id');
+    }
+    
 }

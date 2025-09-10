@@ -14,4 +14,13 @@ class DuDcDetail extends Model
     {
         return $this->belongsTo(DataUmumDocumentCategory::class, 'du_dc_id');
     }
+
+    public function userPemeriksa()
+    {
+        return $this->belongsTo(User::class, 'pemeriksa_id', 'id');
+    }
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by', 'id');
+    }
 }

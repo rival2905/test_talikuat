@@ -53,9 +53,10 @@
                                 <tr>
                                     <th style="width: 5%;">No</th>
                                     <th>Nama File</th>
+
                                     <th>Status</th>
                                     <th style="width: 15%;">Score</th>
-                                    <th>Deskripsi</th>
+                                    <th style="width: 25%;">Deskripsi</th>
         
                                     <th style="width: 18%;">Aksi</th>
                                 </tr>
@@ -90,10 +91,23 @@
                                             <span class="view-mode">{{ $file->deskripsi }}</span>
                                             {{-- Mode Edit (disembunyikan) --}}
                                             <input type="text" class="form-control edit-mode" value="{{ $file->deskripsi }}" style="display: none;">
+                                            
                                         </td>
                                         @else
                                         <td style="{{ $badgeClass }}">{{ $file->score }}</td>
-                                        <td>{{ $file->deskripsi }}</td>
+                                        <td>{{ $file->deskripsi }}
+
+                                            @if ($file->created_by)
+                                            <p>
+                                            Di Upload oleh :  
+                                            {{ @$file->creator->name }}                                            
+                                            @endif
+                                            @if ($file->pemeriksa_id)
+                                            <p>
+                                            Pemeriksa :
+                                            {{ @$file->userPemeriksa->name }}                                            
+                                            @endif
+                                        </td>
                                         @endif
                                         {{-- Kolom Aksi --}}
 
