@@ -22,6 +22,7 @@
                             <th>kontraktor</th>
                             <th>Konsultan</th>
                             <th>PPK</th>
+                            <th class="text-wrap">Nilai Kendali Kontrak</th>
                             <th style="width: 13%">Aksi</th>
                         </tr>
                     </thead>
@@ -34,6 +35,15 @@
                             <td>{{$data->detail->kontraktor->nama ?? ""}}</td>
                             <td>{{$data->detail->konsultan->name ?? ""}}</td>
                             <td>{{$data->detail->ppk->nama ?? ''}}</td>
+                            <td class="text-wrap">
+                                @if ($data->nkk)
+                                {{$data->nkk}}%
+                                <br>
+                                {{ $data->duDc()->where('score', 100)->where('is_active', 1)->count() }}/{{ $data->duDc()->where('is_active', 1)->count() }} Doc
+                                @else
+                                    Undefine!!
+                                @endif
+                            </td>
                             <td>
                         <a class="btn btn-mat btn-warning mb-3" data-bs-toggle="modal" data-bs-target="#modalAction"
                                 data-id="{{ $data->id }}"

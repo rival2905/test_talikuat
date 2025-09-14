@@ -25,7 +25,19 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h3>Detail Data Umum: {{ $data_umum->nm_paket ?? $data_umum->name ?? '-' }}</h3>
     </div>
-    <div class="row">
+    <div class="progress" style="height: 25px;">
+        <div class="progress-bar progress-bar-striped progress-bar-animated" 
+             role="progressbar" 
+             style="width: {{ $data_umum->nkk }}%;"  {{-- Lebar bar diisi oleh persentase --}}
+             aria-valuenow="{{ $data_umum->nkk }}" 
+             aria-valuemin="0" 
+             aria-valuemax="100">
+             
+             {{-- Tampilkan teks persentase di dalam bar --}}
+             <strong>{{ round($data_umum->nkk, 2) }}%</strong>
+        </div>
+    </div>
+    <div class="row mt-3">
         
         <div class="col-xl col-md mb-4">
             <a href="{{ route('admin.du-dc.status',[$data_umum->id,'all']) }}">
@@ -34,7 +46,7 @@
                     <div class="card-body d-flex align-items-center">
                         
                         <div>
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Dokumen</div>
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total File</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{-- $totalDokumen --}} {{ $data_umum->du_dc_details_total_doc_count }}</div>
                         </div>
                     </div>
@@ -113,7 +125,7 @@
                         <tr>
                             <th>Code</th>
                             <th style="width: 50%">Nama</th>
-                            <th>Total Dokumen</th>
+                            <th>Total File</th>
                             <th>Total Score</th>
 
                             <th style="width: 5%">Aksi</th>

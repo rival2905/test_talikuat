@@ -138,6 +138,8 @@ class DataUmumDocumentCategoryController extends Controller
             $temp->is_active = 1;
         }
         $save = $temp->save();
+        $this->updateAverageScore($temp->id);
+
         if ($save) {
             return redirect()->back()->with(['success' => 'Status berhasil diperbarui!']);
         } else {
@@ -233,6 +235,8 @@ class DataUmumDocumentCategoryController extends Controller
         $data_umum_category->pemeriksa_id = Auth::user()->id;
         $data_umum_category->save();
 
+        $this->updateAverageScore($du_dc->du_dc_id);
+
         //Kirim respons
         return response()->json([
             'status' => 'success',
@@ -245,6 +249,15 @@ class DataUmumDocumentCategoryController extends Controller
         $du_dc = DataUmumDocumentCategory::findOrFail($du_dc_id);
         $avgScore = $du_dc->details()->avg('score') ?? 0;
         $du_dc->update(['score' => round($avgScore)]);
+        $data_umum = $du_dc->dataUmum;
+        // 1. Hitung total semua record
+        $totalRecords = $data_umum->duDc()->where('is_active', 1)->count();
+
+        // 2. Hitung record yang skornya sudah 100
+        $completedRecords = $data_umum->duDc()->where('score', 100)->where('is_active', 1)->count();
+        $percentage = ($totalRecords > 0) ? ($completedRecords / $totalRecords) * 100 : 0;
+        $data_umum->nkk = $percentage;
+        $data_umum->save();
     }
     public function updateFile(Request $request, $du_dc_id)
     {
