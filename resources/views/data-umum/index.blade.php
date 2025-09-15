@@ -36,7 +36,7 @@
                             <td>{{$data->detail->konsultan->name ?? ""}}</td>
                             <td>{{$data->detail->ppk->nama ?? ''}}</td>
                             <td class="text-wrap">
-                                @if ($data->nkk)
+                                @if ($data->duDc()->where('is_active', 1)->count() >0)
                                 {{$data->nkk}}%
                                 <br>
                                 {{ $data->duDc()->where('score', 100)->where('is_active', 1)->count() }}/{{ $data->duDc()->where('is_active', 1)->count() }} Doc

@@ -125,8 +125,9 @@
                         <tr>
                             <th>Code</th>
                             <th style="width: 50%">Nama</th>
+                            <th>Nilai Dokumen</th>
                             <th>Total File</th>
-                            <th>Total Score</th>
+                            <th>Skor File</th>
 
                             <th style="width: 5%">Aksi</th>
                         </tr>
@@ -136,6 +137,8 @@
                             <tr>
                                 <td>{{ $du_dc->documentCategory->code ?? '-' }}</td>
                                 <td>{{ $du_dc->documentCategory->name ?? '-' }}</td>
+                                <td>{{ $du_dc->score_temp ?? '-' }}</td>
+
                                 <td>
                                     @php
                                         $totalFiles = $du_dc->details->count();

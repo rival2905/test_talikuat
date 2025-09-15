@@ -42,6 +42,30 @@ class DataUmumDocumentCategoryController extends Controller
                 DataUmumDocumentCategory::create($temp_data);
             }
             $point = true;
+            // // 1. Hitung total semua record
+            // $totalRecords = $data_umum->duDc()->where('is_active', 1)->count();
+
+            // // 2. Hitung record yang skornya sudah 100
+            // $completedRecords = $data_umum->duDc()->where('score', 100)->where('is_active', 1)->count();
+            // $percentage = ($totalRecords > 0) ? ($completedRecords / $totalRecords) * 100 : 0;
+
+            // 1. Hitung total semua dokumen yang wajib diisi (misalnya ada 52)
+            $totalDokumen = $data_umum->duDc()->where('is_active', 1)->count();
+
+            // 2. Tentukan skor maksimum yang mungkin didapat
+            // Jika setiap dokumen wajib memiliki skor 100, maka skor maksimum adalah:
+            $skorMaksimum = $totalDokumen * 100;
+
+            // 3. Jumlahkan semua skor yang ada di tabel saat ini
+            $skorSaatIni = $data_umum->duDc()->where('is_active', 1)->sum('score_temp');
+
+            // 4. Hitung persentase progres dari total skor
+            // Hindari pembagian dengan nol jika tidak ada dokumen
+            $percentage = ($skorMaksimum > 0) ? ($skorSaatIni / $skorMaksimum) * 100 : 0;
+
+            $data_umum->nkk = $percentage;
+           
+            $data_umum->save();
         }
         return view('data-umum.doc-cat.show', compact('data_umum', 'document_categories', 'parent_document_categories', 'point'));
     }
@@ -248,16 +272,42 @@ class DataUmumDocumentCategoryController extends Controller
     {
         $du_dc = DataUmumDocumentCategory::findOrFail($du_dc_id);
         $avgScore = $du_dc->details()->avg('score') ?? 0;
-        $du_dc->update(['score' => round($avgScore)]);
+        $du_dc->score = round($avgScore);
+        if($avgScore >= 100){
+            $du_dc->score_temp = 100;
+        }else if($avgScore>0 && $avgScore < 100){
+            $du_dc->score_temp = 50;
+        }else{
+            $du_dc->score_temp = 0;
+        }
+        $du_dc->save();
+
         $data_umum = $du_dc->dataUmum;
         // 1. Hitung total semua record
-        $totalRecords = $data_umum->duDc()->where('is_active', 1)->count();
+        // $totalRecords = $data_umum->duDc()->where('is_active', 1)->count();
 
-        // 2. Hitung record yang skornya sudah 100
-        $completedRecords = $data_umum->duDc()->where('score', 100)->where('is_active', 1)->count();
-        $percentage = ($totalRecords > 0) ? ($completedRecords / $totalRecords) * 100 : 0;
+        // // 2. Hitung record yang skornya sudah 100
+        // $completedRecords = $data_umum->duDc()->where('score', 100)->where('is_active', 1)->count();
+        // $percentage = ($totalRecords > 0) ? ($completedRecords / $totalRecords) * 100 : 0;
+        
+
+        // 1. Hitung total semua dokumen yang wajib diisi (misalnya ada 52)
+        $totalDokumen = $data_umum->duDc()->where('is_active', 1)->count();
+
+        // 2. Tentukan skor maksimum yang mungkin didapat
+        // Jika setiap dokumen wajib memiliki skor 100, maka skor maksimum adalah:
+        $skorMaksimum = $totalDokumen * 100;
+
+        // 3. Jumlahkan semua skor yang ada di tabel saat ini
+        $skorSaatIni = $data_umum->duDc()->where('is_active', 1)->sum('score_temp');
+
+        // 4. Hitung persentase progres dari total skor
+        // Hindari pembagian dengan nol jika tidak ada dokumen
+        $percentage = ($skorMaksimum > 0) ? ($skorSaatIni / $skorMaksimum) * 100 : 0;
+
         $data_umum->nkk = $percentage;
         $data_umum->save();
+
     }
     public function updateFile(Request $request, $du_dc_id)
     {
