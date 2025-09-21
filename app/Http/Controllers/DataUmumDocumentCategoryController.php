@@ -14,6 +14,26 @@ use Illuminate\Support\Facades\Auth;
 class DataUmumDocumentCategoryController extends Controller
 {
     //
+        public function ExportRekapKendaliKontrak($thn)
+    {
+        $data = '';
+        if (Auth::user()->userDetail->uptd_id == 0) {
+            $data = DataUmum::where('thn', $thn)->with('uptd')->with('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->orderBy('id', 'desc')->get();
+        } elseif (Auth::user()->userDetail->role == 5) {
+            $data = DataUmum::where('thn', $thn)->with('uptd')->whereHas('detailWithJadual', function ($query) {
+                $query->where('ppk_id', Auth::user()->userDetail->user_id);
+            })->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->where('uptd_id', Auth::user()->userDetail->uptd_id)->orderBy('id', 'desc')->get();
+        } else {
+            $data = DataUmum::where('thn', $thn)->with('uptd')->whereHas('detailWithJadual')->with('laporanUptdAproved')->with('laporanUptd')->with('laporanKonsultan')->where('uptd_id', Auth::user()->userDetail->uptd_id)->orderBy('id', 'desc')->get();
+        }
+        // dd($data->take(10));
+
+        return view('data-umum.export-kk', [
+            'data_umums' => $data,
+            'year' => $thn
+        ]);
+    }
+
     public function show($data_umum_id)
     {
         $point = false;

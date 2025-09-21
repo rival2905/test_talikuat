@@ -41,7 +41,8 @@ class DataUmumController extends Controller
 
         return view('data-umum.index', [
             'data_umums' => $data,
-            'thn' => DataUmum::pluck('thn')->unique()
+            'thn' => DataUmum::pluck('thn')->unique(),
+            'year' => $thn
         ]);
     }
 

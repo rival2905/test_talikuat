@@ -12,6 +12,9 @@
                 <a class="btn btn-mat btn-warning mb-3" data-bs-toggle="modal" data-bs-target="#dataThn">
                     Pilih Tahun Database
                 </a>
+                <a href="{{ route('admin.du-dc.export-rekap',$year) }}" class="btn btn-mat btn-success mb-3" target="_blank">
+                    Rekap Kendali Kontrak
+                </a>
             </div>
             <div class="container">
                 <table class="table table-bordered table-striped" id="table">

@@ -198,4 +198,47 @@ class DataUmum extends Model
             'id'
         )->where('du_dc_details.status', 'complete')->where('data_umum_document_categories.is_active', 1);
     }
+
+    /**
+     * Relasi ke kategori dokumen.
+     */
+    public function categories()
+    {
+        return $this->hasMany(DataUmumDocumentCategory::class, 'data_umum_id')->where('is_active', 1);
+    }
+
+    /**
+     * Mendapatkan hanya kategori yang "Not Complete"
+     * (yaitu yang memiliki setidaknya satu file dengan status revisi).
+     */
+    public function notCompleteCategories()
+    {
+        return $this->categories()->whereHas('details', function ($query) {
+            $query->whereIn('status', ['revision', 'submit revision']);
+        });
+    }
+
+    /**
+     * Menghitung kategori yang "Complete".
+     * Yaitu yang MEMILIKI detail DAN TIDAK MEMILIKI satu pun detail yang statusnya BUKAN 'complete'.
+     */
+    public function completeCategories()
+    {
+        return $this->categories()
+                    ->has('details') // <-- KONDISI PENTING 1: Pastikan ada detail
+                    ->whereDoesntHave('details', function ($query) {
+                        // Kondisi 2: Pastikan tidak ada detail yang statusnya BUKAN 'complete'
+                        $query->where('status', '!=', 'complete')
+                              ->orWhereNull('status'); // Termasuk yang statusnya masih null
+                    });
+    }
+
+    /**
+     * Menghitung kategori yang "Nothing" (kosong).
+     * Yaitu yang TIDAK MEMILIKI detail sama sekali.
+     */
+    public function nothingCategories()
+    {
+        return $this->categories()->doesntHave('details');
+    }
 }

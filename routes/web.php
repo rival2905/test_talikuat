@@ -168,6 +168,7 @@ Route::middleware(['auth', 'userVerified'])->group(function () {
             Route::get('downloadFile/{filename}', [DataUmumDocumentCategoryController::class, 'downloadFile'])->name('admin.du-dc.downloadFile');
             
             Route::put('/file/0/{id}', [DataUmumDocumentCategoryController::class, 'updateFile'])->name('admin.du-dc.file.update');
+            Route::get('export-rekap/{thn}', [DataUmumDocumentCategoryController::class, 'ExportRekapKendaliKontrak'])->name('admin.du-dc.export-rekap');
 
         });
     });
