@@ -98,7 +98,28 @@
     $('#example').DataTable({
     layout: {
         topStart: {
-            buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+            buttons: ['copy', 'csv', 
+                {
+                    extend: 'excelHtml5',
+                    customize: function (xlsx) {
+                        var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                        $('row h[r^="H"]', sheet).attr('s', '2');
+                        $('row g[r^="G"]', sheet).attr('s', '2');
+
+                        // Loop over the cells in column `C`
+                        $('row c[r^="H"]', sheet).each(function () {
+                            // Get the value
+                            if ($('is t', this).text() != 'A') {
+                                $(this).attr('s', '20');
+                            }
+                        });
+                    }
+                }, 
+                {
+                    extend: 'pdfHtml5',
+                    download: 'open'
+                }
+                , 'print']
         }
     }
 });
