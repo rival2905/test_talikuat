@@ -1,0 +1,226 @@
+@extends('layouts.app') @section('header')
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css" />
+<link rel="stylesheet" href="{{ asset('assets/css/loading.css') }}" />
+<style>
+    th {
+        width: fit-content !important;
+    }
+</style>
+@endsection
+@section('content')
+<a class="btn btn-success " href="{{route('laporan-mingguan-uptd.downloadTemplate',$dataUmum->id)}}"
+    rel="noopener noreferrer">Download Template Laporan</a>
+<div class="row mt-3">
+    <div class="col-lg-12 grid-margin stretch-card">
+        @if(!Auth::guard('external')->check())
+        <form action="{{ route('laporan-mingguan-konsultan.store',$dataUmum->id) }}" method="POST"
+            id="form-laporan-mingguan-uptd">
+            @else
+            <form action="{{ route('laporan-mingguan-konsultan-external.store',$dataUmum->id) }}" method="POST"
+                id="form-laporan-mingguan-uptd">
+                @endif
+                <div class="card">
+                    @csrf
+                    <input type="hidden" name="file_path" id="file_path" />
+                    <input type="hidden" name="tgl_start" value="{{ $getTgl[0] }}" />
+                    <input type="hidden" name="tgl_end" value="{{ $getTgl[1] }}" />
+                    <div class="card-body">
+                        <div class="form-group row mb-3">
+                            <label class="col-sm-2 col-form-label">Nama Paket</label>
+                            <div class="col-sm-10">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" value="{{$dataUmum->nm_paket}}" required
+                                        readonly />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-3">
+                            <label class="col-sm-2 col-form-label">Minggu Ke</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" value="{{ $count }}" name="priode" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group row mb-3">
+                            <label class="col-sm-2 col-form-label">Upload File Laporan</label>
+                            <div class="col-sm-10">
+                                <div class="input-group">
+                                    <input type="file" class="form-control" id="file_laporan" name="file_laporan"
+                                        required accept="application/pdf" />
+
+                                    <div class="invalid-feedback" id="invalid-file_laporan"
+                                        style="display: block; color: red"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row align-items-start">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Rencana</label>
+                                    <input type="text" name="rencana"
+                                        value="{{$dataUmum->detailWithJadual->jadualDetail}}" id="rencana"
+                                        class="form-control" required readonly />
+                                    @error('rencana')
+                                    <div class="invalid-feedback" style="display: block; color: red">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Realisasi</label>
+                                    <input type="number" name="realisasi" id="realisasi" class="form-control" required
+                                        max="99.99" min="0" />
+                                    @error('realisasi')
+                                    <div class="invalid-feedback" style="display: block; color: red">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Deviasi</label>
+                                    <input type="text" name="deviasi" id="deviasi" class="form-control" required
+                                        readonly />
+                                    @error('deviasi')
+                                    <div class="invalid-feedback" style="display: block; color: red">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <h4 class="text-center fw-bolder fs-3 mt-4 mb-4">Detail Nomor Mata Pembayaran</h4>
+                        @foreach($dataUmum->detail->jadual as $item)
+                        <div class="form-group row mb-3">
+                            <label class="text-wrap">{{$item->nmp}} - {{$item->uraian}}</label>
+                            <div class="input-group">
+                                <input type="hidden" name="nmp[]" value="{{$item->nmp}}" />
+                                <input type="hidden" name="uraian[]" value="{{$item->uraian}}" />
+                                <input type="text" name="volume[]" id="nmp" class="form-control" required
+                                    autocomplete="off" />
+                            </div>
+                        </div>
+                        @endforeach
+                        <p id="totalParent">Total : <span class="text-danger" id="total"></span></p>
+                    </div>
+
+                </div>
+                <button type="button" class="btn btn-primary mt-2 w-100" onclick="validate()">
+                    Save
+                </button>
+            </form>
+    </div>
+</div>
+
+
+@endsection @section('scripts')
+<div class="load">
+    <!-- Place at bottom of page -->
+</div>
+<script>
+    $(document).ready(function() {
+        $('#totalParent').hide();
+
+        $("#file_laporan").on("change", function() {
+            $("body").addClass("loading");
+            var data = new FormData();
+            data.append("filePdf", $("#file_laporan")[0].files[0]);
+            $.ajax({
+                    url: "https://tk.temanjabar.net/node-ocrapi/parse-pdf",
+                    type: "POST",
+                    data: data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                })
+                .done(function(res) {
+                    $("body").removeClass("loading");
+                    var deviasi = res.data.realisasi - $('#rencana').val().replace(/,/g, '.');
+                    if (deviasi < 0) {
+                        $('#deviasi').val(deviasi.toFixed(2));
+                        $('#deviasi').css('color', 'red');
+                    } else {
+                        $('#deviasi').val(deviasi.toFixed(2));
+                        $('#deviasi').css('color', 'green');
+                    }
+                    $("#realisasi").val(res.data.realisasi.toFixed(2));
+                    $("#file_path").val(res.data.filePath);
+                    $("body").removeClass("loading");
+                })
+                .fail(function(res) {
+                    $("#invalid-file_laporan").html(
+                        "File tidak dapat diproses, pastikan file yang diupload sesuai dengan format"
+                    );
+
+                    $("body").removeClass("loading");
+                });
+        });
+
+
+        $("#btn-save").on("click", function() {
+            $("body").addClass("loading");
+            $('#form-laporan-mingguan-uptd').submit();
+        });
+        $('#realisasi').change(function() {
+            var rencana = $('#rencana').val();
+            var realisasi = $('#realisasi').val().replace(/,/g, '.');
+            var deviasi = realisasi - rencana;
+            if (deviasi < 0) {
+                $('#deviasi').val(deviasi.toFixed(2));
+                $('#deviasi').css('color', 'red');
+            } else {
+                $('#deviasi').val(deviasi.toFixed(2));
+                $('#deviasi').css('color', 'green');
+            }
+
+        });
+    });
+
+    function validate() {
+        var file_laporan = $('#file_laporan').val();
+        var realisasi = $('#realisasi').val();
+        var deviasi = $('#deviasi').val();
+        var volume = $("input[name='volume[]']").map(function() {
+            return $(this).val();
+        }).get();
+        var volume = volume.filter(function(el) {
+            return el != "";
+        });
+        var nmp = $("input[name='nmp[]']").map(function() {
+            return $(this).val();
+        }).get();
+        var nmp = nmp.filter(function(el) {
+            return el != "";
+        });
+        var totalVolume = 0;
+        for (var i = 0; i < volume.length; i++) {
+            totalVolume += parseFloat(volume[i]);
+        }
+        if (file_laporan == '') {
+            alert('File laporan harus diisi');
+            return false;
+        } else if (realisasi == '') {
+            alert('Realisasi harus diisi');
+            return false;
+        } else if (volume.length != nmp.length) {
+            alert('Nomor mata pembayaran harus diisi isi 0 jika tidak ada');
+            return false;
+        } else if (totalVolume != realisasi) {
+            console.log(totalVolume);
+            console.log(realisasi);
+            $('#totalParent').show();
+            $('#total').html(totalVolume.toFixed(2));
+            alert('Total volume harus sama dengan realisasi');
+            return false;
+        } else {
+            event.preventDefault();
+            $("body").addClass("loading");
+            $('#form-laporan-mingguan-uptd').submit();
+        }
+    }
+</script>
+@endsection
