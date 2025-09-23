@@ -106,7 +106,7 @@
                     <td>:</td>
                     <td>
                         {{ date('d-m-Y', strtotime($data->dataUmum->tgl_spmk . ' + ' .
-                        $data->dataUmum->detail->lama_waktu . ' days')); }}
+                        $data->dataUmum->detail->lama_waktu . ' days')) }}
                     </td>
                 </tr>
                 <tr>
