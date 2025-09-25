@@ -40,7 +40,7 @@
                                     <td>{{ $data->dataUmum->id }}</td>
                                     <td class="text-uppercase fw-bold">{{ $data->dataUmum->nm_paket }}</td>
                                     <td>{{ $data->kontraktor->nama }}</td>
-                                    <td>{{ $data_umum->detail->ppk?->name ?? '-' }}</td>
+                                    <td>{{ @$data_umum->detail->ppk?->name}}</td>
                                     <td>{{ $data->nilai }} / {{ $data->bobot }}</td>
                                     <td>
                                         <div class="d-flex justify-content-center gap-2 flex-wrap">

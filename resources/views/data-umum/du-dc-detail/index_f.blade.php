@@ -108,12 +108,16 @@
                                     $statusClass = 'bg-secondary text-white';
                                     $statusIcon = 'bx bx-question-mark';
                                     switch (strtolower($file->status)) {
-                                        case 'approved':
+                                        case 'complete':
                                             $statusClass = 'bg-success text-white';
                                             $statusIcon = 'bx bx-check-circle';
                                             break;
                                         case 'pending':
                                             $statusClass = 'bg-warning text-dark';
+                                            $statusIcon = 'bx bx-time-five';
+                                            break;
+                                        case 'submit revision':
+                                            $statusClass = 'bg-danger text-dark';
                                             $statusIcon = 'bx bx-time-five';
                                             break;
                                         case 'revision':
@@ -128,26 +132,18 @@
                             </td>
 
                             {{-- Kolom Score --}}
-<td class="text-center fw-bold" 
-    style="
-        border-radius: 12px; 
-        padding: 5px 12px; 
-        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-        @if($file->score >= 80)
-            background: linear-gradient(135deg, #4caf50, #66bb6a); color: #fff;
-        @elseif($file->score >= 60)
-            background: linear-gradient(135deg, #ffeb3b, #fff176); color: #000;
-        @elseif($file->score > 0)
-            background: linear-gradient(135deg, #f44336, #e57373); color: #fff;
-        @else
-            background: #9e9e9e; color: #fff;
-        @endif
-    "
->
-    @if(Auth::user()->userDetail->role == 1)
-        <span class="view-mode">{{ $file->score }}</span>
-        <input type="number" class="form-control edit-mode text-center" value="{{ $file->score }}" style="display: none; margin-top:5px; border-radius: 8px;">
-</td>
+                            @php
+                                    $badgeClass = 'background-color: rgb(233, 176, 176); border-radius: 10px;';
+                                    if ($file->score >= 80) $badgeClass = 'background-color: rgb(119, 230, 91); border-radius: 10px;';
+                                    elseif ($file->score >= 60) $badgeClass = 'background-color: rgb(233, 218, 176); border-radius: 10px;';
+                                    elseif ($file->score > 0) $badgeClass = 'background-color: rgb(233, 176, 176); border-radius: 10px;';
+                                @endphp
+
+                            @if(Auth::user()->userDetail->role == 1)
+                            <td style="{{ $badgeClass }}" class="text-center fw-bold">
+                                <span class="view-mode">{{ $file->score }}</span>
+                                <input type="number" class="form-control edit-mode text-center" value="{{ $file->score }}" style="display: none; margin-top:5px; border-radius: 8px;">
+                            </td>
 
                             {{-- Kolom Deskripsi --}}
                             <td>
