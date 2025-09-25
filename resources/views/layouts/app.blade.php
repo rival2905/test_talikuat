@@ -51,7 +51,6 @@
             background-color: #f5f7fa;
         }
 
-        /* Sidebar */
         .sidebar {
     width: 260px;
     height: 100vh;
@@ -64,7 +63,6 @@
     flex-direction: column;
     z-index: 1000;
     transition: width 0.3s ease;
-    /* overflow: hidden; <- HAPUS ini */
 }
 
 
@@ -120,7 +118,6 @@
             padding-left: 32px;
         }
 
-        /* Collapse style */
         .sidebar.collapsed .nav-link span,
         .sidebar.collapsed h5 {
             display: none;
@@ -132,7 +129,6 @@
             max-height: 40px;
         }
 
-        /* Content */
         .main-content {
             margin-left: 260px;
             padding: 20px;
@@ -142,7 +138,6 @@
             margin-left: 80px;
         }
 
-        /* Navbar */
         .navbar-custom {
             background: linear-gradient(135deg, #2563eb, #1d4ed8);
             box-shadow: 0 2px 8px rgba(0,0,0,0.15);
@@ -158,7 +153,6 @@
             color: #fff;
         }
 
-        /* Card */
         .card {
             border: none;
             border-radius: 16px;
@@ -168,7 +162,7 @@
             border-radius: 10px;
         }
 
-        /* Scrollbar */
+
         .sidebar-menu::-webkit-scrollbar {
             width: 6px;
         }
@@ -187,18 +181,15 @@
     transform: rotate(180deg);
 }
 
-/* Sidebar collapse -> sembunyikan teks + chevron */
 .sidebar.collapsed .nav-link span,
 .sidebar.collapsed .nav-link .bx-chevron-down {
     display: none !important;
 }
 
-/* Supaya ikon rata tengah */
 .sidebar.collapsed .nav-link {
     justify-content: center;
 }
 
-/* Submenu hilang total */
 .sidebar.collapsed .ps-4 {
     display: none !important;
 }
@@ -386,10 +377,8 @@
 
     <!-- Main content -->
     <div class="main-content" id="mainContent">
-        <!-- Top Navbar -->
         <nav class="navbar navbar-expand-lg navbar-custom rounded-3 mb-4 px-4">
             <div class="container-fluid">
-                <!-- Hamburger for sidebar -->
                 <button class="navbar-toggler me-3" type="button" id="toggleSidebar">
                     <i class="bx bx-menu"></i>
                 </button>
@@ -402,7 +391,6 @@
             </div>
         </nav>
 
-        <!-- Alert -->
         @if ($message = Session::get('success'))
         <div class="alert alert-success">{{ $message }}</div>
         @endif
@@ -435,7 +423,6 @@
             });
 
 
-            // Sidebar toggle (hamburger)
             $('#toggleSidebar').on('click', function () {
                 $('#sidebar').toggleClass('collapsed');
                 $('#mainContent').toggleClass('expanded');
