@@ -1,50 +1,77 @@
 @extends('layouts.app') @section('content')
-<div class="container">
-    @foreach($dataUmum as $data)
-    <div class="card mb-3" style="max-height: 100vh; overflow-y: auto;">
-        <div class="card-body">
-            <h5 class="card-title">{{$data->id}} - {{$data->nm_paket}} </h5>
 
+<div class="container my-5">
+    @foreach($dataUmum as $data)
+    <div class="card rounded-4 shadow-lg border-0 mb-4">
+        <div class="card-header p-3 fw-bold text-white" style="background: #1e3c72;">
+            {{$data->id}} - {{ $data->nm_paket }}
             @if(Auth::user()->userDetail->role != 6 && Auth::user()->userDetail->role != 4)
-            <a href="{{route('laporan-bulanan-uptd.create',$data->id)}}" class="btn btn-mat btn-dark waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Buat Laporan Mingguan">Buat Laporan<i class="bx bxs-file-doc"></i></a>
+            <a href="{{ route('laporan-bulanan-uptd.create',$data->id) }}" 
+               class="btn btn-warning btn-sm shadow-sm rounded-pill float-end"
+               data-bs-toggle="tooltip" data-bs-placement="bottom" title="Buat Laporan Bulanan">
+               Buat Laporan <i class="bx bxs-file-doc"></i>
+            </a>
             @endif
-            <hr>
-            <div class="container mt-2">
-                <table class="table table-bordered table-striped">
-                    <thead>
+        </div>
+        <div class="card-body p-4">
+            <div style="max-height:70vh; overflow-y:auto;">
+                <table class="table table-striped table-hover align-middle text-center">
+                    <thead class="table-light fw-semibold" style="background: #1e3c72; color:white;">
                         <tr>
                             <th>Bulan</th>
                             <th>Rencana</th>
                             <th>Realisasi</th>
                             <th>Deviasi</th>
                             <th>Status</th>
-                            <th style="width: 13%">Aksi</th>
+                            <th style="width:20%">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($data->laporanBulananUPTD as $laporan)
                         <tr>
-                            <td>{{$laporan->bulan}}</td>
-                            <td>{{$laporan->rencana}}</td>
-                            <td>{{$laporan->realisasi}}</td>
-                            <td>{{$laporan->deviasi}}</td>
+                            <td>{{ $laporan->bulan }}</td>
+                            <td>{{ $laporan->rencana }}</td>
+                            <td>{{ $laporan->realisasi }}</td>
+                            <td>{{ $laporan->deviasi }}</td>
                             <td>
                                 @if($laporan->status == 0)
-                                <span class="badge bg-warning">Belum Disetujui</span>
+                                    <span class="badge bg-warning">Belum Disetujui</span>
                                 @elseif($laporan->status == 1)
-                                <span class="badge bg-success">Disetujui</span>
+                                    <span class="badge bg-success">Disetujui</span>
                                 @else
-                                <span class="badge bg-danger">Ditolak</span>
+                                    <span class="badge bg-danger">Ditolak</span>
                                 @endif
                             </td>
                             <td>
-                                <button class="btn btn-mat btn-info waves-effect waves-light" data-bs-target="#detailModal" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Detail Laporan" data-bs-data="{{$laporan}}" onclick="renderDetailModal(this)"><i class="bx bx-search-alt-2"></i></button>
-                                @if(Auth::user()->userDetail->role == 6 || Auth::user()->userDetail->role == 1 && $laporan->status == 0)
-                                <button class="btn btn-mat btn-warning waves-effect waves-light" data-bs-target="#approvalModal" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Approval Laporan" data-bs-priode="{{$laporan->priode}}" data-bs-id="{{$laporan->id}}" onclick="renderModal(this)"><i class="bx bxs-file-doc"></i></button>
-                                @endif
-                                @if($laporan->status == 2)
-                                <a href="{{route('laporan-bulanan-uptd.edit',$laporan->id)}}" class="btn btn-mat btn-danger waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Edit Laporan"><i class='bx bxs-edit-alt'></i></a>
-                                @endif
+                                <div class="d-flex justify-content-center gap-2 flex-wrap">
+                                    <!-- Detail -->
+                                    <button class="btn btn-info btn-sm shadow-sm rounded-pill"
+                                        data-bs-target="#detailModal" data-bs-toggle="tooltip" 
+                                        data-bs-placement="bottom" title="Detail Laporan"
+                                        data-bs-data="{{$laporan}}" onclick="renderDetailModal(this)">
+                                        <i class="bx bx-search-alt-2"></i>
+                                    </button>
+
+                                    <!-- Approval -->
+                                    @if(Auth::user()->userDetail->role == 6 || (Auth::user()->userDetail->role == 1 && $laporan->status == 0))
+                                    <button class="btn btn-warning btn-sm shadow-sm rounded-pill"
+                                        data-bs-target="#approvalModal" data-bs-toggle="tooltip" 
+                                        data-bs-placement="bottom" title="Approval Laporan"
+                                        data-bs-priode="{{$laporan->bulan}}" data-bs-id="{{$laporan->id}}" 
+                                        onclick="renderModal(this)">
+                                        <i class="bx bxs-file-doc"></i>
+                                    </button>
+                                    @endif
+
+                                    <!-- Edit -->
+                                    @if($laporan->status == 2)
+                                    <a href="{{ route('laporan-bulanan-uptd.edit',$laporan->id) }}"
+                                        class="btn btn-danger btn-sm shadow-sm rounded-pill"
+                                        data-bs-toggle="tooltip" data-bs-placement="bottom" title="Edit Laporan">
+                                        <i class='bx bxs-edit-alt'></i>
+                                    </a>
+                                    @endif
+                                </div>
                             </td>
                         </tr>
                         @endforeach
@@ -55,26 +82,28 @@
     </div>
     @endforeach
 </div>
+
+<!-- Modal Approval -->
 <div class="modal fade" id="approvalModal" tabindex="-1" aria-labelledby="approvalModalLabel" aria-hidden="true">
     <form action="" method="post">
         @csrf
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="approvalModalLabel"></h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title fw-bold" id="approvalModalLabel">Approval Laporan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="exampleFormControlTextarea1" class="form-label">Status</label>
+                        <label class="form-label">Status</label>
                         <select class="form-select" name="status" id="status">
                             <option value="1">Setuju</option>
                             <option value="2">Tolak</option>
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="keterangan" class="form-label">Keterangan</label>
-                        <textarea class="form-control" id="keterangan" name="keterangan" rows="3"></textarea>
+                        <label class="form-label">Keterangan</label>
+                        <textarea class="form-control" name="keterangan" id="keterangan" rows="3"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -82,75 +111,68 @@
                     <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
-
         </div>
     </form>
 </div>
 
+<!-- Modal Detail -->
 <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable">
-
         <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="detailModalLabel">Detail Laporan</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-header" style="background:#1e3c72; color:white;">
+                <h5 class="modal-title fw-bold" id="detailModalLabel">Detail Laporan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body px-5">
-                <div class="form-group row mb-3">
+                <div class="row mb-3">
                     <label class="col-sm-2 col-form-label">ID Paket</label>
                     <div class="col-sm-10">
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="nmPaket" value="" required readonly />
-                        </div>
+                        <input type="text" class="form-control" id="nmPaket" readonly />
                     </div>
                 </div>
-                <div class="form-group row mb-3">
-                    <label class="col-sm-2 col-form-label">Priode</label>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">Bulan</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" value="" id="priode" readonly />
+                        <input type="text" class="form-control" id="bulan" readonly />
                     </div>
                 </div>
-                <div class="form-group row mb-3">
+                <div class="row mb-3">
                     <label class="col-sm-2 col-form-label">File</label>
                     <div class="col-sm-10">
-                        <a href="">asdgesfeawfew</a>
+                        <a href="" target="_blank" id="fileLink"></a>
                     </div>
                 </div>
-                <div class="row align-items-start">
+                <div class="row mb-3">
                     <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Rencana</label>
-                            <input type="text" name="rencana" value="" id="rencana" class="form-control" required readonly />
-
-                        </div>
+                        <label>Rencana</label>
+                        <input type="text" class="form-control" id="rencana" readonly />
                     </div>
                     <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Realisasi</label>
-                            <input type="text" name="realisasi" id="realisasi" class="form-control" required readonly />
-
-                        </div>
+                        <label>Realisasi</label>
+                        <input type="text" class="form-control" id="realisasi" readonly />
                     </div>
                     <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Deviasi</label>
-                            <input type="text" name="deviasi" id="deviasi" class="form-control" required readonly />
-                        </div>
+                        <label>Deviasi</label>
+                        <input type="text" class="form-control" id="deviasi" readonly />
                     </div>
                 </div>
-
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-
             </div>
         </div>
-
     </div>
 </div>
-@endsection @section('scripts')
+
+
+@endsection 
+
+@section('scripts')
 <script>
+    $(function(){
+    $('[data-bs-toggle="tooltip"]').tooltip();
+});
+
     $(document).ready(function() {
         $(".table").DataTable({
             responsive: true,

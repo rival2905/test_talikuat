@@ -1,0 +1,124 @@
+/* ===== CARD PREMIUM GRADIENT ===== */
+.card-premium {
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    color: #fff;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    overflow: hidden;
+    position: relative;
+}
+
+/* Efek highlight di atas */
+.card-premium::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at top left, rgba(255,255,255,0.15), transparent 70%);
+    transform: rotate(25deg);
+    pointer-events: none;
+}
+
+.card-premium:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 14px 35px rgba(0,0,0,0.25);
+}
+
+/* ===== GRADIENT CARD COLORS ===== */
+.card-bg-success {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+.card-bg-blue {
+    background: linear-gradient(135deg, #396afc 0%, #2948ff 100%);
+}
+
+.card-bg-yellow {
+    background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
+}
+
+.card-bg-lightblue {
+    background: linear-gradient(135deg, #667db6 0%, #0082c8 50%, #667db6 100%);
+}
+
+/* ===== ICON CIRCLE ===== */
+.icon-circle-premium {
+    font-size: 48px;
+    padding: 12px;
+    border-radius: 16px;
+    color: #fff;
+    transition: transform 0.35s ease, filter 0.35s ease;
+    background: rgba(255,255,255,0.15); /* semi-transparan biar mewah */
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.icon-circle-premium:hover {
+    transform: scale(1.15) rotate(5deg);
+    filter: brightness(1.2);
+}
+
+/* ===== PROGRESS BAR PREMIUM ===== */
+.progress-premium {
+    height: 24px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+}
+
+.progress-bar-premium {
+    font-weight: 600;
+    text-align: center;
+    line-height: 24px;
+    color: #fff;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    letter-spacing: 0.5px;
+}
+
+/* Gradient progress bars */
+.progress-bar-warning {
+    background: linear-gradient(90deg, #f7971e, #ffd200);
+}
+
+.progress-bar-success {
+    background: linear-gradient(90deg, #00b09b, #96c93d);
+}
+
+.progress-bar-primary {
+    background: linear-gradient(90deg, #396afc, #2948ff);
+}
+
+.progress-bar-danger {
+    background: linear-gradient(90deg, #ff512f, #dd2476);
+}
+
+/* ===== HOVER LINK ===== */
+.card-premium a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.card-premium a:hover {
+    color: #fff !important;
+    text-shadow: 0 0 8px rgba(255,255,255,0.8);
+    text-decoration: none;
+}
+
+/* ===== RESPONSIVE TOUCH ===== */
+@media (max-width: 768px) {
+    .card-premium {
+        border-radius: 16px;
+    }
+    .icon-circle-premium {
+        font-size: 36px;
+        padding: 10px;
+    }
+}

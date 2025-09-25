@@ -1,33 +1,36 @@
 @extends('layouts.app') @section('content')
-<div class="container">
+<div class="container my-5">
     @foreach($dataUmum as $data)
-    <div class="card mb-3" style="max-height: 100vh; overflow-y: auto;">
-        <div class="card-body">
-            <h5 class="card-title">{{$data->id}} - {{$data->nm_paket}} </h5>
+    <div class="card rounded-4 shadow-sm border-0 mb-4">
+        <div class="card-header text-white fw-bold d-flex justify-content-between align-items-center" style="background:#1e3c72;">
+            <span>{{$data->id}} - {{$data->nm_paket}}</span>
             @if(!Auth::guard('external')->check())
-            @if(Auth::user()->userDetail->role != 6 && Auth::user()->userDetail->role != 4)
-            <a href="{{route('laporan-bulanan-konsultan.create',$data->id)}}"
-                class="btn btn-mat btn-dark waves-effect waves-light" data-bs-toggle="tooltip"
-                data-bs-placement="bottom" data-bs-title="Buat Laporan Mingguan">Buat Laporan<i
-                    class="bx bxs-file-doc"></i></a>
-            @endif
+                @if(Auth::user()->userDetail->role != 6 && Auth::user()->userDetail->role != 4)
+                    <a href="{{route('laporan-bulanan-konsultan.create',$data->id)}}"
+                        class="btn btn-warning btn-sm rounded-pill shadow-sm"
+                        data-bs-toggle="tooltip" title="Buat Laporan Bulanan">
+                        Buat Laporan <i class="bx bxs-file-doc"></i>
+                    </a>
+                @endif
             @else
-            <a href="{{route('laporan-bulanan-konsultan-external.create',$data->id)}}"
-                class="btn btn-mat btn-dark waves-effect waves-light" data-bs-toggle="tooltip"
-                data-bs-placement="bottom" data-bs-title="Buat Laporan Mingguan">Buat Laporan<i
-                    class="bx bxs-file-doc"></i></a>
+                <a href="{{route('laporan-bulanan-konsultan-external.create',$data->id)}}"
+                    class="btn btn-warning btn-sm rounded-pill shadow-sm"
+                    data-bs-toggle="tooltip" title="Buat Laporan Bulanan">
+                    Buat Laporan <i class="bx bxs-file-doc"></i>
+                </a>
             @endif
-            <hr>
-            <div class="container mt-2">
-                <table class="table table-bordered table-striped">
-                    <thead>
+        </div>
+        <div class="card-body p-4">
+            <div style="max-height:70vh; overflow-y:auto;">
+                <table class="table table-striped table-hover text-center align-middle">
+                    <thead class="table-light fw-semibold" style="background:#1e3c72; color:white;">
                         <tr>
                             <th>Bulan</th>
                             <th>Rencana</th>
                             <th>Realisasi</th>
                             <th>Deviasi</th>
                             <th>Status</th>
-                            <th style="width: 13%">Aksi</th>
+                            <th style="width:20%">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,31 +42,39 @@
                             <td>{{$laporan->deviasi}}</td>
                             <td>
                                 @if($laporan->status == 0)
-                                <span class="badge bg-warning">Belum Disetujui</span>
+                                    <span class="badge bg-warning">Belum Disetujui</span>
                                 @elseif($laporan->status == 1)
-                                <span class="badge bg-success">Disetujui</span>
+                                    <span class="badge bg-success">Disetujui</span>
                                 @else
-                                <span class="badge bg-danger">Ditolak</span>
+                                    <span class="badge bg-danger">Ditolak</span>
                                 @endif
                             </td>
                             <td>
-                                <button class="btn btn-mat btn-info waves-effect waves-light"
-                                    data-bs-target="#detailModal" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                    data-bs-title="Detail Laporan" data-bs-data="{{$laporan}}"
-                                    onclick="renderDetailModal(this)"><i class="bx bx-search-alt-2"></i></button>
-                                @if(Auth::user()->userDetail->role == 6 && $laporan->status == 0)
-                                <button class="btn btn-mat btn-warning waves-effect waves-light"
-                                    data-bs-target="#approvalModal" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                    data-bs-title="Approval Laporan" data-bs-priode="{{$laporan->priode}}"
-                                    data-bs-id="{{$laporan->id}}" onclick="renderModal(this)"><i
-                                        class="bx bxs-file-doc"></i></button>
-                                @endif
-                                @if($laporan->status == 2)
-                                <a href="{{route('laporan-bulanan-uptd.edit',$laporan->id)}}"
-                                    class="btn btn-mat btn-danger waves-effect waves-light" data-bs-toggle="tooltip"
-                                    data-bs-placement="bottom" data-bs-title="Edit Laporan"><i
-                                        class='bx bxs-edit-alt'></i></a>
-                                @endif
+                                <div class="d-flex justify-content-center gap-2 flex-wrap">
+                                    <button class="btn btn-info btn-sm rounded-pill shadow-sm"
+                                        data-bs-target="#detailModal" data-bs-toggle="tooltip" 
+                                        title="Detail Laporan" data-bs-data="{{$laporan}}" 
+                                        onclick="renderDetailModal(this)">
+                                        <i class="bx bx-search-alt-2"></i>
+                                    </button>
+
+                                    @if(Auth::user()->userDetail->role == 6 && $laporan->status == 0)
+                                    <button class="btn btn-warning btn-sm rounded-pill shadow-sm"
+                                        data-bs-target="#approvalModal" data-bs-toggle="tooltip"
+                                        title="Approval Laporan" data-bs-priode="{{$laporan->priode}}" 
+                                        data-bs-id="{{$laporan->id}}" onclick="renderModal(this)">
+                                        <i class="bx bxs-file-doc"></i>
+                                    </button>
+                                    @endif
+
+                                    @if($laporan->status == 2)
+                                    <a href="{{route('laporan-bulanan-uptd.edit',$laporan->id)}}"
+                                        class="btn btn-danger btn-sm rounded-pill shadow-sm"
+                                        data-bs-toggle="tooltip" title="Edit Laporan">
+                                        <i class='bx bxs-edit-alt'></i>
+                                    </a>
+                                    @endif
+                                </div>
                             </td>
                         </tr>
                         @endforeach
@@ -74,18 +85,20 @@
     </div>
     @endforeach
 </div>
+
+<!-- Modal Approval -->
 <div class="modal fade" id="approvalModal" tabindex="-1" aria-labelledby="approvalModalLabel" aria-hidden="true">
     <form action="" method="post">
         @csrf
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="approvalModalLabel"></h1>
+                    <h1 class="modal-title fs-5" id="approvalModalLabel">Approval Laporan</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="exampleFormControlTextarea1" class="form-label">Status</label>
+                        <label for="status" class="form-label">Status</label>
                         <select class="form-select" name="status" id="status">
                             <option value="1">Setuju</option>
                             <option value="2">Tolak</option>
@@ -101,76 +114,65 @@
                     <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
-
         </div>
     </form>
 </div>
 
+<!-- Modal Detail -->
 <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable">
-
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style="background:#1e3c72; color:white;">
                 <h1 class="modal-title fs-5" id="detailModalLabel">Detail Laporan</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body px-5">
                 <div class="form-group row mb-3">
                     <label class="col-sm-2 col-form-label">ID Paket</label>
                     <div class="col-sm-10">
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="nmPaket" value="" required readonly />
-                        </div>
+                        <input type="text" class="form-control" id="nmPaket" value="" readonly />
                     </div>
                 </div>
                 <div class="form-group row mb-3">
                     <label class="col-sm-2 col-form-label">Priode</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" value="" id="priode" readonly />
+                        <input type="text" class="form-control" id="priode" readonly />
                     </div>
                 </div>
                 <div class="form-group row mb-3">
                     <label class="col-sm-2 col-form-label">File</label>
                     <div class="col-sm-10">
-                        <a href="">asdgesfeawfew</a>
+                        <a href="" id="fileLink">Lihat File</a>
                     </div>
                 </div>
                 <div class="row align-items-start">
                     <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Rencana</label>
-                            <input type="text" name="rencana" value="" id="rencana" class="form-control" required
-                                readonly />
-
-                        </div>
+                        <label>Rencana</label>
+                        <input type="text" name="rencana" id="rencana" class="form-control" readonly />
                     </div>
                     <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Realisasi</label>
-                            <input type="text" name="realisasi" id="realisasi" class="form-control" required readonly />
-
-                        </div>
+                        <label>Realisasi</label>
+                        <input type="text" name="realisasi" id="realisasi" class="form-control" readonly />
                     </div>
                     <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Deviasi</label>
-                            <input type="text" name="deviasi" id="deviasi" class="form-control" required readonly />
-                        </div>
+                        <label>Deviasi</label>
+                        <input type="text" name="deviasi" id="deviasi" class="form-control" readonly />
                     </div>
                 </div>
-
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-
             </div>
         </div>
-
     </div>
 </div>
+
 @endsection @section('scripts')
 <script>
+    $(function(){
+    $('[data-bs-toggle="tooltip"]').tooltip();
+});
+
     $(document).ready(function() {
         $(".table").DataTable({
             responsive: true,

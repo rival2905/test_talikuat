@@ -9,6 +9,6 @@ class RuasJalan extends Model
 {
     use HasFactory;
     protected $connection = 'temanjabar';
-    protected $table = 'master_ruas_jalan';
+    protected $table = 'user_master_ruas_jalan';
     protected $guarded = [];
 }

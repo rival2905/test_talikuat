@@ -1,231 +1,237 @@
-@extends('layouts.app') @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col">
-            <div class="card bg-warning">
-                <a href="{{route('data-utama.index')}}" style="text-decoration: none">
-                    <div class="card-body px-3 py-4">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div class="color-card">
-                                <p class="mb-0 text-white">Penyedia Jasa</p>
-                                <h2 class="text-white">{{$kontraktor}}</h2>
-                            </div>
-                            <i class="fa-solid fa-person-digging" style="
-                                    font-size: 48px;
-                                    color: #fff;
-                                    background-color: #16a75c;
-                                    padding: 20px;
-                                    border-radius: 50%;
-                                "></i>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card bg-info">
-                <a href="{{route('data-utama.index')}}" style="text-decoration: none">
-                    <div class="card-body px-3 py-4">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div class="color-card">
-                                <p class="mb-0 text-white">
-                                    Konsultan Surpervisi
-                                </p>
-                                <h2 class="text-white">{{$konsultan}}</h2>
-                            </div>
+@extends('layouts.app')
 
-                            <i class="fa-solid fa-person-shelter" style="
-                                    font-size: 48px;
-                                    color: #fff;
-                                    background-color: #16a75c;
-                                    padding: 20px;
-                                    border-radius: 50%;
-                                "></i>
+@section('content')
+<div class="container my-4">
+    {{-- CARD ATAS --}}
+    <div class="row g-4">
+        {{-- Penyedia Jasa --}}
+        <div class="col-md">
+            <div class="card card-premium card-bg-success">
+                <a href="{{ route('data-utama.index') }}">
+                    <div class="card-body px-3 py-4">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <p class="mb-0">Penyedia Jasa</p>
+                                <h2>{{ $kontraktor }}</h2>
+                            </div>
+                            <i class="fa-solid fa-person-digging icon-circle-premium"></i>
                         </div>
                     </div>
                 </a>
             </div>
         </div>
-        <div class="col">
-            <div class="card bg-primary">
-                <a href="{{route('data-utama.index')}}" style="text-decoration: none">
-                    <div class="card-body px-3 py-4">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div class="color-card">
-                                <p class="mb-0 text-white">PPK</p>
-                                <h2 class="text-white">{{$ppk}}</h2>
-                            </div>
 
-                            <i class="fa-solid fa-user-secret" style="
-                                    font-size: 48px;
-                                    color: #fff;
-                                    background-color: #16a75c;
-                                    padding: 20px;
-                                    border-radius: 50%;
-                                "></i>
+        {{-- Konsultan Supervisi --}}
+        <div class="col-md">
+            <div class="card card-premium card-bg-blue">
+                <a href="{{ route('data-utama.index') }}">
+                    <div class="card-body px-3 py-4">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <p class="mb-0">Konsultan Supervisi</p>
+                                <h2>{{ $konsultan }}</h2>
+                            </div>
+                            <i class="fa-solid fa-person-shelter icon-circle-premium"></i>
                         </div>
                     </div>
                 </a>
             </div>
         </div>
-        <div class="col">
-            <div class="card bg-warning">
-                <a href="{{route('data-umum.index',date('Y'))}}" style="text-decoration: none">
+
+        {{-- PPK --}}
+        <div class="col-md">
+            <div class="card card-premium card-bg-yellow">
+                <a href="{{ route('data-utama.index') }}">
                     <div class="card-body px-3 py-4">
                         <div class="d-flex justify-content-between align-items-start">
-                            <div class="color-card">
-                                <p class="mb-0 text-white">Paket Pekerjaan</p>
-                                <h2 class="text-white">{{$paket}}</h2>
+                            <div>
+                                <p class="mb-0">PPK</p>
+                                <h2>{{ $ppk }}</h2>
                             </div>
-                            <i class="fa-solid fa-signs-post" style="
-                                    font-size: 48px;
-                                    color: #fff;
-                                    background-color: #16a75c;
-                                    padding: 20px;
-                                    border-radius: 50%;
-                                "></i>
+                            <i class="fa-solid fa-user-secret icon-circle-premium"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        {{-- Paket Pekerjaan --}}
+        <div class="col-md">
+            <div class="card card-premium card-bg-lightblue">
+                <a href="{{ route('data-umum.index', date('Y')) }}">
+                    <div class="card-body px-3 py-4">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <p class="mb-0">Paket Pekerjaan</p>
+                                <h2>{{ $paket }}</h2>
+                            </div>
+                            <i class="fa-solid fa-signs-post icon-circle-premium"></i>
                         </div>
                     </div>
                 </a>
             </div>
         </div>
     </div>
-</div>
-@if($data->count() > 0)
-<div class="container mt-5">
-    <div class="card">
-        <div class="card-body p-5">
-            <a class="btn btn-mat btn-warning mb-3" data-bs-toggle="modal" data-bs-target="#dataThn">
-                Pilih Tahun Database
-            </a>
-            <div class="row mb-3 justify-content-center">
-                <div class="col">
-                    <i class="fa-solid fa-circle" style="color: blue"></i>
-                    <strong>Rencana</strong>
-                </div>
-                <div class="col">
-                    <i class="fa-solid fa-circle" style="color: green"></i>
-                    <strong>Realisasi</strong>
-                </div>
-                <div class="col">
-                    <i class="fa-solid fa-circle" style="color: red"></i>
-                    <strong>Deviasi</strong>
-                </div>
-                <div class="col">
-                    <i class="fa-solid fa-circle" style="color: yellow"></i>
-                    <strong>Waktu</strong>
+
+    {{-- GRAFIK LINE KENDALI KONTRAK --}}
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card card-premium">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Grafik Kendali Kontrak ({{ request('y', date('Y')) }})</h5>
+                    <canvas id="kendaliKontrakChart" height="80"></canvas>
                 </div>
             </div>
-            <hr>
-            <div class="mt-3" style="max-height: 60vh; overflow-y: auto;padding:0px;overflow-x: hidden;">
-                @foreach ($data as $item)
+        </div>
+    </div>
 
-                <strong class="text-uppercase"> {{$item->nm_paket}}</strong>
-                <div class="row mt-2">
-                    <div class="col-sm-2 align-self-center">
-                        <a href="{{route('curva-s.index',$item->id)}}" target="_blank" rel="noopener noreferrer">
-                            <h4 data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{{$item->nm_paket}}">
-                                {{$item->id}}</h4>
-                        </a>
-                    </div>
-                    <div class="col-sm-9">
-                        <div class="progress progress-bar-striped" style="height: 25px" role="progressbar"
-                            aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                            <div class="progress-bar" style="width: {{$item->laporanUptdAproved->rencana}}%">
-                                {{$item->laporanUptdAproved->rencana}} %
-                            </div>
-                        </div>
-                        <div class="progress progress-bar-striped mt-2" style="height: 25px" role="progressbar"
-                            aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                            <div class="progress-bar bg-success"
-                                style="width: {{$item->laporanUptdAproved->realisasi}}%">
-                                {{$item->laporanUptdAproved->realisasi}}%
-                            </div>
-                        </div>
-                        <div class="progress progress-bar-striped mt-2" style="height: 25px" role="progressbar"
-                            aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                            <div class="progress-bar bg-danger"
-                                style="width: {{$item->laporanUptdAproved->deviasi < 0  ? 5 : $item->laporanUptdAproved->deviasi +10 }}%">
-                                {{ $item->laporanUptdAproved->deviasi < 0 ?str_replace("-","+",$item->
-                                    laporanUptdAproved->deviasi): "-".$item->laporanUptdAproved->deviasi }}%
-                            </div>
-                        </div>
-                        <div class="progress mt-2 progress-bar-striped" style="height: 25px" role="progressbar"
-                            aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                            <div class="progress-bar bg-warning"
-                                style="width: {{$item->laporanUptdAproved->paket_selesai == true ? 100 : $item->laporanUptdAproved->persen}}%">
-                                {{$item->laporanUptdAproved->paket_selesai == true ? "Paket Sudah Selesai" :
-                                $item->laporanUptdAproved->hari_terpakai . " Hari / " .$item->detail->lama_waktu . "
-                                Hari"}}
-                            </div>
-                        </div>
-                    </div>
+    {{-- LIST PAKET --}}
+    @if($data->count() > 0)
+    <div class="container mt-5">
+        <div class="card card-premium">
+            <div class="card-body p-5">
+                <a class="btn btn-warning mb-3" data-bs-toggle="modal" data-bs-target="#dataThn">Pilih Tahun Database</a>
+                <div class="row mb-3 justify-content-center text-center">
+                    <div class="col"><i class="fa-solid fa-circle" style="color: blue;"></i> <strong>Rencana</strong></div>
+                    <div class="col"><i class="fa-solid fa-circle" style="color: green;"></i> <strong>Realisasi</strong></div>
+                    <div class="col"><i class="fa-solid fa-circle" style="color: red;"></i> <strong>Deviasi</strong></div>
+                    <div class="col"><i class="fa-solid fa-circle" style="color: #f0ad4e;"></i> <strong>Waktu</strong></div>
                 </div>
-
-                @if($item->laporanUptd->where('status','!=',1)->count() > 0)
-                <p class="text-danger">Laporan Belum Disetujui Oleh Kepala UPTD</p>
-                @endif
-                @if( $item->laporanUptd->count() == 0)
-                <p class="text-danger">Belum Ada laporan</p>
-                @endif
                 <hr>
-                @endforeach
+                <div class="mt-3" style="max-height:60vh; overflow-y:auto; overflow-x:hidden;">
+                    @foreach($data as $item)
+                    <strong class="text-uppercase">{{ $item->nm_paket }}</strong>
+                    <div class="row mt-2">
+                        <div class="col-sm-2 align-self-center">
+                            <a href="{{ route('curva-s.index', $item->id) }}" target="_blank">
+                                <h4>{{ $item->id }}</h4>
+                            </a>
+                        </div>
+                        <div class="col-sm-9">
+                            <div class="progress progress-premium">
+                                <div class="progress-bar progress-bar-premium progress-bar-primary" style="width:{{ $item->laporanUptdAproved->rencana }}%">
+                                    {{ $item->laporanUptdAproved->rencana }}%
+                                </div>
+                            </div>
+                            <div class="progress progress-premium">
+                                <div class="progress-bar progress-bar-premium progress-bar-success" style="width:{{ $item->laporanUptdAproved->realisasi }}%">
+                                    {{ $item->laporanUptdAproved->realisasi }}%
+                                </div>
+                            </div>
+                            <div class="progress progress-premium">
+                                <div class="progress-bar progress-bar-premium progress-bar-danger" style="width: {{ $item->laporanUptdAproved->deviasi < 0 ? 5 : $item->laporanUptdAproved->deviasi+10 }}%">
+                                    {{ $item->laporanUptdAproved->deviasi <0 ? str_replace('-','+',$item->laporanUptdAproved->deviasi) : '-'.$item->laporanUptdAproved->deviasi }}%
+                                </div>
+                            </div>
+                            <div class="progress progress-premium">
+                                <div class="progress-bar progress-bar-premium progress-bar-warning" style="width:{{ $item->laporanUptdAproved->paket_selesai ? 100 : $item->laporanUptdAproved->persen }}%">
+                                    {{ $item->laporanUptdAproved->paket_selesai ? 'Paket Sudah Selesai' : $item->laporanUptdAproved->hari_terpakai.' Hari / '.$item->detail->lama_waktu.' Hari' }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @if($item->laporanUptd->where('status','!=',1)->count()>0)
+                    <p class="text-danger">Laporan Belum Disetujui Oleh Kepala UPTD</p>
+                    @endif
+                    @if($item->laporanUptd->count()==0)
+                    <p class="text-danger">Belum Ada laporan</p>
+                    @endif
+                    <hr>
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>
-</div>
-@else
-<div class="container mt-5">
-    <div class="card">
-        <div class="card-body">
-            <h5 class="text-center">Belum ada data kegiatan paket</h5>
+    @else
+    <div class="container mt-5">
+        <div class="card card-premium">
+            <div class="card-body text-center">
+                <h5>Belum ada data kegiatan paket</h5>
+            </div>
         </div>
     </div>
-</div>
-@endif
-@endsection
+    @endif
 
-<div class="modal fade" id="dataThn" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="dataThnLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="dataThnLabel">Pilih Tahun Database</h1>
-            </div>
-
-            <div class="modal-body">
-                <div class="form-group">
-                    <label>Tahun</label>
-                    <select name="thn" id="thn" class="form-control" required>
+    {{-- MODAL PILIH TAHUN --}}
+    <div class="modal fade" id="dataThn" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Pilih Tahun Database</h5>
+                </div>
+                <div class="modal-body">
+                    <select id="thn" class="form-select">
                         <option value="">-- Pilih Tahun --</option>
-                        @foreach ($thn as $item)
-                        <option value="{{$item}}">{{$item}}</option>
+                        @foreach($thn as $item)
+                        <option value="{{ $item }}">{{ $item }}</option>
                         @endforeach
                     </select>
                 </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="btn" id="submit" class="btn btn-success">Submit</button>
+                <div class="modal-footer">
+                    <button type="button" id="submit" class="btn btn-success">Submit</button>
+                </div>
             </div>
         </div>
-
     </div>
 </div>
+@endsection
 
 @section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    $(document).ready(function() {
-        const url = `{{ route('dashboard') }}`;
-        $('#submit').click(function() {
-            var thn = $('#thn').val();
-            if (thn != '') {
-                window.location.href = `${url}?y=${thn}`;
-            } else {
-                alert('Pilih Tahun Database');
-            }
-        });
+$(document).ready(function() {
+    const url = `{{ route('dashboard') }}`;
+    $('#submit').click(function() {
+        var thn = $('#thn').val();
+        if(thn!=''){
+            window.location.href = `${url}?y=${thn}`;
+        } else {
+            alert('Pilih Tahun Database');
+        }
     });
+
+    // ===================== CHART LINE =====================
+    const ctx = document.getElementById('kendaliKontrakChart').getContext('2d');
+
+    // Labels tanggal, bisa diganti sesuai data backend
+    const labels = {!! json_encode($kendaliKontrak->pluck('date')) !!};
+
+    // Data rata-rata skor per tanggal
+    const dataScore = {!! json_encode($kendaliKontrak->pluck('avg_score')) !!};
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Rata-rata Score',
+                data: dataScore,
+                borderColor: 'rgba(54, 162, 235, 1)',
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                fill: true,
+                tension: 0.3,
+                pointRadius: 4,
+                pointHoverRadius: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: true, position: 'top' },
+                tooltip: { mode: 'index', intersect: false }
+            },
+            scales: {
+                x: {
+                    title: { display: true, text: 'Tanggal' }
+                },
+                y: {
+                    title: { display: true, text: 'Score' },
+                    suggestedMin: 0,
+                    suggestedMax: 100
+                }
+            }
+        }
+    });
+});
 </script>
 @endsection

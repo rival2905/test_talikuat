@@ -264,18 +264,17 @@
                         <div class="form-group">
                             <label>PPK</label>
                             <select name="ppk_user_id" id="ppk" class="form-control" required>
-                                <option value="">Pilih PPK</option>
-                                @foreach($ppks as $item)
-                                @if($data_umum->detail->ppk_id == $item->user->id)
-                                <option value="{{ $item->user->id }}" selected>
-                                    {{ $item->user->name }}
-                                </option>
-                                @endif
-                                <option value="{{ $item->user->id }}">
-                                    {{ $item->user->name }}
-                                </option>
-                                @endforeach
-                            </select>
+    <option value="">Pilih PPK</option>
+    @foreach($ppks as $item)
+        @if($item->user) {{-- Pastikan relasi user ada --}}
+            <option value="{{ $item->user->id }}"
+                {{ isset($data_umum->detail) && $data_umum->detail->ppk_id == $item->user->id ? 'selected' : '' }}>
+                {{ $item->user->name }}
+            </option>
+        @endif
+    @endforeach
+</select>
+
                         </div>
                     </div>
                     <div class="col">

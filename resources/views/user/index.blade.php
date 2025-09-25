@@ -1,18 +1,24 @@
 @extends('layouts.app') @section('content')
-<div class="container">
+<div class="container my-5">
+
     @if(Auth::user()->userDetail->role == 1)
-    <div class="card mb-4">
-        <div class="card-header">User Admin PPK</div>
-        <div class="card-body">
-            <div class="container">
-                <a class="btn btn-mat btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createAdminUptd">
-                    Tambah</a>
-
-
+    {{-- User Admin PPK --}}
+    <div class="card mb-4 shadow-lg rounded-5 border-0">
+        <div class="card-header fw-bold text-white" style="letter-spacing: 0.5px; background-color: #1e3c72;">
+            User Admin PPK
+        </div>
+        <div class="card-body p-4">
+            <div class="mb-3">
+                <a class="btn btn-primary btn-lg rounded-pill shadow-sm text-white"
+                   data-bs-toggle="modal" data-bs-target="#createAdminUptd"
+                   style="border:none;">
+                   <i class="bx bx-plus me-1"></i> Tambah
+                </a>
             </div>
-            <div class="container" style="max-height: 80vh; overflow-y: auto">
-                <table id="adminUPTD" class="table table-striped">
-                    <thead>
+
+            <div class="table-responsive" style="max-height: 70vh; overflow-y:auto;">
+                <table id="adminUPTD" class="table table-hover table-borderless align-middle text-center shadow-sm">
+                    <thead class="table-light text-dark text-uppercase">
                         <tr>
                             <th>No</th>
                             <th>Nama</th>
@@ -24,19 +30,21 @@
                     </thead>
                     <tbody>
                         @foreach ($adminUPTD as $item)
-                        <tr>
-                            <td>{{$loop->index +1}}</td>
-                            <td>{{@$item->user->name}}</td>
-                            <td>{{@$item->user->email}}</td>
+                        <tr style="transition: all 0.3s; cursor:pointer;">
+                            <td>{{ $loop->index +1 }}</td>
+                            <td>{{ @$item->user->name }}</td>
+                            <td>{{ @$item->user->email }}</td>
+                            <td>{{ $item->user->profile->no_pegawai ?? '' }}</td>
+                            <td>{{ $item->uptd->nama_uptd }}</td>
                             <td>
-                                {{ $item->user->profile->no_pegawai ?? ''}}
-                            </td>
-                            <td>{{$item->uptd->nama_uptd}}</td>
-                            <td>
-                                <a class="btn btn-mat btn-warning" data-bs-toggle="modal" data-bs-target="#editDataAdminUptd" data-id="{{ @$item->user->id }}" data-name="{{ @$item->user->name }}" data-email="{{ @$item->user->email }}" data-no_pegawai="{{ @$item->user->profile->no_pegawai}}" data-no_telp="{{ @$item->user->profile->no_tlp}}" data-uptd="{{ @$item->user->internal_role_id}}" onclick="updateAdminUptd(this)">
-                                    <i class="bx bx-edit-alt"></i></a>
-
-
+                                <a class="btn btn-warning btn-sm rounded-pill shadow-sm"
+                                   data-bs-toggle="modal" data-bs-target="#editDataAdminUptd"
+                                   data-id="{{ @$item->user->id }}" data-name="{{ @$item->user->name }}"
+                                   data-email="{{ @$item->user->email }}" data-no_pegawai="{{ @$item->user->profile->no_pegawai }}"
+                                   data-no_telp="{{ @$item->user->profile->no_tlp }}" data-uptd="{{ @$item->user->internal_role_id }}"
+                                   onclick="updateAdminUptd(this)">
+                                   <i class="bx bx-edit-alt me-1"></i> Edit
+                                </a>
                             </td>
                         </tr>
                         @endforeach
@@ -45,18 +53,24 @@
             </div>
         </div>
     </div>
-    <div class="card mb-4">
-        <div class="card-header">User Konsultan</div>
-        <div class="card-body">
-            <div class="container">
-                <a class="btn btn-mat btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createUserKonsultan">
-                    Tambah</a>
 
-
+    {{-- User Konsultan --}}
+    <div class="card mb-4 shadow-lg rounded-5 border-0">
+        <div class="card-header fw-bold text-white" style="letter-spacing: 0.5px; background-color: #1e3c72;">
+            User Konsultan
+        </div>
+        <div class="card-body p-4">
+            <div class="mb-3">
+                <a class="btn btn-primary btn-lg rounded-pill shadow-sm text-white"
+                   data-bs-toggle="modal" data-bs-target="#createUserKonsultan"
+                   style="border:none;">
+                   <i class="bx bx-plus me-1"></i> Tambah
+                </a>
             </div>
-            <div class="container" style="max-height: 80vh; overflow-y: auto">
-                <table id="userKonsultan" class="table table-striped">
-                    <thead>
+
+            <div class="table-responsive" style="max-height: 70vh; overflow-y:auto;">
+                <table id="userKonsultan" class="table table-hover table-borderless align-middle text-center shadow-sm">
+                    <thead class="table-light text-dark text-uppercase">
                         <tr>
                             <th>No</th>
                             <th>Nama</th>
@@ -68,18 +82,27 @@
                     </thead>
                     <tbody>
                         @foreach ($konsultan as $item)
-                        <tr>
-                            <td>{{$loop->index +1 }}</td>
-                            <td>{{$item->name}}</td>
-                            <td>{{$item->email}}</td>
-                            <td>{{$item->konsultan->name}}</td>
-                            <td>{{$item->uptd->nama_uptd}}</td>
+                        <tr style="transition: all 0.3s; cursor:pointer;">
+                            <td>{{ $loop->index +1 }}</td>
+                            <td>{{ $item->name }}</td>
+                            <td>{{ $item->email }}</td>
+                            <td>{{ $item->konsultan->name }}</td>
+                            <td>{{ $item->uptd->nama_uptd }}</td>
                             <td>
-                                <a class="btn btn-mat btn-warning" data-bs-toggle="modal" data-bs-target="#editDataKonsultan" data-id="{{ $item->id }}" data-name="{{ $item->name }}" data-email="{{ $item->email }}" data-nik="{{ $item->nik}}" data-uptd="{{ $item->uptd_id}}" data-no_telp="{{ $item->no_telp}}" data-konsultan_id="{{ $item->konsultan_id}}" data-jabatan="{{ $item->jabatan}}" onclick="updateUserKonsultan(this)">
-                                    <i class="bx bx-edit-alt"></i></a>
+                                <a class="btn btn-warning btn-sm rounded-pill shadow-sm"
+                                   data-bs-toggle="modal" data-bs-target="#editDataKonsultan"
+                                   data-id="{{ $item->id }}" data-name="{{ $item->name }}" data-email="{{ $item->email }}"
+                                   data-nik="{{ $item->nik}}" data-uptd="{{ $item->uptd_id}}" data-no_telp="{{ $item->no_telp}}"
+                                   data-konsultan_id="{{ $item->konsultan_id}}" data-jabatan="{{ $item->jabatan}}"
+                                   onclick="updateUserKonsultan(this)">
+                                   <i class="bx bx-edit-alt me-1"></i> Edit
+                                </a>
 
-                                <a class="btn btn-mat btn-danger" data-bs-toggle="modal" data-bs-target="#deleteUserKonsultan" data-id="{{ $item->id }}" data-name="{{ $item->name }}" onclick="deleteUserKonsultan(this)">
-                                    <i class="bx bx-trash"></i>
+                                <a class="btn btn-danger btn-sm rounded-pill shadow-sm"
+                                   data-bs-toggle="modal" data-bs-target="#deleteUserKonsultan"
+                                   data-id="{{ $item->id }}" data-name="{{ $item->name }}"
+                                   onclick="deleteUserKonsultan(this)">
+                                   <i class="bx bx-trash me-1"></i> Hapus
                                 </a>
                             </td>
                         </tr>
@@ -90,18 +113,24 @@
         </div>
     </div>
     @endif
-    <div class="card">
-        <div class="card-header">User PPK</div>
-        <div class="card-body">
-            <div class="container">
-                <a class="btn btn-mat btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createUserPPK">
-                    Tambah</a>
 
-
+    {{-- User PPK --}}
+    <div class="card shadow-lg rounded-5 border-0">
+        <div class="card-header fw-bold text-white" style="letter-spacing: 0.5px; background-color: #1e3c72;">
+            User PPK
+        </div>
+        <div class="card-body p-4">
+            <div class="mb-3">
+                <a class="btn btn-primary btn-lg rounded-pill shadow-sm text-white"
+                   data-bs-toggle="modal" data-bs-target="#createUserPPK"
+                   style="border:none;">
+                   <i class="bx bx-plus me-1"></i> Tambah
+                </a>
             </div>
-            <div class="container" style="max-height: 80vh; overflow-y: auto">
-                <table id="nmp" class="table table-striped">
-                    <thead>
+
+            <div class="table-responsive" style="max-height: 70vh; overflow-y:auto;">
+                <table id="nmp" class="table table-hover table-borderless align-middle text-center shadow-sm">
+                    <thead class="table-light text-dark text-uppercase">
                         <tr>
                             <th>No</th>
                             <th>Nama</th>
@@ -113,151 +142,152 @@
                     </thead>
                     <tbody>
                         @foreach ($ppk as $item)
-                        <tr>
-                            <td>{{$loop->index +1 }}</td>
-                            <td>{{@$item->user->name}}</td>
-                            <td>{{@$item->user->email}}</td>
-                            <td>{{ $item->user->profile->no_pegawai ?? ''}}</td>
-                            <td>{{$item->uptd->nama_uptd}}</td>
+                        <tr style="transition: all 0.3s; cursor:pointer;">
+                            <td>{{ $loop->index +1 }}</td>
+                            <td>{{ @$item->user->name }}</td>
+                            <td>{{ @$item->user->email }}</td>
+                            <td>{{ $item->user->profile->no_pegawai ?? '' }}</td>
+                            <td>{{ $item->uptd->nama_uptd }}</td>
                             <td>
-                                <a class="btn btn-mat btn-warning" data-bs-toggle="modal" data-bs-target="#editUserPPK" data-id="{{ @$item->user->id }}" data-name="{{ @$item->user->name }}" data-email="{{ @$item->user->email }}" data-nip=" {{ $item->user->profile->no_pegawai ?? ''}}" data-uptd="{{ @$item->user->internal_role_id}}" data-no_telp="{{ $item->user->profile->no_tlp ?? ''}}" onclick="updateUserPPK(this)">
-                                    <i class="bx bx-edit-alt"></i></a>
+                                <a class="btn btn-warning btn-sm rounded-pill shadow-sm"
+                                   data-bs-toggle="modal" data-bs-target="#editUserPPK"
+                                   data-id="{{ @$item->user->id }}" data-name="{{ @$item->user->name }}"
+                                   data-email="{{ @$item->user->email }}" data-nip="{{ $item->user->profile->no_pegawai ?? '' }}"
+                                   data-uptd="{{ @$item->user->internal_role_id}}" data-no_telp="{{ $item->user->profile->no_tlp ?? ''}}"
+                                   onclick="updateUserPPK(this)">
+                                   <i class="bx bx-edit-alt me-1"></i> Edit
+                                </a>
 
-  <a class="btn btn-mat btn-danger" data-bs-toggle="modal" data-bs-target="#deletePPK" data-id="{{  @$item->user->id }}" data-name="{{ @$item->user->name }}" onclick="deletePPK(this)">
-                                    <i class="bx bx-trash"></i>
+                                <a class="btn btn-danger btn-sm rounded-pill shadow-sm"
+                                   data-bs-toggle="modal" data-bs-target="#deletePPK"
+                                   data-id="{{  @$item->user->id }}" data-name="{{ @$item->user->name }}"
+                                   onclick="deletePPK(this)">
+                                   <i class="bx bx-trash me-1"></i> Hapus
                                 </a>
                             </td>
-                            @endforeach
                         </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+
 </div>
+
+
 <!-- Modal Tambah Admin UPTD -->
 <div class="modal fade" id="createAdminUptd" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="createAdminUptdLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="createAdminUptdLabel">
-                    Tambah Data User Admin UPTD
-                </h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content rounded-4 shadow-lg border-0">
+            <div class="modal-header p-4" style="background: #1e3c72;">
+                <h5 class="modal-title text-white fw-bold" id="createAdminUptdLabel">Tambah Data User Admin UPTD</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <form action="{{ route('user-manajement.create-admin-uptd') }}" method="post">
                 @csrf
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Nama </label>
-                        <input type="text" class="form-control" id="name" name="name" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email </label>
-                        <input type="email" class="form-control" id="email" name="email" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="no_pegawai" class="form-label">NIP / NIK
-                        </label>
-                        <input type="text" class="form-control" id="no_pegawai" name="no_pegawai" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="no_tlp" class="form-label">No. Telp</label>
-                        <input type="text" class="form-control" id="no_tlp" name="no_tlp" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password
-                        </label>
-                        <input type="password" class="form-control" id="password" name="password" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="uptd" class="form-label">UPTD </label>
-                        <select name="uptd" class="form-select" required>
-                            <option value="">Pilih UPTD</option>
-                            <option value="56">UPTD 1</option>
-                            <option value="115">UPTD 2</option>
-                            <option value="58">UPTD 3</option>
-                            <option value="66">UPTD 4</option>
-                            <option value="73">UPTD 5</option>
-                            <option value="80">UPTD 6</option>
-                        </select>
+                <div class="modal-body p-4">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Nama</label>
+                            <input type="text" class="form-control form-control-lg shadow-sm" name="name" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Email</label>
+                            <input type="email" class="form-control form-control-lg shadow-sm" name="email" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">NIP / NIK</label>
+                            <input type="text" class="form-control form-control-lg shadow-sm" name="no_pegawai" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">No. Telp</label>
+                            <input type="text" class="form-control form-control-lg shadow-sm" name="no_tlp" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Password</label>
+                            <input type="password" class="form-control form-control-lg shadow-sm" name="password" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">UPTD</label>
+                            <select name="uptd" class="form-select form-select-lg shadow-sm" required>
+                                <option value="">Pilih UPTD</option>
+                                <option value="56">UPTD 1</option>
+                                <option value="115">UPTD 2</option>
+                                <option value="58">UPTD 3</option>
+                                <option value="66">UPTD 4</option>
+                                <option value="73">UPTD 5</option>
+                                <option value="80">UPTD 6</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        Close
+                <div class="modal-footer p-4 border-top-0">
+                    <button type="button" class="btn btn-outline-secondary btn-lg rounded-pill shadow-sm" data-bs-dismiss="modal">
+                        <i class="bx bx-x me-1"></i> Close
                     </button>
-                    <button type="submit" class="btn btn-success">Save</button>
+                    <button type="submit" class="btn btn-primary btn-lg rounded-pill shadow-sm">
+                        <i class="bx bx-plus me-1"></i> Tambah
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
 <!-- Modal Edit Admin UPTD -->
 <div class="modal fade" id="editDataAdminUptd" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editDataAdminUptdLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="editDataAdminUptdLabel">
-                    Edit Admin PPK
-                </h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content rounded-4 shadow-lg border-0">
+            <div class="modal-header p-4" style="background: #1e3c72;">
+                <h5 class="modal-title text-white fw-bold">Edit Data User Admin UPTD</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <form action="{{ route('user-manajement.update-admin-uptd', 0) }}" method="post">
                 @csrf
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Nama </label>
-                        <input type="text" class="form-control" id="name" name="name" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email </label>
-                        <input type="email" class="form-control" id="email" name="email" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="no_pegawai" class="form-label">NIP / NIK
-                        </label>
-                        <input type="text" class="form-control" id="no_pegawai" name="no_pegawai" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="no_tlp" class="form-label">No. Telp</label>
-                        <input type="text" class="form-control" id="no_tlp" name="no_tlp" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password
-                        </label>
-                        <input type="password" class="form-control" id="password" name="password" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="uptd" class="form-label">UPTD </label>
-                        <select name="uptd" id="uptd" class="form-select" required>
-                            <option value="">Pilih UPTD</option>
-                            <option value="56">UPTD 1</option>
-                            <option value="115">UPTD 2</option>
-                            <option value="58">UPTD 3</option>
-                            <option value="66">UPTD 4</option>
-                            <option value="73">UPTD 5</option>
-                            <option value="80">UPTD 6</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="ppk" class="form-label">PPK </label>
-                        <select name="ppk" id="uptd" class="form-select" required>
-                            <option value="">Pilih PPK</option>
-                            <option value="56">UPTD 1</option>
-                            <option value="115">UPTD 2</option>
-                            <option value="58">UPTD 3</option>
-                            <option value="66">UPTD 4</option>
-                            <option value="73">UPTD 5</option>
-                            <option value="80">UPTD 6</option>
-                        </select>
+                <div class="modal-body p-4">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Nama</label>
+                            <input type="text" class="form-control form-control-lg shadow-sm" id="name" name="name" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Email</label>
+                            <input type="email" class="form-control form-control-lg shadow-sm" id="email" name="email" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">NIP / NIK</label>
+                            <input type="text" class="form-control form-control-lg shadow-sm" id="no_pegawai" name="no_pegawai" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">No. Telp</label>
+                            <input type="text" class="form-control form-control-lg shadow-sm" id="no_tlp" name="no_tlp" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Password</label>
+                            <input type="password" class="form-control form-control-lg shadow-sm" id="password" name="password" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">UPTD</label>
+                            <select name="uptd" class="form-select form-select-lg shadow-sm" required>
+                                <option value="">Pilih UPTD</option>
+                                <option value="56">UPTD 1</option>
+                                <option value="115">UPTD 2</option>
+                                <option value="58">UPTD 3</option>
+                                <option value="66">UPTD 4</option>
+                                <option value="73">UPTD 5</option>
+                                <option value="80">UPTD 6</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        Close
+                <div class="modal-footer p-4 border-top-0">
+                    <button type="button" class="btn btn-outline-secondary btn-lg rounded-pill shadow-sm" data-bs-dismiss="modal">
+                        <i class="bx bx-x me-1"></i> Close
                     </button>
-                    <button type="submit" class="btn btn-success">Save</button>
+                    <button type="submit" class="btn btn-warning btn-lg rounded-pill shadow-sm">
+                        <i class="bx bx-edit-alt me-1"></i> Edit
+                    </button>
                 </div>
             </form>
         </div>
@@ -265,22 +295,22 @@
 </div>
 <!-- Modal Delete Admin UPTD -->
 <div class="modal fade" id="deleteDataAdminUptd" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteDataAdminUptdLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="deleteJenisPekerjaanLabel">
-                    Delete Data Jenis Pekerjaan
-                </h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content rounded-4 shadow-lg border-0">
+            <div class="modal-header p-3" style="background: #dc3545;">
+                <h5 class="modal-title text-white fw-bold" id="deleteDataAdminUptdLabel">Hapus Admin UPTD</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body">
-                <p>Apakah anda yakin ingin menghapus data ini?</p>
+            <div class="modal-body p-4">
+                <p class="mb-0 fw-semibold">Apakah Anda yakin ingin menghapus data ini?</p>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    Close
+            <div class="modal-footer p-3 border-top-0 justify-content-center">
+                <button type="button" class="btn btn-outline-secondary rounded-pill shadow-sm" data-bs-dismiss="modal">
+                    <i class="bx bx-x me-1"></i> Close
                 </button>
-                <a class="btn btn-danger">Delete</a>
+                <a class="btn btn-danger rounded-pill shadow-sm">
+                    <i class="bx bx-trash me-1"></i> Delete
+                </a>
             </div>
         </div>
     </div>
@@ -288,71 +318,70 @@
 
 <!-- Modal Tambah User Konsultan -->
 <div class="modal fade" id="createUserKonsultan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="createUserKonsultanLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="createUserKonsultanLabel">
-                    Tambah Data User Konsultan
-                </h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content rounded-4 shadow-lg border-0">
+            <div class="modal-header p-4" style="background: #1e3c72;">
+                <h5 class="modal-title text-white fw-bold">Tambah Data User Konsultan</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <form action="{{ route('user-manajement.create-admin-konsultan') }}" method="post">
                 @csrf
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Nama </label>
-                        <input type="text" class="form-control" id="name" name="name" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email </label>
-                        <input type="email" class="form-control" id="email" name="email" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="nik" class="form-label">NIK </label>
-                        <input type="text" class="form-control" id="nik" name="nik" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="no_telp" class="form-label">No. Telp</label>
-                        <input type="text" class="form-control" id="no_telp" name="no_telp" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="jabatan" class="form-label">Jabatan</label>
-                        <input type="text" class="form-control" id="jabatan" name="jabatan" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password
-                        </label>
-                        <input type="password" class="form-control" id="password" name="password" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="konsultan_id" class="form-label">Konsultan</label>
-                        <select name="konsultan_id" class="form-select" required>
-                            <option value="">Pilih Konsultan</option>
-                            @foreach ($dataKonsultan as $item)
-                            <option value="{{ $item->id }}">
-                                {{ $item->name }}
-                            </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="uptd" class="form-label">UPTD </label>
-                        <select name="uptd" class="form-select" required>
-                            <option value="">Pilih UPTD</option>
-                            <option value="1">UPTD 1</option>
-                            <option value="2">UPTD 2</option>
-                            <option value="3">UPTD 3</option>
-                            <option value="4">UPTD 4</option>
-                            <option value="5">UPTD 5</option>
-                            <option value="6">UPTD 6</option>
-                        </select>
+                <div class="modal-body p-4">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Nama</label>
+                            <input type="text" class="form-control form-control-lg shadow-sm" name="name" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Email</label>
+                            <input type="email" class="form-control form-control-lg shadow-sm" name="email" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">NIK</label>
+                            <input type="text" class="form-control form-control-lg shadow-sm" name="nik" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">No. Telp</label>
+                            <input type="text" class="form-control form-control-lg shadow-sm" name="no_telp" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Jabatan</label>
+                            <input type="text" class="form-control form-control-lg shadow-sm" name="jabatan" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Password</label>
+                            <input type="password" class="form-control form-control-lg shadow-sm" name="password" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Konsultan</label>
+                            <select name="konsultan_id" class="form-select form-select-lg shadow-sm" required>
+                                <option value="">Pilih Konsultan</option>
+                                @foreach ($dataKonsultan as $item)
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">UPTD</label>
+                            <select name="uptd" class="form-select form-select-lg shadow-sm" required>
+                                <option value="">Pilih UPTD</option>
+                                <option value="1">UPTD 1</option>
+                                <option value="2">UPTD 2</option>
+                                <option value="3">UPTD 3</option>
+                                <option value="4">UPTD 4</option>
+                                <option value="5">UPTD 5</option>
+                                <option value="6">UPTD 6</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        Close
+                <div class="modal-footer p-4 border-top-0">
+                    <button type="button" class="btn btn-outline-secondary btn-lg rounded-pill shadow-sm" data-bs-dismiss="modal">
+                        <i class="bx bx-x me-1"></i> Close
                     </button>
-                    <button type="submit" class="btn btn-success">Save</button>
+                    <button type="submit" class="btn btn-primary btn-lg rounded-pill shadow-sm">
+                        <i class="bx bx-plus me-1"></i> Tambah
+                    </button>
                 </div>
             </form>
         </div>
@@ -360,71 +389,70 @@
 </div>
 <!-- Modal Edit User Konsultan -->
 <div class="modal fade" id="editDataKonsultan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editDataKonsultanLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="editDataKonsultanLabel">
-                    Tambah Data User Konsultan
-                </h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content rounded-4 shadow-lg border-0">
+            <div class="modal-header p-4" style="background: #1e3c72;">
+                <h5 class="modal-title text-white fw-bold" id="editDataKonsultanLabel">Edit Data User Konsultan</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            <form action="{{ route('user-manajement.create-admin-konsultan') }}" method="post">
+            <form action="{{ route('user-manajement.update-admin-konsultan', 0) }}" method="post">
                 @csrf
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Nama </label>
-                        <input type="text" class="form-control" id="name" name="name" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email </label>
-                        <input type="email" class="form-control" id="email" name="email" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="nik" class="form-label">NIK </label>
-                        <input type="text" class="form-control" id="nik" name="nik" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="no_telp" class="form-label">No. Telp</label>
-                        <input type="text" class="form-control" id="no_telp" name="no_telp" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="jabatan" class="form-label">Jabatan</label>
-                        <input type="text" class="form-control" id="jabatan" name="jabatan" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password
-                        </label>
-                        <input type="password" class="form-control" id="password" name="password" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="konsultan_id" class="form-label">Konsultan</label>
-                        <select name="konsultan_id" id="konsultan_id" class="form-select" required>
-                            <option value="">Pilih Konsultan</option>
-                            @foreach ($dataKonsultan as $item)
-                            <option value="{{ $item->id }}">
-                                {{ $item->name }}
-                            </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="uptd" class="form-label">UPTD </label>
-                        <select name="uptd" id="uptd" class="form-select" required>
-                            <option value="">Pilih UPTD</option>
-                            <option value="1">UPTD 1</option>
-                            <option value="2">UPTD 2</option>
-                            <option value="3">UPTD 3</option>
-                            <option value="4">UPTD 4</option>
-                            <option value="5">UPTD 5</option>
-                            <option value="6">UPTD 6</option>
-                        </select>
+                <div class="modal-body p-4">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Nama</label>
+                            <input type="text" class="form-control form-control-lg shadow-sm" id="name" name="name" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Email</label>
+                            <input type="email" class="form-control form-control-lg shadow-sm" id="email" name="email" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">NIK</label>
+                            <input type="text" class="form-control form-control-lg shadow-sm" id="nik" name="nik" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">No. Telp</label>
+                            <input type="text" class="form-control form-control-lg shadow-sm" id="no_telp" name="no_telp" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Jabatan</label>
+                            <input type="text" class="form-control form-control-lg shadow-sm" id="jabatan" name="jabatan" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Password</label>
+                            <input type="password" class="form-control form-control-lg shadow-sm" id="password" name="password" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Konsultan</label>
+                            <select name="konsultan_id" id="konsultan_id" class="form-select form-select-lg shadow-sm" required>
+                                <option value="">Pilih Konsultan</option>
+                                @foreach ($dataKonsultan as $item)
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">UPTD</label>
+                            <select name="uptd" id="uptd" class="form-select form-select-lg shadow-sm" required>
+                                <option value="">Pilih UPTD</option>
+                                <option value="1">UPTD 1</option>
+                                <option value="2">UPTD 2</option>
+                                <option value="3">UPTD 3</option>
+                                <option value="4">UPTD 4</option>
+                                <option value="5">UPTD 5</option>
+                                <option value="6">UPTD 6</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        Close
+                <div class="modal-footer p-4 border-top-0">
+                    <button type="button" class="btn btn-outline-secondary btn-lg rounded-pill shadow-sm" data-bs-dismiss="modal">
+                        <i class="bx bx-x me-1"></i> Close
                     </button>
-                    <button type="submit" class="btn btn-success">Save</button>
+                    <button type="submit" class="btn btn-warning btn-lg rounded-pill shadow-sm">
+                        <i class="bx bx-edit-alt me-1"></i> Edit
+                    </button>
                 </div>
             </form>
         </div>
@@ -433,46 +461,45 @@
 
 <!-- Modal Delete User PPK -->
 <div class="modal fade" id="deletePPK" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deletePPKLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="deletePPKLabel">
-                    Delete User
-                </h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content rounded-4 shadow-lg border-0">
+            <div class="modal-header p-3" style="background: #dc3545;">
+                <h5 class="modal-title text-white fw-bold" id="deletePPKLabel">Hapus User PPK</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body">
-                <p>Apakah anda yakin ingin menghapus data ini?</p>
+            <div class="modal-body p-4">
+                <p class="mb-0 fw-semibold">Apakah Anda yakin ingin menghapus data ini?</p>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    Close
+            <div class="modal-footer p-3 border-top-0 justify-content-center">
+                <button type="button" class="btn btn-outline-secondary rounded-pill shadow-sm" data-bs-dismiss="modal">
+                    <i class="bx bx-x me-1"></i> Close
                 </button>
-                <a class="btn btn-danger">Delete</a>
+                <a class="btn btn-danger rounded-pill shadow-sm">
+                    <i class="bx bx-trash me-1"></i> Delete
+                </a>
             </div>
         </div>
     </div>
 </div>
 
-
 <!-- Modal Delete User Konsultan -->
 <div class="modal fade" id="deleteUserKonsultan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteUserKonsultanLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="deleteUserKonsultanLabel">
-                    Delete User
-                </h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content rounded-4 shadow-lg border-0">
+            <div class="modal-header p-3" style="background: #dc3545;">
+                <h5 class="modal-title text-white fw-bold" id="deleteUserKonsultanLabel">Hapus User Konsultan</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body">
-                <p>Apakah anda yakin ingin menghapus data ini?</p>
+            <div class="modal-body p-4">
+                <p class="mb-0 fw-semibold">Apakah Anda yakin ingin menghapus data ini?</p>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    Close
+            <div class="modal-footer p-3 border-top-0 justify-content-center">
+                <button type="button" class="btn btn-outline-secondary rounded-pill shadow-sm" data-bs-dismiss="modal">
+                    <i class="bx bx-x me-1"></i> Close
                 </button>
-                <a class="btn btn-danger">Delete</a>
+                <a class="btn btn-danger rounded-pill shadow-sm">
+                    <i class="bx bx-trash me-1"></i> Delete
+                </a>
             </div>
         </div>
     </div>
@@ -480,117 +507,119 @@
 
 <!-- Modal Tambah User PPK -->
 <div class="modal fade" id="createUserPPK" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="createUserPPKLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="createUserPPKLabel">
-                    Tambah Data User PPK
-                </h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content rounded-4 shadow-lg border-0">
+            <div class="modal-header p-4" style="background: #1e3c72;">
+                <h5 class="modal-title text-white fw-bold" id="createUserPPKLabel">Tambah Data User PPK</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <form action="{{ route('user-manajement.create-admin-ppk') }}" method="post">
                 @csrf
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Nama </label>
-                        <input type="text" class="form-control" id="name" name="name" required />
+                <div class="modal-body p-4">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Nama</label>
+                            <input type="text" class="form-control form-control-lg shadow-sm" name="name" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Email</label>
+                            <input type="email" class="form-control form-control-lg shadow-sm" name="email" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">NIP</label>
+                            <input type="text" class="form-control form-control-lg shadow-sm" name="no_pegawai" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">No. Telp</label>
+                            <input type="text" class="form-control form-control-lg shadow-sm" name="no_tlp" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Password</label>
+                            <input type="password" class="form-control form-control-lg shadow-sm" name="password" required />
+                        </div>
+                        @if(Auth::user()->userDetail->role == 1)
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">UPTD</label>
+                            <select name="uptd" class="form-select form-select-lg shadow-sm" required>
+                                <option value="">Pilih UPTD</option>
+                                <option value="55">UPTD 1</option>
+                                <option value="88">UPTD 2</option>
+                                <option value="64">UPTD 3</option>
+                                <option value="68">UPTD 4</option>
+                                <option value="74">UPTD 5</option>
+                                <option value="81">UPTD 6</option>
+                            </select>
+                        </div>
+                        @endif
                     </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email </label>
-                        <input type="email" class="form-control" id="email" name="email" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="no_pegawai" class="form-label">NIP </label>
-                        <input type="text" class="form-control" id="no_pegawai" name="no_pegawai" required />
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="no_tlp" class="form-label">No. Telp</label>
-                        <input type="text" class="form-control" id="no_tlp" name="no_tlp" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password
-                        </label>
-                        <input type="password" class="form-control" id="password" name="password" required />
-                    </div>
-                    @if(Auth::user()->userDetail->role == 1)
-                    <div class="mb-3">
-                        <label for="uptd" class="form-label">UPTD </label>
-                        <select name="uptd" class="form-select" required>
-                            <option value="">Pilih UPTD</option>
-                            <option value="55">UPTD 1</option>
-                            <option value="88">UPTD 2</option>
-                            <option value="64">UPTD 3</option>
-                            <option value="68">UPTD 4</option>
-                            <option value="74">UPTD 5</option>
-                            <option value="81">UPTD 6</option>
-                        </select>
-                    </div>
-                    @endif
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        Close
+                <div class="modal-footer p-4 border-top-0">
+                    <button type="button" class="btn btn-outline-secondary btn-lg rounded-pill shadow-sm" data-bs-dismiss="modal">
+                        <i class="bx bx-x me-1"></i> Close
                     </button>
-                    <button type="submit" class="btn btn-success">Save</button>
+                    <button type="submit" class="btn btn-primary btn-lg rounded-pill shadow-sm">
+                        <i class="bx bx-plus me-1"></i> Tambah
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+
 <!-- Modal Edit User PPK -->
 <div class="modal fade" id="editUserPPK" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editUserPPKLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="editUserPPKLabel">
-                    Tambah Data User PPK
-                </h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content rounded-4 shadow-lg border-0">
+            <div class="modal-header p-4" style="background: #1e3c72;">
+                <h5 class="modal-title text-white fw-bold" id="editUserPPKLabel">Edit Data User PPK</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            <form action="" method="post">
+            <form action="{{ route('user-manajement.update-admin-ppk', 0) }}" method="post">
                 @csrf
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Nama </label>
-                        <input type="text" class="form-control" id="name" name="name" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email </label>
-                        <input type="email" class="form-control" id="email" name="email" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="no_pegawai" class="form-label">NIP </label>
-                        <input type="text" class="form-control" id="no_pegawai" name="no_pegawai" required />
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="no_tlp" class="form-label">No. Telp</label>
-                        <input type="text" class="form-control" id="no_tlp" name="no_tlp" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password
-                        </label>
-                        <input type="password" class="form-control" id="password" name="password" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="uptd" class="form-label">UPTD </label>
-                        <select name="uptd" id="uptd" class="form-select" required>
-                            <option value="">Pilih UPTD</option>
-                            <option value="55">UPTD 1</option>
-                            <option value="88">UPTD 2</option>
-                            <option value="64">UPTD 3</option>
-                            <option value="68">UPTD 4</option>
-                            <option value="74">UPTD 5</option>
-                            <option value="81">UPTD 6</option>
-                        </select>
+                <div class="modal-body p-4">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Nama</label>
+                            <input type="text" class="form-control form-control-lg shadow-sm" id="name" name="name" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Email</label>
+                            <input type="email" class="form-control form-control-lg shadow-sm" id="email" name="email" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">NIP</label>
+                            <input type="text" class="form-control form-control-lg shadow-sm" id="no_pegawai" name="no_pegawai" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">No. Telp</label>
+                            <input type="text" class="form-control form-control-lg shadow-sm" id="no_tlp" name="no_tlp" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Password</label>
+                            <input type="password" class="form-control form-control-lg shadow-sm" id="password" name="password" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">UPTD</label>
+                            <select name="uptd" id="uptd" class="form-select form-select-lg shadow-sm" required>
+                                <option value="">Pilih UPTD</option>
+                                <option value="55">UPTD 1</option>
+                                <option value="88">UPTD 2</option>
+                                <option value="64">UPTD 3</option>
+                                <option value="68">UPTD 4</option>
+                                <option value="74">UPTD 5</option>
+                                <option value="81">UPTD 6</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        Close
+                <div class="modal-footer p-4 border-top-0">
+                    <button type="button" class="btn btn-outline-secondary btn-lg rounded-pill shadow-sm" data-bs-dismiss="modal">
+                        <i class="bx bx-x me-1"></i> Close
                     </button>
-                    <button type="submit" class="btn btn-success">Save</button>
+                    <button type="submit" class="btn btn-warning btn-lg rounded-pill shadow-sm">
+                        <i class="bx bx-edit-alt me-1"></i> Edit
+                    </button>
                 </div>
             </form>
         </div>

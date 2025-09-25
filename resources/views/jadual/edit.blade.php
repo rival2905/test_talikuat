@@ -112,7 +112,9 @@
                 <div class="col">
                     <div class="form-group">
                         <label>PPK</label>
-                        <input type="text" class="form-control" readonly value="{{$detail->data_umum->detail->ppk->nama}}">
+                        <input type="text" class="form-control" readonly 
+       value="{{ $detail->data_umum->detail->ppk?->nama ?? 'PPK tidak tersedia' }}">
+
                     </div>
                 </div>
                 <div class="col">

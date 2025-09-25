@@ -3,6 +3,9 @@
     <head>
         <title>Tali Kuat Bina Marga | @yield('title')</title>
 
+        {{-- link css icon --}}
+        <link rel="shortcut icon" href="{{ asset('assets/images/talikuat.png') }}" type="image/x-icon">
+
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <!--===============================================================================================-->

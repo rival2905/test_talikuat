@@ -55,12 +55,12 @@ class DataUmum extends Model
 
     public function laporanBulananUPTD()
     {
-        return $this->hasMany(LaporanBulananUptd::class, 'data_umum_id')->orderBy('id', 'ASC')->with('detail', 'fotoLaporan');
+        return $this->hasMany(LaporanBulananUptd::class, 'data_umum_id')->orderBy('id', 'ASC')->with('detail');
     }
 
     public function laporanBulananKonsultan()
     {
-        return $this->hasMany(LaporanBulananKonsultan::class, 'data_umum_id')->orderBy('id', 'ASC')->with('detail', 'fotoLaporan');
+        return $this->hasMany(LaporanBulananKonsultan::class, 'data_umum_id')->orderBy('id', 'ASC')->with('detail');
     }
 
     public function fileDataUmum()

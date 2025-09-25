@@ -18,7 +18,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endsection
 @section('content')
-<div class="d-flex justify-content-center align-items-center">
+<!-- <div class="d-flex justify-content-center align-items-center">
 
     {{-- Letakkan seluruh konten Anda di dalam wrapper ini --}}
     <div class="w-100">
@@ -171,7 +171,7 @@
 
         </div>
     </div>
-</div>
+</div> -->
 @endsection
 
 @section('scripts')

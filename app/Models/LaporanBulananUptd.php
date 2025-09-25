@@ -21,4 +21,6 @@ class LaporanBulananUptd extends Model
     {
         return $this->hasMany(LaporanBulananUptdDetail::class, 'laporan_bulanan_id', 'id');
     }
+
+    
 }

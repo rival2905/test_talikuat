@@ -230,18 +230,21 @@
                 </div>
                 <div class="row align-items-start">
                     <div class="col">
-                        <div class="form-group">
-                            <label>PPK</label>
-                            <select name="ppk_user_id" id="ppk" class="form-control" required>
-                                <option value="">Pilih PPK</option>
-                                @foreach($ppks as $item)
-                                <option value="{{ $item->user->id }}">
-                                    {{ $item->user->name }}
-                                </option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
+    <div class="form-group">
+        <label>PPK</label>
+        <select name="ppk_user_id" id="ppk" class="form-control" required>
+            <option value="">Pilih PPK</option>
+            @foreach($ppks as $item)
+                @if($item->user) {{-- pastikan relasi user ada --}}
+                    <option value="{{ $item->user->id }}">
+                        {{ $item->user->name }}
+                    </option>
+                @endif
+            @endforeach
+        </select>
+    </div>
+</div>
+
                     <div class="col">
                         <div class="form-group">
                             <label>PPK Kegiatan</label>
