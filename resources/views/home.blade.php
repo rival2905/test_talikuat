@@ -2,7 +2,6 @@
 
 @section('content')
 <div class="container my-4">
-    {{-- CARD ATAS --}}
     <div class="row g-4">
         {{-- Penyedia Jasa --}}
         <div class="col-md">
@@ -73,7 +72,7 @@
         </div>
     </div>
 
-    {{-- GRAFIK LINE KENDALI KONTRAK --}}
+    {{-- GRAFIK LINE --}}
     <div class="row mt-5">
         <div class="col-12">
             <div class="card card-premium">
@@ -190,13 +189,10 @@ $(document).ready(function() {
         }
     });
 
-    // ===================== CHART LINE =====================
     const ctx = document.getElementById('kendaliKontrakChart').getContext('2d');
 
-    // Labels tanggal, bisa diganti sesuai data backend
     const labels = {!! json_encode($kendaliKontrak->pluck('date')) !!};
 
-    // Data rata-rata skor per tanggal
     const dataScore = {!! json_encode($kendaliKontrak->pluck('avg_score')) !!};
 
     new Chart(ctx, {
