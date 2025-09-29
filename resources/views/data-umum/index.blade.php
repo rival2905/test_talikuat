@@ -37,31 +37,36 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($data_umums as $data)
-                        <tr class="align-middle">
-                            <td class="fw-semibold">{{$data->id}}</td>
-                            <td class="text-uppercase fw-semibold">{{$data->nm_paket}}</td>
-                            <td>{{$data->detail->kontraktor->nama ?? ""}}</td>
-                            <td>{{$data->detail->konsultan->name ?? ""}}</td>
-                            <td>{{$data->detail->ppk->nama ?? ''}}</td>
-                            <td class="text-wrap">
-                                @if ($data->duDc()->where('is_active', 1)->count() >0)
-                                    {{$data->nkk}}%
-                                    <br>
-                                    {{ $data->duDc()->where('score', 100)->where('is_active', 1)->count() }}/{{ $data->duDc()->where('is_active', 1)->count() }} Doc
-                                @else
-                                    <span class="badge bg-danger">Undefine</span>
-                                @endif
-                            </td>
-                            <td>
-                                <a class="btn btn-warning btn-sm rounded-pill shadow-sm" data-bs-toggle="modal" data-bs-target="#modalAction"
-                                   data-id="{{ $data->id }}" onclick="handleAction(this)">
-                                   Proses
-                                </a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
+    @foreach ($data_umums as $data)
+        @php
+            $docs = $data->duDc()->where('is_active', 1);
+            $totalDocs = $docs->count();
+            $completedDocs = $docs->where('score', 100)->count();
+        @endphp
+        <tr class="align-middle">
+            <td class="fw-semibold">{{ $data->id }}</td>
+            <td class="text-uppercase fw-semibold">{{ $data->nm_paket }}</td>
+            <td>{{ $data->detail->kontraktor->nama ?? '' }}</td>
+            <td>{{ $data->detail->konsultan->name ?? '' }}</td>
+            <td>{{ $data->detail->ppk->nama ?? '' }}</td>
+            <td class="text-wrap">
+                {{ $totalDocs > 0 ? $data->nkk : 0 }}%
+                <br>
+                {{ $completedDocs }}/{{ $totalDocs }} Doc
+            </td>
+            <td>
+                <a class="btn btn-warning btn-sm rounded-pill shadow-sm"
+                   data-bs-toggle="modal"
+                   data-bs-target="#modalAction"
+                   data-id="{{ $data->id }}"
+                   onclick="handleAction(this)">
+                   Proses
+                </a>
+            </td>
+        </tr>
+    @endforeach
+</tbody>
+
                 </table>
             </div>
 

@@ -1,5 +1,19 @@
 @extends('layouts.app') @section('content')
 <div class="container my-5">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="input-group input-group-lg shadow-sm">
+                <span class="input-group-text bg-gradient text-white px-4 rounded-start-pill" 
+                      style="background: linear-gradient(135deg, #1e3c72, #2a5298); border: none;">
+                    <i class="bx bx-search fs-4 text-muted"></i>
+                </span>
+                <input type="text" id="searchDokumenBulanan" 
+                       class="form-control border-0 rounded-end-pill px-4 fw-semibold"
+                       placeholder="Cari Dokumen Laporan Bulanan Konsultan...">
+            </div>
+        </div>
+    </div>
+
     @foreach($dataUmum as $data)
     <div class="card rounded-4 shadow-sm border-0 mb-4">
         <div class="card-header text-white fw-bold d-flex justify-content-between align-items-center" style="background:#1e3c72;">
@@ -170,20 +184,28 @@
 @endsection @section('scripts')
 <script>
     $(function(){
-    $('[data-bs-toggle="tooltip"]').tooltip();
-});
+        $('[data-bs-toggle="tooltip"]').tooltip();
+    });
 
     $(document).ready(function() {
         $(".table").DataTable({
             responsive: true,
             autoWidth: false,
         });
+
         $('#status').change(function() {
             if ($(this).val() == 2) {
                 $('#keterangan').attr('required', true);
             } else {
                 $('#keterangan').attr('required', false);
             }
+        });
+
+        $("#searchDokumenBulanan").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $(".card").filter(function () {
+                $(this).toggle($(this).find(".card-header").text().toLowerCase().indexOf(value) > -1);
+            });
         });
     });
 
@@ -192,11 +214,15 @@
         $('#detailModal').modal('show');
         $('#nmPaket').val(data.data_umum_id);
         $('#priode').val(data.periode);
-        console.log(data);
-        $('#detailModal a').attr('href', data.file_path).html(data.file_path.replace('public/lampiran/laporan_konsultan/', ''));
+
+        $('#detailModal a')
+            .attr('href', data.file_path)
+            .html(data.file_path.replace('public/lampiran/laporan_konsultan/', ''));
+
         $('#rencana').val(data.rencana);
         $('#realisasi').val(data.realisasi);
         $('#deviasi').val(data.deviasi);
+
         if (data.deviasi < 0) {
             $('#deviasi').addClass('text-danger');
         } else {

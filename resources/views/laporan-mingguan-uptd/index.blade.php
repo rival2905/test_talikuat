@@ -1,7 +1,23 @@
 @extends('layouts.app') @section('content')
 <div class="container my-5">
+    <div class="row mb-4">
+    <div class="col-12">
+        <div class="input-group shadow-lg">
+            <span class="input-group-text bg-white border-0 rounded-start-pill px-4">
+                <i class="bx bx-search fs-4 text-muted"></i>
+            </span>
+            <input type="text" id="searchDokumen" 
+                   class="form-control border-0 rounded-end-pill px-4 py-3 fw-semibold"
+                   style="font-size: 1.05rem; color: #333;"
+                   placeholder="Cari Dokumen Laporan Mingguan UPTD...">
+        </div>
+    </div>
+</div>
+
+
     @foreach($dataUmum as $data)
-    <div class="card rounded-4 shadow-lg border-0 mb-4">
+    <div class="card rounded-4 shadow-lg border-0 mb-4 dokumen-card" 
+         data-id="{{ $data->id }}">
         <div class="card-header p-3 fw-bold text-white" style="background: #1e3c72;">
             {{$data->id}} - {{ $data->nm_paket }}
             @if(Auth::user()->userDetail->role != 6 && Auth::user()->userDetail->role != 4)
@@ -171,20 +187,31 @@
 @endsection @section('scripts')
 <script>
     $(function(){
-    $('[data-bs-toggle="tooltip"]').tooltip();
-});
+        $('[data-bs-toggle="tooltip"]').tooltip();
+    });
 
     $(document).ready(function() {
         $(".table").DataTable({
             responsive: true,
             autoWidth: false,
         });
+
         $('#status').change(function() {
             if ($(this).val() == 2) {
                 $('#keterangan').attr('required', true);
             } else {
                 $('#keterangan').attr('required', false);
             }
+        });
+
+        // 🔥 Search dokumen (filter card)
+        $("#searchDokumen").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $(".dokumen-card").filter(function() {
+                let id = $(this).data("id").toString().toLowerCase();
+                let text = $(this).text().toLowerCase(); // termasuk nm_paket
+                $(this).toggle(id.indexOf(value) > -1 || text.indexOf(value) > -1);
+            });
         });
 
         //modal event
@@ -252,4 +279,5 @@
         return `<div class="row">${html}</div>`;
     }
 </script>
+
 @endsection

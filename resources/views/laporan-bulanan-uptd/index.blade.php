@@ -1,8 +1,22 @@
 @extends('layouts.app') @section('content')
-
 <div class="container my-5">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="input-group input-group-lg shadow-sm">
+                <span class="input-group-text bg-gradient text-white px-4 rounded-start-pill" style="background: linear-gradient(135deg, #1e3c72, #2a5298); border: none;">
+                    <i class="bx bx-search fs-4 text-muted"></i>
+                </span>
+                <input type="text" id="searchDokumenBulanan" 
+                       class="form-control border-0 rounded-end-pill px-4 fw-semibold"
+                       placeholder="Cari Dokumen Bulanan UPTD...">
+            </div>
+        </div>
+    </div>
+
+    {{-- Dokumen --}}
     @foreach($dataUmum as $data)
-    <div class="card rounded-4 shadow-lg border-0 mb-4">
+    <div class="card rounded-4 shadow-lg border-0 mb-4 dokumen-item"
+         data-id="{{ $data->id }}">
         <div class="card-header p-3 fw-bold text-white" style="background: #1e3c72;">
             {{$data->id}} - {{ $data->nm_paket }}
             @if(Auth::user()->userDetail->role != 6 && Auth::user()->userDetail->role != 4)
@@ -13,6 +27,7 @@
             </a>
             @endif
         </div>
+
         <div class="card-body p-4">
             <div style="max-height:70vh; overflow-y:auto;">
                 <table class="table table-striped table-hover align-middle text-center">
@@ -173,6 +188,15 @@
     $('[data-bs-toggle="tooltip"]').tooltip();
 });
 
+$(document).ready(function() {
+        $('#searchDokumenBulanan').on('keyup', function() {
+            let value = $(this).val().toLowerCase();
+            $('.dokumen-item').filter(function() {
+                $(this).toggle($(this).data('id').toString().toLowerCase().indexOf(value) > -1);
+            });
+        });
+    });
+
     $(document).ready(function() {
         $(".table").DataTable({
             responsive: true,
@@ -188,21 +212,26 @@
     });
 
     function renderDetailModal(el) {
-        var data = $(el).data('bs-data');
-        $('#detailModal').modal('show');
-        $('#nmPaket').val(data.data_umum_id);
-        $('#priode').val(data.periode);
-        console.log(data);
-        $('#detailModal a').attr('href', data.file_path).html(data.file_path.replace('public/lampiran/laporan_konsultan/', ''));
-        $('#rencana').val(data.rencana);
-        $('#realisasi').val(data.realisasi);
-        $('#deviasi').val(data.deviasi);
-        if (data.deviasi < 0) {
-            $('#deviasi').addClass('text-danger');
-        } else {
-            $('#deviasi').addClass('text-success');
-        }
+    var data = $(el).data('bs-data');
+    $('#detailModal').modal('show');
+    $('#nmPaket').val(data.data_umum_id);
+
+    // perbaiki ini: sekarang isi ke #bulan
+    $('#bulan').val(data.bulan);
+
+    $('#fileLink').attr('href', data.file_path)
+                  .html(data.file_path.replace('public/lampiran/laporan_konsultan/', ''));
+    $('#rencana').val(data.rencana);
+    $('#realisasi').val(data.realisasi);
+    $('#deviasi').val(data.deviasi);
+
+    if (data.deviasi < 0) {
+        $('#deviasi').addClass('text-danger').removeClass('text-success');
+    } else {
+        $('#deviasi').addClass('text-success').removeClass('text-danger');
     }
+}
+
 
     function renderModal(el) {
         var url = "{{route('laporan-bulanan-uptd.approval',':id')}}";

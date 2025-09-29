@@ -1,7 +1,22 @@
 @extends('layouts.app') @section('content')
 <div class="container my-5">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="input-group input-group-lg shadow-sm">
+                <span class="input-group-text bg-gradient text-white px-4 rounded-start-pill" 
+                      style="background: linear-gradient(135deg, #1e3c72, #2a5298); border: none;">
+                   <i class="bx bx-search fs-4 text-muted"></i>
+                </span>
+                <input type="text" id="searchDokumenKonsultan" 
+                       class="form-control border-0 rounded-end-pill px-4 fw-semibold"
+                       placeholder="Cari Dokumen Laporan Mingguan Konsultan...">
+            </div>
+        </div>
+    </div>
+
     @foreach($dataUmum as $data)
-    <div class="card rounded-4 shadow-lg border-0 mb-4">
+    <div class="card rounded-4 shadow-lg border-0 mb-4 dokumen-item"
+         data-id="{{ $data->id }}" data-nama="{{ $data->nm_paket }}">
         <div class="card-header p-3 fw-bold text-white" style="background: #1e3c72;">
             {{$data->id}} - {{$data->nm_paket}}
             @if(!Auth::guard('external')->check())
@@ -112,20 +127,29 @@
 @endsection @section('scripts')
 <script>
     $(function(){
-    $('[data-bs-toggle="tooltip"]').tooltip();
-});
+        $('[data-bs-toggle="tooltip"]').tooltip();
+    });
 
     $(document).ready(function() {
         $(".table").DataTable({
             responsive: true,
             autoWidth: false,
         });
+
         $('#status').change(function() {
             if ($(this).val() == 2) {
                 $('#keterangan').attr('required', true);
             } else {
                 $('#keterangan').attr('required', false);
             }
+        });
+
+        $("#searchDokumenKonsultan").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $(".card").filter(function () {
+                // filter berdasarkan text di card-header (ID + nama paket)
+                $(this).toggle($(this).find(".card-header").text().toLowerCase().indexOf(value) > -1);
+            });
         });
     });
 
@@ -135,15 +159,21 @@
         $('#nmPaket').val(data.data_umum_id);
         $('#priode').val(data.priode);
         console.log(data);
-        $('#detailModal a').attr('href', data.file_path).html(data.file_path.replace('public/lampiran/laporan_konsultan/', ''));
+
+        $('#detailModal a')
+            .attr('href', data.file_path)
+            .html(data.file_path.replace('public/lampiran/laporan_konsultan/', ''));
+
         $('#rencana').val(data.rencana);
         $('#realisasi').val(data.realisasi);
         $('#deviasi').val(data.deviasi);
+
         if (data.deviasi < 0) {
             $('#deviasi').addClass('text-danger');
         } else {
             $('#deviasi').addClass('text-success');
         }
+
         var nmp = '';
         data.detail.forEach(function(item) {
             nmp += nmpBuilder(item.nmp, item.volume);

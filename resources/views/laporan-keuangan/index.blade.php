@@ -1,7 +1,22 @@
 @extends('layouts.app') @section('content')
 <div class="container my-5">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="input-group input-group-lg shadow-sm">
+                <span class="input-group-text bg-gradient text-white px-4 rounded-start-pill" 
+                      style="background: linear-gradient(135deg, #1e3c72, #2a5298); border: none;">
+                    <i class="bx bx-search fs-4 text-muted"></i>
+                </span>
+                <input type="text" id="searchDokumenKeuangan" 
+                       class="form-control border-0 rounded-end-pill px-4 fw-semibold"
+                       placeholder="Cari Dokumen Laporan Keuangan...">
+            </div>
+        </div>
+    </div>
+
     @foreach($dataUmum as $data)
-    <div class="card rounded-4 shadow-lg border-0 mb-4">
+    <div class="card rounded-4 shadow-lg border-0 mb-4 dokumen-item"
+         data-id="{{ $data->id }}" data-nama="{{ $data->nm_paket }}">
         <div class="card-header p-3 fw-bold text-white" style="background: #1e3c72;">
             {{$data->id}} - {{$data->nm_paket}}
             @if(Auth::user()->userDetail->role != 6 && Auth::user()->userDetail->role != 4)
@@ -166,63 +181,81 @@
 
 @endsection @section('scripts')
 <script>
-    $(function(){
+$(function(){
     $('[data-bs-toggle="tooltip"]').tooltip();
 });
 
-    $(document).ready(function() {
-        $(".table").DataTable({
-            responsive: true,
-            autoWidth: false,
-        });
-        $('#status').change(function() {
-            if ($(this).val() == 2) {
-                $('#keterangan').attr('required', true);
-            } else {
-                $('#keterangan').attr('required', false);
-            }
+$(document).ready(function() {
+    // Datatable
+    $(".table").DataTable({
+        responsive: true,
+        autoWidth: false,
+    });
+
+    // Search Dokumen Keuangan
+    $('#searchDokumenKeuangan').on('keyup', function() {
+        let value = $(this).val().toLowerCase();
+        $('.dokumen-item').filter(function() {
+            let id = $(this).data('id').toString().toLowerCase();
+            let nama = $(this).data('nama').toLowerCase();
+            $(this).toggle(id.indexOf(value) > -1 || nama.indexOf(value) > -1);
         });
     });
 
-    function renderDetailModal(el) {
-        var data = $(el).data('bs-data');
-        $('#detailModal').modal('show');
-        $('#nmPaket').val(data.data_umum_id);
-        $('#priode').val(data.priode);
-        console.log(data);
-        $('#detailModal a').attr('href', data.file_path).html(data.file_path.replace('public/lampiran/laporan_konsultan/', ''));
-        $('#rencana').val(data.rencana);
-        $('#realisasi').val(data.realisasi);
-        $('#deviasi').val(data.deviasi);
-        if (data.deviasi < 0) {
-            $('#deviasi').addClass('text-danger');
+    // Keterangan wajib kalau status ditolak
+    $('#status').change(function() {
+        if ($(this).val() == 2) {
+            $('#keterangan').attr('required', true);
         } else {
-            $('#deviasi').addClass('text-success');
+            $('#keterangan').attr('required', false);
         }
-        var nmp = '';
-        data.detail.forEach(function(item) {
-            nmp += nmpBuilder(item.nmp, item.volume);
-        });
-        $('#headerDetailNMP').after(nmp);
+    });
+});
+
+function renderDetailModal(el) {
+    var data = $(el).data('bs-data');
+    $('#detailModal').modal('show');
+    $('#nmPaket').val(data.data_umum_id);
+    $('#priode').val(data.priode);
+    $('#fileLink').attr('href', data.file_path).html(
+        data.file_path.replace('public/lampiran/laporan_konsultan/', '')
+    );
+    $('#rencana').val(data.rencana);
+    $('#realisasi').val(data.realisasi);
+    $('#deviasi').val(data.deviasi);
+
+    if (data.deviasi < 0) {
+        $('#deviasi').addClass('text-danger').removeClass('text-success');
+    } else {
+        $('#deviasi').addClass('text-success').removeClass('text-danger');
     }
 
-    function renderModal(el) {
-        var url = "{{route('laporan-mingguan-uptd.approval',':id')}}";
-        var id = $(el).data('bs-id');
-        var priode = $(el).data('bs-priode');
-        $('#approvalModal').modal('show');
-        $('#approvalModalLabel').html('Approval Laporan Priode ' + priode);
-        url = url.replace(':id', id);
-        $('#approvalModal form').attr('action', url);
-    }
+    // NMP
+    var nmp = '';
+    data.detail.forEach(function(item) {
+        nmp += nmpBuilder(item.nmp, item.volume);
+    });
+    $('#headerDetailNMP').nextAll().remove(); // reset isi sebelumnya
+    $('#headerDetailNMP').after(nmp);
+}
 
-    function nmpBuilder(nmp, volume) {
-        return `<div class="form-group row mb-3">
-                    <label class="text-wrap">${nmp}</label>
-                    <div class="input-group">
-                        <input type="text" class="form-control" value="${volume}" required autocomplete="off" />
-                    </div>
-                </div>`;
-    }
+function renderModal(el) {
+    var url = "{{route('laporan-mingguan-uptd.approval',':id')}}";
+    var id = $(el).data('bs-id');
+    var priode = $(el).data('bs-priode');
+    $('#approvalModal').modal('show');
+    $('#approvalModalLabel').html('Approval Laporan Priode ' + priode);
+    url = url.replace(':id', id);
+    $('#approvalModal form').attr('action', url);
+}
+
+function nmpBuilder(nmp, volume) {
+    return `<div class="form-group row mb-3">
+                <label class="text-wrap">${nmp}</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" value="${volume}" required autocomplete="off" />
+                </div>
+            </div>`;
+}
 </script>
 @endsection
